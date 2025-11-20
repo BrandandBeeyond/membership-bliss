@@ -22,36 +22,36 @@ const Typography = ({
 
 const styles = StyleSheet.create({
   h1: {
-    fontSize: scaleFontSize(32),
-    lineHeight: verticalScale(40),
+    fontSize: scaleFontSize(30),
+    lineHeight: verticalScale(38),
   },
   h2: {
-    fontSize: scaleFontSize(28),
-    lineHeight: verticalScale(36),
+    fontSize: scaleFontSize(26),
+    lineHeight: verticalScale(34),
   },
   h3: {
-    fontSize: scaleFontSize(24),
-    lineHeight: verticalScale(32),
+    fontSize: scaleFontSize(22),
+    lineHeight: verticalScale(30),
   },
   h4: {
-    fontSize: scaleFontSize(20),
-    lineHeight: verticalScale(28),
-  },
-  subtitle: {
     fontSize: scaleFontSize(18),
     lineHeight: verticalScale(26),
   },
-  body: {
+  subtitle: {
     fontSize: scaleFontSize(16),
     lineHeight: verticalScale(24),
   },
-  caption: {
+  body: {
     fontSize: scaleFontSize(14),
-    lineHeight: verticalScale(20),
+    lineHeight: verticalScale(22),
+  },
+  caption: {
+    fontSize: scaleFontSize(12),
+    lineHeight: verticalScale(18),
   },
   small: {
-    fontSize: scaleFontSize(10),
-    lineHeight: verticalScale(14),
+    fontSize: scaleFontSize(8),
+    lineHeight: verticalScale(12),
   },
 });
 

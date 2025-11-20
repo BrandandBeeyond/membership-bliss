@@ -2,24 +2,17 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import { ScrollView, Text, View } from 'react-native';
-import Typography from '../../../components/Typography';
+import Highlights from '../../../components/highlights/Highlights';
+import Topbar from '../../../components/Topbar';
+import Searchbar from 'react-native-paper';
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <SafeAreaView style={globalStyle.px20}>
+    <SafeAreaView style={[globalStyle.px20, globalStyle.flex]}>
+      <Topbar navigation={navigation} />
+      {/* <Searchbar placeholder="Search" /> */}
       <ScrollView>
-        <Typography variant="h1" weight="Bold" color="#333">
-          Welcome to the Home Screen
-        </Typography>
-        <Typography
-          variant="body"
-          weight="Regular"
-          color="#666"
-          style={{ marginTop: 10 }}
-        >
-          This is the main landing page of the app.
-        </Typography>
-        <Text>Hello</Text>
+        <Highlights />
       </ScrollView>
     </SafeAreaView>
   );

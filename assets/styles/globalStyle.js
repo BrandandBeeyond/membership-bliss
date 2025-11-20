@@ -51,4 +51,10 @@ export const globalStyle = StyleSheet.create({
   px5: {
     paddingHorizontal: horizontalScale(5),
   },
+  cg5:{
+    columnGap: horizontalScale(5),
+  },
+  cg10:{
+    columnGap: horizontalScale(10),
+  }
 });
