@@ -25,7 +25,7 @@ const MenuTabs = ({ iconName, label, onPress }) => {
         style={[globalStyle.row, globalStyle.cg10, globalStyle.alignCenter]}
       >
        {label === 'Profile' ? <ProfileIcon name={iconName} size={18} /> : label === 'Customer Support'? <HeadsetIcon name={iconName} size={20} /> : <Icon name={iconName} size={20} />}
-        <Typography variant="h4" weight="Normal">
+        <Typography variant="subtitle" weight="Normal">
           {label}
         </Typography>
       </View>

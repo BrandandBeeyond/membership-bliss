@@ -33,7 +33,7 @@ const HomeTabs = () => (
       tabBarStyle: styles.tabBar,
       tabBarInactiveTintColor: '#2b2d2aff',
       tabBarActiveTintColor: '#4b6637ff',
-      tabBarLabelStyle: { fontSize: 12, fontWeight: '600', marginBottom: 5 },
+      tabBarLabelStyle: { fontSize: 9.5, fontWeight: '600', marginBottom: 5 },
     }}
   >
     <Tab.Screen

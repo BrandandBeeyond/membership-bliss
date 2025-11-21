@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
     lineHeight: verticalScale(26),
   },
   subtitle: {
-    fontSize: scaleFontSize(16),
-    lineHeight: verticalScale(24),
+    fontSize: scaleFontSize(15),
+    lineHeight: verticalScale(23),
   },
   body: {
     fontSize: scaleFontSize(14),
