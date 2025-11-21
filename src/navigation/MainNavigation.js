@@ -2,16 +2,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import HomeScreen from '../screens/main/homescreen/HomeScreen';
-import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {verticalScale, horizontalScale } from '../../assets/styles/Scaling';
+import { verticalScale, horizontalScale } from '../../assets/styles/Scaling';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-
-
+import CategoryScreen from '../screens/main/categories/CategoryScreen';
+import MembershipScreen from '../screens/main/membership/MembershipScreen';
+import UpdatesScreen from '../screens/main/updates/UpdatesScreen';
+import Morescreen from '../screens/main/more/MoreScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
 
 const CustomBackButton = ({ navigation }) => {
   return (
@@ -30,6 +31,7 @@ const HomeTabs = () => (
     screenOptions={{
       tabBarShowLabel: true,
       tabBarStyle: styles.tabBar,
+      tabBarInactiveTintColor: '#2b2d2aff',
       tabBarActiveTintColor: '#4b6637ff',
     }}
   >
@@ -37,14 +39,69 @@ const HomeTabs = () => (
       name="Home"
       component={HomeScreen}
       options={{
-        tabBarIcon: ({ color }) => (
-          <Feather name="home" color={color} size={24} />
+        tabBarIcon: ({ focused, color }) => (
+          <Ionicons
+            name={focused ? 'home' : 'home-outline'}
+            color={color}
+            size={24}
+          />
         ),
         headerShown: false,
       }}
     />
 
- 
+    <Tab.Screen
+      name="Category"
+      component={CategoryScreen}
+      options={{
+        tabBarIcon: ({ focused, color }) => (
+          <Ionicons
+            name={focused ? 'grid' : 'grid-outline'}
+            color={color}
+            size={24}
+          />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="membership"
+      component={MembershipScreen}
+      options={{
+        tabBarIcon: ({ focused, color }) => (
+          <Ionicons
+            name={focused ? 'accessibility' : 'accessibility-outline'}
+            color={color}
+            size={24}
+          />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="updates"
+      component={UpdatesScreen}
+      options={{
+        tabBarIcon: ({ focused, color }) => (
+          <Ionicons
+            name={focused ? 'boomarks' : 'bookmarks-outline'}
+            color={color}
+            size={24}
+          />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="more"
+      component={Morescreen}
+      options={{
+        tabBarIcon: ({ focused, color }) => (
+          <Ionicons
+            name={focused ? 'apps' : 'apps-outline'}
+            color={color}
+            size={24}
+          />
+        ),
+      }}
+    />
   </Tab.Navigator>
 );
 
@@ -63,8 +120,6 @@ export const MainNavigation = () => {
         component={HomeScreen}
         options={{ headerShown: false }}
       />
-
-      
     </Stack.Navigator>
   );
 };
@@ -75,7 +130,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: 65,
     alignItems: 'center',
-    backgroundColor: '#f1f7edd0',
+    backgroundColor: '#f1f5eed0',
     borderTopWidth: 0,
     bottom: verticalScale(30),
     elevation: verticalScale(1),

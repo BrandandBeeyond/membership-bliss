@@ -6,8 +6,8 @@ import Typography from '../Typography';
 const Highlights = () => {
   return (
     <>
-      <View>
-            <Typography variant='body' weight='SemiBold' >Highlights</Typography>
+      <View style={[globalStyle.my10,globalStyle.pt10]}>
+            <Typography variant='subtitle' weight='SemiBold' >Highlights</Typography>
       </View>
     </>
   )

@@ -4,13 +4,14 @@ import { globalStyle } from '../../../../assets/styles/globalStyle';
 import { ScrollView, Text, View } from 'react-native';
 import Highlights from '../../../components/highlights/Highlights';
 import Topbar from '../../../components/Topbar';
-import Searchbar from 'react-native-paper';
+import {Searchbar} from 'react-native-paper';
+
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <SafeAreaView style={[globalStyle.px20, globalStyle.flex]}>
+    <SafeAreaView style={[globalStyle.px20, globalStyle.flex,globalStyle.bgwhite]}>
       <Topbar navigation={navigation} />
-      {/* <Searchbar placeholder="Search" /> */}
+      <Searchbar placeholder="Search" />
       <ScrollView>
         <Highlights />
       </ScrollView>

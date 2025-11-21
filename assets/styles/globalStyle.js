@@ -1,9 +1,12 @@
 import { StyleSheet } from 'react-native';
-import { horizontalScale } from './Scaling';
+import { horizontalScale,verticalScale } from './Scaling';
 
 export const globalStyle = StyleSheet.create({
   flex: {
     flex: 1,
+  },
+  bgwhite: {
+    backgroundColor: '#ffffff',
   },
   row: {
     flexDirection: 'row',
@@ -44,6 +47,12 @@ export const globalStyle = StyleSheet.create({
   },
   mx20: {
     marginHorizontal: horizontalScale(20),
+  },
+  my10:{
+    marginVertical: verticalScale(10),
+  },
+  pt10:{
+    paddingTop: verticalScale(10),
   },
   py5: {
     paddingVertical: horizontalScale(5),

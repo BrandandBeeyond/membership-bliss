@@ -11,7 +11,7 @@ const Topbar = () => {
       <View style={[globalStyle.dflex, globalStyle.row,globalStyle.alignCenter,globalStyle.cg10]}>
         <Image
           source={require('../../assets/images/user.png')}
-          style={{ height: verticalScale(25), width: verticalScale(25) }}
+          style={{ height: verticalScale(20), width: verticalScale(20) }}
         />
         <Typography variant='subtitle' weight='SemiBold'>Welcome User</Typography>
       </View>
