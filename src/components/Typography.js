@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
     lineHeight: verticalScale(18),
   },
   small: {
-    fontSize: scaleFontSize(8),
-    lineHeight: verticalScale(12),
+    fontSize: scaleFontSize(10),
+    lineHeight: verticalScale(14),
   },
 });
 

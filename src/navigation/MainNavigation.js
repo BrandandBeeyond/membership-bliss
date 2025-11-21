@@ -33,6 +33,7 @@ const HomeTabs = () => (
       tabBarStyle: styles.tabBar,
       tabBarInactiveTintColor: '#2b2d2aff',
       tabBarActiveTintColor: '#4b6637ff',
+      tabBarLabelStyle: { fontSize: 12, fontWeight: '600', marginBottom: 5 },
     }}
   >
     <Tab.Screen
@@ -82,7 +83,7 @@ const HomeTabs = () => (
       options={{
         tabBarIcon: ({ focused, color }) => (
           <Ionicons
-            name={focused ? 'boomarks' : 'bookmarks-outline'}
+            name={focused ? 'bookmarks' : 'bookmarks-outline'}
             color={color}
             size={24}
           />
@@ -90,7 +91,7 @@ const HomeTabs = () => (
       }}
     />
     <Tab.Screen
-      name="more"
+      name="More"
       component={Morescreen}
       options={{
         tabBarIcon: ({ focused, color }) => (
@@ -100,6 +101,9 @@ const HomeTabs = () => (
             size={24}
           />
         ),
+        headerTitle: 'MENU',
+        headerTitleAlign: 'center',
+        headerStyle: { elevation: 0, shadowOpacity: 0 }
       }}
     />
   </Tab.Navigator>

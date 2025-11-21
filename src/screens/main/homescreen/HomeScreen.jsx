@@ -11,7 +11,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={[globalStyle.px20, globalStyle.flex,globalStyle.bgwhite]}>
       <Topbar navigation={navigation} />
-      <Searchbar placeholder="Search" />
+      <Searchbar placeholder="Search" style={{backgroundColor:'#fcf9f9ff',borderColor:'#d9ebcfff',borderWidth:1}}/>
       <ScrollView>
         <Highlights />
       </ScrollView>

@@ -8,6 +8,10 @@ export const globalStyle = StyleSheet.create({
   bgwhite: {
     backgroundColor: '#ffffff',
   },
+  borderBtm:{
+    borderBottomWidth: verticalScale(0.5),
+    borderBottomColor: '#e0e0e0',
+  },
   row: {
     flexDirection: 'row',
   },
@@ -23,6 +27,9 @@ export const globalStyle = StyleSheet.create({
   },
   py20: {
     paddingVertical: horizontalScale(20),
+  },
+  mb10:{
+    marginBottom: horizontalScale(10),
   },
   mb20: {
     marginBottom: horizontalScale(20),
@@ -48,8 +55,14 @@ export const globalStyle = StyleSheet.create({
   mx20: {
     marginHorizontal: horizontalScale(20),
   },
+  my5: {
+    marginVertical: verticalScale(5),
+  },
   my10:{
     marginVertical: verticalScale(10),
+  },
+  mt10:{
+    marginTop:verticalScale(10),
   },
   pt10:{
     paddingTop: verticalScale(10),
