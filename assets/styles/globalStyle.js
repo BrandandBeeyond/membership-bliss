@@ -78,5 +78,8 @@ export const globalStyle = StyleSheet.create({
   },
   cg10:{
     columnGap: horizontalScale(10),
+  },
+  bgTheme:{
+    backgroundColor:'#B7D387'
   }
 });

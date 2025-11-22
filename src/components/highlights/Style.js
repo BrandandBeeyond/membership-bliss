@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { horizontalScale, verticalScale } from "../../assets/styles/Scaling";
+import { horizontalScale, verticalScale } from "../../../assets/styles/Scaling";
 
 export const HighlightStyle =  StyleSheet.create({
 
@@ -10,20 +10,20 @@ export const HighlightStyle =  StyleSheet.create({
   },
 
   storyOuterRing: {
-    width: horizontalScale(70),
-    height: horizontalScale(70),
-    borderRadius: 100,
-    borderWidth: 3,
-    borderColor: "#90c46bff", 
+    width: horizontalScale(65),
+    height: horizontalScale(65),
+    borderRadius: horizontalScale(100),
+    borderWidth: horizontalScale(2),
+    borderColor: "#a9cb6eff", 
     justifyContent: "center",
     alignItems: "center",
-    padding: 3,
+    padding: horizontalScale(3),
   },
 
   storyImage: {
     width: "100%",
     height: "100%",
-    borderRadius: 100,
+    borderRadius: horizontalScale(100),
   },
 
   storyText: {
