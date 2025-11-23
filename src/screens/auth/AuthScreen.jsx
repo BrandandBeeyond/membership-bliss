@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../assets/styles/globalStyle';
 import Typography from '../../components/Typography';
 import { Button, Divider, TextInput } from 'react-native-paper';
 import { horizontalScale } from '../../../assets/styles/Scaling';
+
 
 const AuthScreen = () => {
   const [mobile, setMobile] = useState('');
@@ -15,14 +16,16 @@ const AuthScreen = () => {
         contentContainerStyle={[
           globalStyle.px20,
           globalStyle.py30,
-          globalStyle.mt50,
         ]}
       >
+        <View style={[globalStyle.dflex, globalStyle.alignCenter, globalStyle.mb20]}>
+            <Image source={require('../../../assets/images/blisslogo.png')} style={{height:'90', width:'90'}}/>
+        </View>
         <Typography
           variant="h4"
           color="#1e1e1eff"
           weight="SemiBold"
-          style={globalStyle.mb10}
+          style={globalStyle.my10}
         >
           Welcome to Touchwood Bliss
         </Typography>
@@ -42,7 +45,7 @@ const AuthScreen = () => {
           maxLength={10}
           value={mobile}
           onChangeText={setMobile}
-          style={[globalStyle.my10,{borderRadius:horizontalScale(25)}]}
+          style={[globalStyle.my10,globalStyle.authInput]}
           theme={{
             colors:{
               placeholder: '#bbbbbb',
@@ -74,6 +77,10 @@ const AuthScreen = () => {
           >
             OR
           </Text>
+        </View>
+
+        <View style={[globalStyle.mt50]}>
+              {/* <GoogleSigninButton/> */}
         </View>
       </ScrollView>
     </SafeAreaView>

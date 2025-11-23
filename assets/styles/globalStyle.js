@@ -105,5 +105,9 @@ export const globalStyle = StyleSheet.create({
   },
   bgTheme:{
     backgroundColor:'#B7D387'
+  },
+  authInput:{
+    borderRadius:horizontalScale(45),
+    backgroundColor:'#f6f6f6',
   }
 });

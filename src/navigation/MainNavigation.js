@@ -4,7 +4,7 @@ import React from 'react';
 import HomeScreen from '../screens/main/homescreen/HomeScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import { verticalScale, horizontalScale } from '../../assets/styles/Scaling';
+import { verticalScale, horizontalScale, scaleFontSize } from '../../assets/styles/Scaling';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import CategoryScreen from '../screens/main/categories/CategoryScreen';
 import MembershipScreen from '../screens/main/membership/MembershipScreen';
@@ -112,10 +112,10 @@ const HomeTabs = () => (
   </Tab.Navigator>
 );
 
-// MAIN NAVIGATION
+
 export const MainNavigation = () => {
   return (
-    <Stack.Navigator initialRouteName="HomeTabs">
+    <Stack.Navigator initialRouteName="AuthScreen">
       <Stack.Screen
         name="HomeTabs"
         component={HomeTabs}
@@ -130,7 +130,12 @@ export const MainNavigation = () => {
       <Stack.Screen
         name="AuthScreen"
         component={AuthScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerTitle: 'Explore',
+          headerTitleAlign: 'center',
+          headerTitleStyle: { fontWeight: '600', fontSize: scaleFontSize(13) ,paddingLeft:horizontalScale(210)},
+          headerStyle: { elevation: 0, shadowOpacity: 0 },
+        }}
       />
     </Stack.Navigator>
   );
