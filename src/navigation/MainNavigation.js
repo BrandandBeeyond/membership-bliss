@@ -10,6 +10,7 @@ import CategoryScreen from '../screens/main/categories/CategoryScreen';
 import MembershipScreen from '../screens/main/membership/MembershipScreen';
 import UpdatesScreen from '../screens/main/updates/UpdatesScreen';
 import Morescreen from '../screens/main/more/MoreScreen';
+import AuthScreen from '../screens/auth/AuthScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -124,6 +125,11 @@ export const MainNavigation = () => {
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AuthScreen"
+        component={AuthScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

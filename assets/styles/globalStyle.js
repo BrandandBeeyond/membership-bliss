@@ -64,11 +64,23 @@ export const globalStyle = StyleSheet.create({
   mt10:{
     marginTop:verticalScale(10),
   },
+  mt20:{
+    marginTop: verticalScale(20),
+  },
+  mt50:{
+    marginTop: verticalScale(50),
+  },
   pt10:{
     paddingTop: verticalScale(10),
   },
+  py3:{
+    paddingVertical: horizontalScale(3),
+  },
   py5: {
     paddingVertical: horizontalScale(5),
+  },
+  py30: {
+    paddingVertical: horizontalScale(30),
   },
   px5: {
     paddingHorizontal: horizontalScale(5),
@@ -78,6 +90,18 @@ export const globalStyle = StyleSheet.create({
   },
   cg10:{
     columnGap: horizontalScale(10),
+  },
+  cg15:{
+    columnGap: horizontalScale(15),
+  },
+  cg20:{
+    columnGap: horizontalScale(20),
+  },
+  rounded10:{
+    borderRadius: horizontalScale(10),
+  },
+  rounded5:{
+    borderRadius: horizontalScale(5),
   },
   bgTheme:{
     backgroundColor:'#B7D387'

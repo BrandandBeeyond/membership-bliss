@@ -34,12 +34,20 @@ const styles = StyleSheet.create({
     lineHeight: verticalScale(30),
   },
   h4: {
+    fontSize: scaleFontSize(20),
+    lineHeight: verticalScale(28),
+  },
+  h5: {
     fontSize: scaleFontSize(18),
     lineHeight: verticalScale(26),
   },
   subtitle: {
     fontSize: scaleFontSize(15),
     lineHeight: verticalScale(23),
+  },
+  subtext:{
+    fontSize: scaleFontSize(13),
+    lineHeight: verticalScale(20),
   },
   body: {
     fontSize: scaleFontSize(14),

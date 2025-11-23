@@ -7,6 +7,8 @@ import {
 export const membershipScreenStyle = StyleSheet.create({
   memberCard: {
     width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
   background: {
     height: '170',
