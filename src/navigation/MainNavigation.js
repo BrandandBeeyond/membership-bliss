@@ -1,16 +1,24 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import {useState} from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import HomeScreen from '../screens/main/homescreen/HomeScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import { verticalScale, horizontalScale, scaleFontSize } from '../../assets/styles/Scaling';
+import {
+  verticalScale,
+  horizontalScale,
+  scaleFontSize,
+} from '../../assets/styles/Scaling';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import CategoryScreen from '../screens/main/categories/CategoryScreen';
 import MembershipScreen from '../screens/main/membership/MembershipScreen';
 import UpdatesScreen from '../screens/main/updates/UpdatesScreen';
 import Morescreen from '../screens/main/more/MoreScreen';
 import AuthScreen from '../screens/auth/AuthScreen';
+import { View } from 'react-native';
+import Typography from '../components/Typography';
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -25,6 +33,8 @@ const CustomBackButton = ({ navigation }) => {
     </TouchableOpacity>
   );
 };
+
+
 
 // Bottom Tabs
 const HomeTabs = () => (
@@ -112,7 +122,6 @@ const HomeTabs = () => (
   </Tab.Navigator>
 );
 
-
 export const MainNavigation = () => {
   return (
     <Stack.Navigator initialRouteName="AuthScreen">
@@ -131,9 +140,7 @@ export const MainNavigation = () => {
         name="AuthScreen"
         component={AuthScreen}
         options={{
-          headerTitle: 'Explore',
-          headerTitleAlign: 'center',
-          headerTitleStyle: { fontWeight: '600', fontSize: scaleFontSize(13) ,paddingLeft:horizontalScale(210)},
+         
           headerStyle: { elevation: 0, shadowOpacity: 0 },
         }}
       />

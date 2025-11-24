@@ -1,25 +1,61 @@
-import React, { useState } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Image, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../assets/styles/globalStyle';
 import Typography from '../../components/Typography';
-import { Button, Divider, TextInput } from 'react-native-paper';
+import { Button, Divider, TextInput, Portal,Dialog } from 'react-native-paper';
+import GoogleSigninButton from '../../components/GoogleSignButton';
 import { horizontalScale } from '../../../assets/styles/Scaling';
 
 
-const AuthScreen = () => {
+const ExploreTitle = ({ onExplorePress }) => {
+  return (
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex',
+        paddingLeft: horizontalScale(240),
+      }}
+    >
+      <TouchableOpacity onPress={onExplorePress}>
+        <Typography variant="caption" color="#000" weight="normal">
+          Explore
+        </Typography>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const AuthScreen = ({ navigation }) => {
   const [mobile, setMobile] = useState('');
+  const [showGuestPopup, setShowGuestPopup] = useState(false);
+
+  const openGuestPopup = () => setShowGuestPopup(true);
+  const closeGuestPopup = () => setShowGuestPopup(false);
+
+  const continueAsGuest = () => {
+    closeGuestPopup();
+    navigation.replace('HomeTabs');
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <ExploreTitle onExplorePress={openGuestPopup} />,
+      headerStyle: { elevation: 0, shadowOpacity: 0 },
+    });
+  }, [navigation]);
 
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
-      <ScrollView
-        contentContainerStyle={[
-          globalStyle.px20,
-          globalStyle.py30,
-        ]}
-      >
-        <View style={[globalStyle.dflex, globalStyle.alignCenter, globalStyle.mb20]}>
-            <Image source={require('../../../assets/images/blisslogo.png')} style={{height:'90', width:'90'}}/>
+      <ScrollView contentContainerStyle={[globalStyle.px20, globalStyle.py30]}>
+        <View
+          style={[globalStyle.dflex, globalStyle.alignCenter, globalStyle.mb20]}
+        >
+          <Image
+            source={require('../../../assets/images/blisslogo.png')}
+            style={{ height: 100, width: 100 ,objectFit:'contain' }}
+          />
         </View>
         <Typography
           variant="h4"
@@ -37,7 +73,6 @@ const AuthScreen = () => {
           Login to continue to your membership account
         </Typography>
 
-
         <TextInput
           label="Mobile Number"
           mode="outlined"
@@ -45,23 +80,30 @@ const AuthScreen = () => {
           maxLength={10}
           value={mobile}
           onChangeText={setMobile}
-          style={[globalStyle.my10,globalStyle.authInput]}
+          style={[globalStyle.my10, globalStyle.authInput]}
           theme={{
-            colors:{
+            roundness: horizontalScale(22),
+            colors: {
               placeholder: '#bbbbbb',
-              outline:'#add5aaff',
-            }
+              primary: '#2d7828',
+              outline: '#add5aaff',
+            },
           }}
         />
 
         <Button
           mode="contained"
-          buttonColor="#2d7828"
+          buttonColor="#689d58ff"
           textColor="#fff"
           disabled={mobile.length !== 10}
-          style={[globalStyle.mt20,globalStyle.py3,{borderRadius:25}]}
+          style={[
+            globalStyle.mb20,
+            globalStyle.mt20,
+            globalStyle.py3,
+            { borderRadius: horizontalScale(22) },
+          ]}
         >
-          Continue with OTP
+          Send OTP
         </Button>
         <View style={{ marginVertical: 50 }}>
           <Divider />
@@ -69,7 +111,7 @@ const AuthScreen = () => {
             style={{
               textAlign: 'center',
               marginTop: -10,
-              backgroundColor: '#fff',
+              backgroundColor: '#ffffffff',
               alignSelf: 'center',
               paddingHorizontal: 10,
               color: '#8c8c8c',
@@ -79,10 +121,29 @@ const AuthScreen = () => {
           </Text>
         </View>
 
-        <View style={[globalStyle.mt50]}>
-              {/* <GoogleSigninButton/> */}
+        <View style={[globalStyle.mt10]}>
+          <GoogleSigninButton />
         </View>
       </ScrollView>
+
+
+       <Portal>
+        <Dialog visible={showGuestPopup} onDismiss={closeGuestPopup}>
+          <Dialog.Title style={{fontSize:20,color:'#202b0dff'}}>Continue as Guest</Dialog.Title>
+
+          <Dialog.Content>
+            <Text>
+              You will access the app as a guest user.  
+              You can log in anytime for full membership benefits.
+            </Text>
+          </Dialog.Content>
+
+          <Dialog.Actions>
+            <Button textColor='#2e2d2dff' onPress={closeGuestPopup}>Cancel</Button>
+            <Button textColor='#65852eff' onPress={continueAsGuest}>Continue</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </SafeAreaView>
   );
 };

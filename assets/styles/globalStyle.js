@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { horizontalScale,verticalScale } from './Scaling';
+import { horizontalScale, verticalScale } from './Scaling';
 
 export const globalStyle = StyleSheet.create({
   flex: {
@@ -8,7 +8,7 @@ export const globalStyle = StyleSheet.create({
   bgwhite: {
     backgroundColor: '#ffffff',
   },
-  borderBtm:{
+  borderBtm: {
     borderBottomWidth: verticalScale(0.5),
     borderBottomColor: '#e0e0e0',
   },
@@ -28,7 +28,7 @@ export const globalStyle = StyleSheet.create({
   py20: {
     paddingVertical: horizontalScale(20),
   },
-  mb10:{
+  mb10: {
     marginBottom: horizontalScale(10),
   },
   mb20: {
@@ -46,6 +46,9 @@ export const globalStyle = StyleSheet.create({
   justifyBetween: {
     justifyContent: 'space-between',
   },
+  justifyEnd: {
+    justifyContent: 'flex-end',
+  },
   flexWrap: {
     flexWrap: 'wrap',
   },
@@ -58,22 +61,22 @@ export const globalStyle = StyleSheet.create({
   my5: {
     marginVertical: verticalScale(5),
   },
-  my10:{
+  my10: {
     marginVertical: verticalScale(10),
   },
-  mt10:{
-    marginTop:verticalScale(10),
+  mt10: {
+    marginTop: verticalScale(10),
   },
-  mt20:{
+  mt20: {
     marginTop: verticalScale(20),
   },
-  mt50:{
+  mt50: {
     marginTop: verticalScale(50),
   },
-  pt10:{
+  pt10: {
     paddingTop: verticalScale(10),
   },
-  py3:{
+  py3: {
     paddingVertical: horizontalScale(3),
   },
   py5: {
@@ -85,29 +88,35 @@ export const globalStyle = StyleSheet.create({
   px5: {
     paddingHorizontal: horizontalScale(5),
   },
-  cg5:{
+  cg5: {
     columnGap: horizontalScale(5),
   },
-  cg10:{
+  cg10: {
     columnGap: horizontalScale(10),
   },
-  cg15:{
+  cg15: {
     columnGap: horizontalScale(15),
   },
-  cg20:{
+  cg20: {
     columnGap: horizontalScale(20),
   },
-  rounded10:{
+  rounded10: {
     borderRadius: horizontalScale(10),
   },
-  rounded5:{
+  rounded5: {
     borderRadius: horizontalScale(5),
   },
-  bgTheme:{
-    backgroundColor:'#B7D387'
+  bgTheme: {
+    backgroundColor: '#B7D387',
   },
-  authInput:{
-    borderRadius:horizontalScale(45),
-    backgroundColor:'#f6f6f6',
-  }
+  authInput: {
+    borderRadius: horizontalScale(45),
+    backgroundColor: '#f6f6f6',
+  },
+  gredientThemeButton: {
+    height: verticalScale(35),
+    width: horizontalScale('100%'),
+    borderRadius: horizontalScale(25),
+    padding: horizontalScale(10),
+  },
 });
