@@ -6,7 +6,8 @@ import Typography from '../../components/Typography';
 import { Button, Divider, TextInput, Portal,Dialog } from 'react-native-paper';
 import GoogleSigninButton from '../../components/GoogleSignButton';
 import { horizontalScale } from '../../../assets/styles/Scaling';
-
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import Config from 'react-native-config';
 
 const ExploreTitle = ({ onExplorePress }) => {
   return (
@@ -26,6 +27,13 @@ const ExploreTitle = ({ onExplorePress }) => {
     </View>
   );
 };
+
+GoogleSignin.configure({
+   webClientId:Config.WEB_API_KEY
+});
+
+console.log("here is web api key",Config.WEB_API_KEY);
+
 
 const AuthScreen = ({ navigation }) => {
   const [mobile, setMobile] = useState('');
