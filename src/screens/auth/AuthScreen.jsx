@@ -29,10 +29,11 @@ const ExploreTitle = ({ onExplorePress }) => {
 };
 
 GoogleSignin.configure({
-   webClientId:Config.WEB_API_KEY
+  //  webClientId:Config.WEB_API_KEY
 });
 
 console.log("here is web api key",Config.WEB_API_KEY);
+
 
 
 const AuthScreen = ({ navigation }) => {
