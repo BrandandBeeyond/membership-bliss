@@ -3,11 +3,12 @@ import { Image, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../assets/styles/globalStyle';
 import Typography from '../../components/Typography';
-import { Button, Divider, TextInput, Portal,Dialog } from 'react-native-paper';
+import { Button, Divider, TextInput, Portal, Dialog } from 'react-native-paper';
 import GoogleSigninButton from '../../components/GoogleSignButton';
 import { horizontalScale } from '../../../assets/styles/Scaling';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import Config from 'react-native-config';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { useDispatch } from 'react-redux';
+import { googleLoginAction } from '../../UserAction';
 
 const ExploreTitle = ({ onExplorePress }) => {
   return (
@@ -28,15 +29,8 @@ const ExploreTitle = ({ onExplorePress }) => {
   );
 };
 
-GoogleSignin.configure({
-  //  webClientId:Config.WEB_API_KEY
-});
-
-console.log("here is web api key",Config.WEB_API_KEY);
-
-
-
 const AuthScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [mobile, setMobile] = useState('');
   const [showGuestPopup, setShowGuestPopup] = useState(false);
 
@@ -55,6 +49,23 @@ const AuthScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
+  const handleGoogleLogin = async () => {
+    try {
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+      const { idToken, user } = await GoogleSignin.signIn();
+
+      console.log('google user', user);
+
+      await dispatch(googleLoginAction(idToken));
+
+      navigation.replace('HomeTabs');
+    } catch (error) {
+      console.log('Google login failed:', error);
+    }
+  };
+
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
       <ScrollView contentContainerStyle={[globalStyle.px20, globalStyle.py30]}>
@@ -63,7 +74,7 @@ const AuthScreen = ({ navigation }) => {
         >
           <Image
             source={require('../../../assets/images/blisslogo.png')}
-            style={{ height: 100, width: 100 ,objectFit:'contain' }}
+            style={{ height: 100, width: 100, objectFit: 'contain' }}
           />
         </View>
         <Typography
@@ -131,25 +142,30 @@ const AuthScreen = ({ navigation }) => {
         </View>
 
         <View style={[globalStyle.mt10]}>
-          <GoogleSigninButton />
+          <GoogleSigninButton onPress={handleGoogleLogin} />
         </View>
       </ScrollView>
 
-
-       <Portal>
+      <Portal>
         <Dialog visible={showGuestPopup} onDismiss={closeGuestPopup}>
-          <Dialog.Title style={{fontSize:20,color:'#202b0dff'}}>Continue as Guest</Dialog.Title>
+          <Dialog.Title style={{ fontSize: 20, color: '#202b0dff' }}>
+            Continue as Guest
+          </Dialog.Title>
 
           <Dialog.Content>
             <Text>
-              You will access the app as a guest user.  
-              You can log in anytime for full membership benefits.
+              You will access the app as a guest user. You can log in anytime
+              for full membership benefits.
             </Text>
           </Dialog.Content>
 
           <Dialog.Actions>
-            <Button textColor='#2e2d2dff' onPress={closeGuestPopup}>Cancel</Button>
-            <Button textColor='#65852eff' onPress={continueAsGuest}>Continue</Button>
+            <Button textColor="#2e2d2dff" onPress={closeGuestPopup}>
+              Cancel
+            </Button>
+            <Button textColor="#65852eff" onPress={continueAsGuest}>
+              Continue
+            </Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
