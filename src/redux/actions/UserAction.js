@@ -1,4 +1,4 @@
-import { API_SERVER } from '@/config/Key';
+import { API_SERVER } from '../../config/Key';
 import axios from 'axios';
 import {
   GOOGLE_LOGIN_FAILURE,

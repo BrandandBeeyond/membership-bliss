@@ -50,7 +50,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        token: action.payload.token,
+        token: action.payload.token || null,
         user: action.payload.user,
       };
 

@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MainNavigation } from './src/navigation/MainNavigation';
@@ -9,11 +9,11 @@ import store, { persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { initGoogleSignin } from './src/config/googleSigninConfig';
 
-
-initGoogleSignin();
-
-
 const App = () => {
+  useEffect(() => {
+    initGoogleSignin();
+  }, []);
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

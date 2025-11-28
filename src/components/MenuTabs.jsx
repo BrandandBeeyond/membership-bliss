@@ -4,8 +4,9 @@ import Typography from './Typography';
 import { globalStyle } from '../../assets/styles/globalStyle';
 import ProfileIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
-import HeadsetIcon from 'react-native-vector-icons/FontAwesome6';
+import HeadsetIcon from 'react-native-vector-icons/Ionicons';
 import RightArrow from 'react-native-vector-icons/Feather';
+import { horizontalScale } from '../../assets/styles/Scaling';
 
 const MenuTabs = ({ iconName, label, onPress }) => {
   return (
@@ -18,7 +19,7 @@ const MenuTabs = ({ iconName, label, onPress }) => {
         globalStyle.my5,
         globalStyle.justifyBetween,
         globalStyle.borderBtm,
-        
+        {padding:horizontalScale(3)}
       ]}
     >
       <View

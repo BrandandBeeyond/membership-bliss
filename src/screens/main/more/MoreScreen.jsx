@@ -22,7 +22,8 @@ const MoreScreen = () => {
           <MenuTabs iconName="user-o" label="Profile" onPress={() => {}} />
           <MenuTabs iconName="information-circle-outline" label="About Us" onPress={() => {}} />
           <MenuTabs iconName="book-outline" label="Bookings" onPress={() => {}} />
-          <MenuTabs iconName="headset" label="Customer Support" onPress={() => {}} />
+          <MenuTabs iconName="headset-outline" label="Contact Us" onPress={() => {}} />
+          <MenuTabs iconName="help-circle-outline" label="FAQs" onPress={() => {}} />
          
         </View>
       </View>
@@ -37,6 +38,7 @@ const MoreScreen = () => {
         <View style={[globalStyle.column, { columnGap: 15 }]}>
       
           <MenuTabs iconName="shield-checkmark-outline" label="Terms & Conditions" onPress={() => {}} />
+          <MenuTabs iconName="log-out-outline" label="Logout" onPress={() => {}} />
           
          
         </View>

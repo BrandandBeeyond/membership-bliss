@@ -8,7 +8,7 @@ import GoogleSigninButton from '../../components/GoogleSignButton';
 import { horizontalScale } from '../../../assets/styles/Scaling';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
-import { googleLoginAction } from '../../UserAction';
+import { googleLoginAction } from '../../redux/actions/UserAction';
 
 const ExploreTitle = ({ onExplorePress }) => {
   return (
@@ -51,12 +51,11 @@ const AuthScreen = ({ navigation }) => {
 
   const handleGoogleLogin = async () => {
     try {
-      await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true,
-      });
-      const { idToken, user } = await GoogleSignin.signIn();
+      await GoogleSignin.hasPlayServices();
+      const SignIndata = await GoogleSignin.signIn();
 
-      console.log('google user', user);
+      const idToken = SignIndata.data?.idToken;
+      console.log('google sign in data', SignIndata);
 
       await dispatch(googleLoginAction(idToken));
 

@@ -1,9 +1,9 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { WEB_API_KEY } from './Key';
+import { GOOGLE_WEB_CLIENT_ID } from './Key';
 
 export const initGoogleSignin = () => {
   GoogleSignin.configure({
-    webClientId: WEB_API_KEY,
+    webClientId: GOOGLE_WEB_CLIENT_ID,
     offlineAccess: true,
   });
 };
