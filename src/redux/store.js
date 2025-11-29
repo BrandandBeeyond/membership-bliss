@@ -6,6 +6,7 @@ import { userReducer } from './reducers/UserReducer';
 const persistUserConfig = {
   key: 'user',
   storage: AsyncStorage,
+  whitelist: ['user', 'token', 'isAuthenticated'],
 };
 
 const persistUserReducer = persistReducer(persistUserConfig, userReducer);
@@ -19,7 +20,6 @@ const store = configureStore({
       serializableCheck: false,
     }),
 });
-
 
 export const persistor = persistStore(store);
 

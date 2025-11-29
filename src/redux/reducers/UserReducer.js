@@ -2,6 +2,7 @@ import {
   GOOGLE_LOGIN_FAILURE,
   GOOGLE_LOGIN_REQUEST,
   GOOGLE_LOGIN_SUCCESS,
+  LOGOUT_USER,
   SEND_OTP_FAILURE,
   SEND_OTP_REQUEST,
   SEND_OTP_SUCCESS,
@@ -17,6 +18,7 @@ let initialState = {
   token: null,
   user: null,
   error: null,
+  isAuthenticated: false,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -28,6 +30,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         error: null,
+        isAuthenticated: false,
       };
 
     case SEND_OTP_SUCCESS:
@@ -44,6 +47,7 @@ export const userReducer = (state = initialState, action) => {
         loading: false,
         token: action.payload.token,
         user: action.payload.user,
+        isAuthenticated: true,
       };
 
     case GOOGLE_LOGIN_SUCCESS:
@@ -52,13 +56,27 @@ export const userReducer = (state = initialState, action) => {
         loading: false,
         token: action.payload.token || null,
         user: action.payload.user,
+        isAuthenticated: true,
       };
 
     case SEND_OTP_FAILURE:
     case VERIFY_OTP_FAILURE:
     case GOOGLE_LOGIN_FAILURE:
-      return { ...state, loading: false, error: action.payload };
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        isAuthenticated: false,
+      };
 
+    case LOGOUT_USER:
+      return {
+        ...state,
+        loading: false,
+        user: null,
+        token: null,
+        isAuthenticated: false,
+      };
 
     default:
       return state;

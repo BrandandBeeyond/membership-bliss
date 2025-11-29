@@ -4,6 +4,7 @@ import {
   GOOGLE_LOGIN_FAILURE,
   GOOGLE_LOGIN_REQUEST,
   GOOGLE_LOGIN_SUCCESS,
+  LOGOUT_USER,
 } from '../constants/Userconstant';
 
 export const googleLoginAction = idToken => async dispatch => {
@@ -28,5 +29,13 @@ export const googleLoginAction = idToken => async dispatch => {
     });
     console.log('Google Login Error:', error.response?.data || error);
     throw error;
+  }
+};
+
+export const logoutUser = () => async dispatch => {
+  try {
+    dispatch({ type: LOGOUT_USER });
+  } catch (error) {
+    console.log('Logout error:', error);
   }
 };

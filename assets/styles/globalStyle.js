@@ -18,6 +18,9 @@ export const globalStyle = StyleSheet.create({
   column: {
     flexDirection: 'column',
   },
+  textCenter:{
+     textAlign:'center'
+  },
   center: {
     justifyContent: 'center',
     alignItems: 'center',

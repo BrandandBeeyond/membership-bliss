@@ -9,6 +9,7 @@ import { horizontalScale } from '../../../assets/styles/Scaling';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
 import { googleLoginAction } from '../../redux/actions/UserAction';
+import Loader from '../../components/Loader';
 
 const ExploreTitle = ({ onExplorePress }) => {
   return (
@@ -33,6 +34,7 @@ const AuthScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState('');
   const [showGuestPopup, setShowGuestPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const openGuestPopup = () => setShowGuestPopup(true);
   const closeGuestPopup = () => setShowGuestPopup(false);
@@ -51,19 +53,28 @@ const AuthScreen = ({ navigation }) => {
 
   const handleGoogleLogin = async () => {
     try {
+      setLoading(true);
+
       await GoogleSignin.hasPlayServices();
+
       const SignIndata = await GoogleSignin.signIn();
 
       const idToken = SignIndata.data?.idToken;
-      console.log('google sign in data', SignIndata);
+
+      navigation.navigate('LoadingScreen');
 
       await dispatch(googleLoginAction(idToken));
 
       navigation.replace('HomeTabs');
     } catch (error) {
       console.log('Google login failed:', error);
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
@@ -80,14 +91,14 @@ const AuthScreen = ({ navigation }) => {
           variant="h4"
           color="#1e1e1eff"
           weight="SemiBold"
-          style={globalStyle.my10}
+          style={[globalStyle.my10, globalStyle.textCenter]}
         >
           Welcome to Touchwood Bliss
         </Typography>
         <Typography
           variant="subtext"
           color="#1e1e1eff"
-          style={globalStyle.mb10}
+          style={[globalStyle.mb10, globalStyle.textCenter]}
         >
           Login to continue to your membership account
         </Typography>

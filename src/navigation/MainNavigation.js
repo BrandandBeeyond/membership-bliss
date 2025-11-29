@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import {useState} from 'react';
+import { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import HomeScreen from '../screens/main/homescreen/HomeScreen';
@@ -16,9 +16,8 @@ import MembershipScreen from '../screens/main/membership/MembershipScreen';
 import UpdatesScreen from '../screens/main/updates/UpdatesScreen';
 import Morescreen from '../screens/main/more/MoreScreen';
 import AuthScreen from '../screens/auth/AuthScreen';
-import { View } from 'react-native';
-import Typography from '../components/Typography';
-
+import { useSelector } from 'react-redux';
+import LoadingScreen from '../screens/Loading/LoadingScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -33,8 +32,6 @@ const CustomBackButton = ({ navigation }) => {
     </TouchableOpacity>
   );
 };
-
-
 
 // Bottom Tabs
 const HomeTabs = () => (
@@ -123,8 +120,12 @@ const HomeTabs = () => (
 );
 
 export const MainNavigation = () => {
+  const { isAuthenticated, user, token } = useSelector(state => state.user);
+
   return (
-    <Stack.Navigator initialRouteName="AuthScreen">
+    <Stack.Navigator
+      initialRouteName={isAuthenticated ? 'HomeTabs' : 'AuthScreen'}
+    >
       <Stack.Screen
         name="HomeTabs"
         component={HomeTabs}
@@ -136,11 +137,17 @@ export const MainNavigation = () => {
         component={HomeScreen}
         options={{ headerShown: false }}
       />
+
+      <Stack.Screen
+        name="LoadingScreen"
+        component={LoadingScreen}
+        options={{ headerShown: false }}
+      />
+
       <Stack.Screen
         name="AuthScreen"
         component={AuthScreen}
         options={{
-         
           headerStyle: { elevation: 0, shadowOpacity: 0 },
         }}
       />
