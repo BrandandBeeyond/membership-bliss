@@ -1,10 +1,12 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
-import { ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, View } from 'react-native';
 import Highlights from '../../../components/highlights/Highlights';
 import Topbar from '../../../components/Topbar';
 import { Searchbar } from 'react-native-paper';
+import { HomeScreenStyles } from './Style';
+import Swiper from 'react-native-swiper';
 
 const dummyHighLights = [
   {
@@ -29,28 +31,61 @@ const dummyHighLights = [
   },
 ];
 
+const bannerData = [
+  {
+    id: 1,
+    image: require('../../../../assets/images/courtyard.webp'),
+  },
+  {
+    id: 2,
+    image: require('../../../../assets/images/amoravilla.jpg'),
+  },
+];
+
 const HomeScreen = ({ navigation }) => {
   return (
-    <SafeAreaView
-      style={[globalStyle.px20, globalStyle.flex, globalStyle.bgwhite]}
-    >
-      <Topbar navigation={navigation} />
-      <Searchbar
-        placeholder="Search"
-        style={{
-          backgroundColor: '#fcf9f9ff',
-          borderColor: '#d9ebcfff',
-          borderWidth: 1,
-        }}
-      />
+    <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
+      <View style={globalStyle.px20}>
+        <Topbar navigation={navigation} />
+        <Searchbar
+          placeholder="Search"
+          style={{
+            backgroundColor: '#fcf9f9ff',
+            borderColor: '#d9ebcfff',
+            borderWidth: 1,
+          }}
+        />
+      </View>
+
       <ScrollView>
-        <View>
-          <Highlights
-            data={dummyHighLights}
-            onPressHighlight={item =>
-              navigation.navigate('HighlightDetailScreen', { item })
-            }
-          />
+        <View style={globalStyle.px20}>
+          <View>
+            <Highlights
+              data={dummyHighLights}
+              onPressHighlight={item =>
+                navigation.navigate('HighlightDetailScreen', { item })
+              }
+            />
+          </View>
+        </View>
+
+        <View style={[globalStyle.my10]}>
+          <Swiper
+            autoplay={true}
+            showsPagination={true}
+            autoplayTimeout={3}
+            showPagination={false}
+            height={300}
+          >
+            {bannerData.map((item, index) => (
+              <Image
+                key={index}
+                source={item.image}
+                style={HomeScreenStyles.imageBanner}
+                resizeMode="cover"
+              />
+            ))}
+          </Swiper>
         </View>
       </ScrollView>
     </SafeAreaView>

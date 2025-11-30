@@ -53,17 +53,19 @@ const AuthScreen = ({ navigation }) => {
 
   const handleGoogleLogin = async () => {
     try {
-      setLoading(true);
+     
 
       await GoogleSignin.hasPlayServices();
 
       const SignIndata = await GoogleSignin.signIn();
 
       const idToken = SignIndata.data?.idToken;
-
       navigation.navigate('LoadingScreen');
 
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
       await dispatch(googleLoginAction(idToken));
+
 
       navigation.replace('HomeTabs');
     } catch (error) {
@@ -72,9 +74,7 @@ const AuthScreen = ({ navigation }) => {
     }
   };
 
-  if (loading) {
-    return <Loader />;
-  }
+ 
 
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
