@@ -20,7 +20,7 @@ const MembershipScreen = () => {
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          colors={['#87c483ff', '#5ca656ff', '#458f40ff', '#2d7828ff']}
+          colors={['#4b6144ff', '#465f3fff', '#3a5135ff', '#2c3c28ff']}
           style={membershipScreenStyle.background}
         >
           <View
@@ -56,7 +56,7 @@ const MembershipScreen = () => {
           mode="contained"
           style={[
             globalStyle.rounded10,
-            { backgroundColor: '#384037ff', width: '40%' },
+            { backgroundColor: '#202b1d', width: '40%' },
           ]}
           onPress={() => refRBSheet.current.open()}
         >

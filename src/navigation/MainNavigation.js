@@ -18,6 +18,7 @@ import Morescreen from '../screens/main/more/MoreScreen';
 import AuthScreen from '../screens/auth/AuthScreen';
 import { useSelector } from 'react-redux';
 import LoadingScreen from '../screens/Loading/LoadingScreen';
+import FAQs from '../screens/more/faqs/FAQs';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -150,6 +151,16 @@ export const MainNavigation = () => {
         options={{
           headerStyle: { elevation: 0, shadowOpacity: 0 },
         }}
+      />
+      <Stack.Screen
+        name="FAQs"
+        component={FAQs}
+        options={({navigation})=>({
+          headerStyle: { elevation: 0, shadowOpacity: 0 },
+          headerTitleAlign:'center',
+          headerLeft:()=><CustomBackButton navigation={navigation}/>
+        })}
+     
       />
     </Stack.Navigator>
   );

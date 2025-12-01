@@ -18,8 +18,8 @@ export const globalStyle = StyleSheet.create({
   column: {
     flexDirection: 'column',
   },
-  textCenter:{
-     textAlign:'center'
+  textCenter: {
+    textAlign: 'center',
   },
   center: {
     justifyContent: 'center',
@@ -67,6 +67,12 @@ export const globalStyle = StyleSheet.create({
   my10: {
     marginVertical: verticalScale(10),
   },
+  my20: {
+    marginVertical: verticalScale(20),
+  },
+  mt8: {
+    marginTop: verticalScale(10),
+  },
   mt10: {
     marginTop: verticalScale(10),
   },
@@ -109,6 +115,9 @@ export const globalStyle = StyleSheet.create({
   rounded5: {
     borderRadius: horizontalScale(5),
   },
+  rounded15: {
+    borderRadius: horizontalScale(15),
+  },
   bgTheme: {
     backgroundColor: '#B7D387',
   },
@@ -121,5 +130,11 @@ export const globalStyle = StyleSheet.create({
     width: horizontalScale('100%'),
     borderRadius: horizontalScale(25),
     padding: horizontalScale(10),
+  },
+  trendingItem: {
+    width: horizontalScale(190),
+  },
+  innerImageTrending: {
+    height: verticalScale(80),
   },
 });

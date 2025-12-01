@@ -6,4 +6,5 @@ export const Routes = {
   MoreScreen: 'MoreScreen',
   UpdatesScreen: 'UpdatesScreen',
   LoadingScreen: 'LoadingScreen',
+  FAQs: 'FAQs',
 };

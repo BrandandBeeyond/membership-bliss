@@ -19,7 +19,6 @@ const MoreScreen = ({ navigation }) => {
 
       persistor.purge();
 
-
       navigation.reset({
         index: 0,
         routes: [{ name: 'AuthScreen' }],
@@ -49,7 +48,7 @@ const MoreScreen = ({ navigation }) => {
             onPress={() => {}}
           />
           <MenuTabs
-            iconName="book-outline"
+            iconName="reader-outline"
             label="Bookings"
             onPress={() => {}}
           />
@@ -61,6 +60,11 @@ const MoreScreen = ({ navigation }) => {
           <MenuTabs
             iconName="help-circle-outline"
             label="FAQs"
+            onPress={() => navigation.push('FAQs')}
+          />
+          <MenuTabs
+            iconName="share-social-outline"
+            label="Share"
             onPress={() => {}}
           />
         </View>

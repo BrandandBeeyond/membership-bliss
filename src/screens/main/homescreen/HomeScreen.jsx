@@ -4,9 +4,11 @@ import { globalStyle } from '../../../../assets/styles/globalStyle';
 import { Image, ScrollView, View } from 'react-native';
 import Highlights from '../../../components/highlights/Highlights';
 import Topbar from '../../../components/Topbar';
-import { Searchbar } from 'react-native-paper';
+import { Divider, Searchbar } from 'react-native-paper';
 import { HomeScreenStyles } from './Style';
 import Swiper from 'react-native-swiper';
+import Trending from '../../../components/trending/Trending';
+import { verticalScale } from '../../../../assets/styles/Scaling';
 
 const dummyHighLights = [
   {
@@ -42,10 +44,20 @@ const bannerData = [
   },
 ];
 
+const trendingData = [
+  {
+    id: 1,
+    title: "Nature's Club farm edition",
+    description:
+      'Embark on a journey of togetherness, wellness and unforgettable memories!',
+    thumbnail: require('../../../../assets/images/natures-club.png'),
+  },
+];
+
 const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
-      <View style={globalStyle.px20}>
+      <View style={[globalStyle.px20,globalStyle.my20]}>
         <Topbar navigation={navigation} />
         <Searchbar
           placeholder="Search"
@@ -57,7 +69,9 @@ const HomeScreen = ({ navigation }) => {
         />
       </View>
 
-      <ScrollView>
+      <Divider/>
+
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={globalStyle.px20}>
           <View>
             <Highlights
@@ -69,10 +83,9 @@ const HomeScreen = ({ navigation }) => {
           </View>
         </View>
 
-        <View style={[globalStyle.my10]}>
+        <View style={[globalStyle.mt8]}>
           <Swiper
             autoplay={true}
-            showsPagination={true}
             autoplayTimeout={3}
             showPagination={false}
             height={300}
@@ -86,6 +99,10 @@ const HomeScreen = ({ navigation }) => {
               />
             ))}
           </Swiper>
+        </View>
+
+        <View style={[globalStyle.px20,{paddingBottom:verticalScale(100)}]}>
+          <Trending data={trendingData} />
         </View>
       </ScrollView>
     </SafeAreaView>
