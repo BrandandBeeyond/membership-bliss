@@ -10,6 +10,9 @@ export const getAllMembershipCategories = () => async dispatch => {
   try {
     dispatch({ type: FETCH_MEMBERSHIP_CATEGORY_REQUEST });
 
+    console.log("loading");
+    
+
     const { data } = await axios.get(`${API_SERVER}/category/getall`);
 
     dispatch({
