@@ -8,10 +8,10 @@ import { verticalScale } from '../../../assets/styles/Scaling';
 const Trending = ({ data, onPressTrending }) => {
   const renderItem = ({ item }) => {
     return (
-      <Card style={globalStyle.trendingItem}>
+      <Card style={[globalStyle.trendingItem,globalStyle.bgThemeLight]}>
         <Card.Cover source={item.thumbnail} style={globalStyle.innerImageTrending}/>
         <Card.Content>
-          <Text variant="titleSmall" style={[globalStyle.py5,{marginBottom:verticalScale(4)}]}>{item.title}</Text>
+          <Text variant="titleSmall" style={[globalStyle.py10,{marginTop:verticalScale(4)}]}>{item.title}</Text>
           <Text variant="bodyMedium" onPress={() => onPressTrending(item)}>
             {item.description}
           </Text>

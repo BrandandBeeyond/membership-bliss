@@ -71,6 +71,8 @@ const HomeTabs = () => (
             size={24}
           />
         ),
+        headerTitleAlign: 'center',
+        headerStyle: { elevation: 0, shadowOpacity: 0 },
       }}
     />
     <Tab.Screen

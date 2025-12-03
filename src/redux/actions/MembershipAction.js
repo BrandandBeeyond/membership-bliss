@@ -10,17 +10,17 @@ export const getAllMembershipCategories = () => async dispatch => {
   try {
     dispatch({ type: FETCH_MEMBERSHIP_CATEGORY_REQUEST });
 
-    console.log("loading");
-    
-
+  
     const { data } = await axios.get(`${API_SERVER}/category/getall`);
 
     dispatch({
       type: FETCH_MEMBERSHIP_CATEGORY_SUCCESS,
-      payload: data,
+      payload: data.categories
     });
 
-    console.log('the data of membership categories', data);
+    // return data.categories;
+
+    console.log('the data of membership categories', data.categories);
   } catch (error) {
     dispatch({
       type: FETCH_MEMBERSHIP_CATEGORY_FAILURE,

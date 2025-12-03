@@ -28,6 +28,9 @@ export const globalStyle = StyleSheet.create({
   px20: {
     paddingHorizontal: horizontalScale(20),
   },
+  py10: {
+    paddingVertical: horizontalScale(10),
+  },
   py20: {
     paddingVertical: horizontalScale(20),
   },
@@ -120,6 +123,9 @@ export const globalStyle = StyleSheet.create({
   },
   bgTheme: {
     backgroundColor: '#B7D387',
+  },
+  bgThemeLight: {
+    backgroundColor: '#f7fbf1ff',
   },
   authInput: {
     borderRadius: horizontalScale(45),
