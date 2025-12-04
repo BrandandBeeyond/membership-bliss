@@ -1,5 +1,4 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import HomeScreen from '../screens/main/homescreen/HomeScreen';
@@ -8,7 +7,6 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {
   verticalScale,
   horizontalScale,
-  scaleFontSize,
 } from '../../assets/styles/Scaling';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import CategoryScreen from '../screens/main/categories/CategoryScreen';
@@ -19,6 +17,7 @@ import AuthScreen from '../screens/auth/AuthScreen';
 import { useSelector } from 'react-redux';
 import LoadingScreen from '../screens/Loading/LoadingScreen';
 import FAQs from '../screens/more/faqs/FAQs';
+import CategoryDetail from '../screens/main/categories/CategoryDetail';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -157,12 +156,18 @@ export const MainNavigation = () => {
       <Stack.Screen
         name="FAQs"
         component={FAQs}
-        options={({navigation})=>({
+        options={({ navigation }) => ({
           headerStyle: { elevation: 0, shadowOpacity: 0 },
-          headerTitleAlign:'center',
-          headerLeft:()=><CustomBackButton navigation={navigation}/>
+          headerTitleAlign: 'center',
+          headerLeft: () => <CustomBackButton navigation={navigation} />,
         })}
-     
+      />
+      <Stack.Screen
+        name="CategoryDetail"
+        component={CategoryDetail}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );

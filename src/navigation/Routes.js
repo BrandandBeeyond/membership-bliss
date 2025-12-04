@@ -3,6 +3,7 @@ export const Routes = {
   AuthScreen: 'AuthScreen',
   MembershipScreen: 'MembershipScreen',
   CategoryScreen: 'CategoryScreen',
+  CategoryDetail: 'CategoryDetail',
   MoreScreen: 'MoreScreen',
   UpdatesScreen: 'UpdatesScreen',
   LoadingScreen: 'LoadingScreen',
