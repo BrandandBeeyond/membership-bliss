@@ -69,6 +69,12 @@
 		<string>Poppins-SemiBoldItalic.ttf</string>
 		<string>Poppins-Thin.ttf</string>
 		<string>Poppins-ThinItalic.ttf</string>
+		<string>Montserrat-Bold.ttf</string>
+		<string>Montserrat-ExtraBold.ttf</string>
+		<string>Montserrat-Light.ttf</string>
+		<string>Montserrat-Medium.ttf</string>
+		<string>Montserrat-Regular.ttf</string>
+		<string>Montserrat-SemiBold.ttf</string>
 	</array>
 </dict>
 </plist>

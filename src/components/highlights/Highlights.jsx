@@ -20,7 +20,7 @@ const Highlights = ({ data, onPressHighlight }) => {
         </View>
         <Typography
           variant="caption"
-          weight="Normal"
+          weight="MSemiBold"
           style={HighlightStyle.storyText}
         >
           {item.title}
