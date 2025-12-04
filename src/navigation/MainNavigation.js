@@ -19,7 +19,7 @@ import LoadingScreen from '../screens/Loading/LoadingScreen';
 import FAQs from '../screens/more/faqs/FAQs';
 import CategoryDetail from '../screens/main/categories/CategoryDetail';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator(); 
 const Tab = createBottomTabNavigator();
 
 const CustomBackButton = ({ navigation }) => {

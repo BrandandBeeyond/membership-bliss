@@ -53,20 +53,19 @@ const AuthScreen = ({ navigation }) => {
 
   const handleGoogleLogin = async () => {
     try {
+     
+
       await GoogleSignin.hasPlayServices();
 
-      const { idToken } = await GoogleSignin.signIn();
+      const SignIndata = await GoogleSignin.signIn();
 
-      if (!idToken) {
-        console.log('NO ID TOKEN RECEIVED FROM GOOGLE');
-        return;
-      }
-
+      const idToken = SignIndata.data?.idToken;
       navigation.navigate('LoadingScreen');
 
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       await dispatch(googleLoginAction(idToken));
+
 
       navigation.replace('HomeTabs');
     } catch (error) {
@@ -74,6 +73,8 @@ const AuthScreen = ({ navigation }) => {
       setLoading(false);
     }
   };
+
+ 
 
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
