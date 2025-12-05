@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Linking,
+  Pressable,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import Typography from '../../../components/Typography';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +18,7 @@ import {
 } from '../../../../assets/styles/Scaling';
 import { categoryStyles } from './Style';
 import { List, Text } from 'react-native-paper';
+import LinearGradient from 'react-native-linear-gradient';
 
 const CategoryDetail = ({ route }) => {
   const navigation = useNavigation();
@@ -50,19 +58,29 @@ const CategoryDetail = ({ route }) => {
             globalStyle.justifyBetween,
           ]}
         >
-          <Typography variant="h4" color="#4b6144ff" weight="700">
+          <Typography variant="h4" color="#4b6144ff" weight="MSemiBold">
             {name}
           </Typography>
 
           <View
             style={[globalStyle.row, globalStyle.alignCenter, globalStyle.cg20]}
           >
-            <View style={categoryStyles.iconPill}>
-              <Ionicons name="location-outline" size={25} color="#4b6144ff" />
-            </View>
-            <View style={categoryStyles.iconPill}>
-              <Ionicons name="call-outline" size={25} color="#4b6144ff" />
-            </View>
+            <Pressable
+              style={categoryStyles.iconPill}
+              onPress={() =>
+                Linking.openURL(
+                  'https://www.google.com/maps/place/Touchwood+Bliss+Nature+Retreat/@19.6607727,73.5829163,17z/data=!4m9!3m8!1s0x3bdd847511196047:0x4f1bcb471ac6267b!5m2!4m1!1i2!8m2!3d19.6605353!4d73.5855931!16s%2Fg%2F11b5ys1h9h?entry=ttu&g_ep=EgoyMDI1MTIwMi4wIKXMDSoASAFQAw%3D%3D',
+                )
+              }
+            >
+              <Ionicons name="location-outline" size={20} color="#4b6144ff" />
+            </Pressable>
+            <Pressable
+              style={categoryStyles.iconPill}
+              onPress={() => Linking.openURL('tel:+9170300 60522')}
+            >
+              <Ionicons name="call-outline" size={20} color="#4b6144ff" />
+            </Pressable>
           </View>
         </View>
 
@@ -79,13 +97,13 @@ const CategoryDetail = ({ route }) => {
             }}
             style={[
               globalStyle.rounded15,
-              { backgroundColor: '#eef2ebff', minHeight: verticalScale(48) },
+              { backgroundColor: '#f9fbf8ff', minHeight: verticalScale(40) },
             ]}
           >
             <List.Item
               titleStyle={{
-                fontSize: 15,
-                lineHeight: 22,
+                fontSize: scaleFontSize(15),
+                lineHeight: verticalScale(22),
                 color: '#333',
               }}
               titleNumberOfLines={200}
@@ -117,6 +135,85 @@ const CategoryDetail = ({ route }) => {
               }
             />
           </List.Accordion>
+        </View>
+
+        <View
+          style={[
+            globalStyle.mt20,
+            globalStyle.row,
+            globalStyle.alignCenter,
+            globalStyle.jusifyCenter,
+          ]}
+        >
+          <Image
+            source={require('../../../../assets/images/arrow2.png')}
+            style={{ height: verticalScale(14), width: horizontalScale(90) }}
+          />
+          <Typography
+            variant="h6"
+            color="#4b6144ff"
+            weight="MMedium"
+            style={globalStyle.mx5}
+          >
+            Explore Our Editions
+          </Typography>
+          <Image
+            source={require('../../../../assets/images/arrow1.png')}
+            style={{ height: verticalScale(14), width: horizontalScale(90) }}
+          />
+        </View>
+
+        <View style={globalStyle.my20}>
+          <View style={[globalStyle.row, globalStyle.cg15]}>
+            <Pressable
+              style={[globalStyle.column, globalStyle.center]}
+              onPress={() => navigation.navigate('FarmEdition')}
+            >
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#5A6654', '#2d3628ff']}
+                style={globalStyle.BoxEdition}
+              >
+                <Image source={require('../../../../assets/images/farm.png')} />
+              </LinearGradient>
+
+              <Typography weight="MMedium" variant="body" color="#212121ff">
+                Farm Edition
+              </Typography>
+            </Pressable>
+
+            <Pressable style={[globalStyle.column, globalStyle.center]}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#C3905F', '#744d26ff']}
+                style={globalStyle.BoxEdition}
+              >
+                <Image
+                  source={require('../../../../assets/images/mountain.png')}
+                  style={{ width: horizontalScale(70) }}
+                />
+              </LinearGradient>
+              <Typography weight="MMedium" variant="body" color="#212121ff">
+                Mountain Edition
+              </Typography>
+            </Pressable>
+
+            <Pressable style={[globalStyle.column, globalStyle.center]}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#A6DFF1', '#629db0ff']}
+                style={globalStyle.BoxEdition}
+              >
+                <Image source={require('../../../../assets/images/sky.png')} />
+              </LinearGradient>
+              <Typography weight="MMedium" variant="body" color="#212121ff">
+                Sky Edition
+              </Typography>
+            </Pressable>
+          </View>
         </View>
       </View>
     </ScrollView>

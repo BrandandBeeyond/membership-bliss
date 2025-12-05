@@ -20,7 +20,7 @@ const Topbar = () => {
           source={require('../../assets/images/user.png')}
           style={{ height: verticalScale(20), width: verticalScale(20) }}
         />
-        <Typography variant='subtitle' weight='SemiBold'>Welcome  {user?.fullname.split(" ")[0] || 'Guest'}</Typography>
+        <Typography variant='subtitle' weight='MSemiBold'>Welcome  {user?.fullname.split(" ")[0] || 'Guest'}</Typography>
       </Pressable>
     </SafeAreaView>
   );

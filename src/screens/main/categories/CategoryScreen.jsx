@@ -10,6 +10,7 @@ import {
   verticalScale,
 } from '../../../../assets/styles/Scaling';
 import { useNavigation } from '@react-navigation/native';
+import Typography from '../../../components/Typography';
 
 const CategoryScreen = () => {
   const navigation = useNavigation();
@@ -52,20 +53,20 @@ const CategoryScreen = () => {
                   style={{ height: verticalScale(120), objectFit: 'contain' }}
                 />
                 <Card.Content>
-                  <Text
+                  <Typography
+                    weight="MSemiBold"
+                    color="#4b6144ff"
+                    variant="h4"
                     style={[
                       globalStyle.py5,
                       {
                         marginTop: verticalScale(10),
-                        fontSize: scaleFontSize(18),
-                        color: '#4b6144ff',
-                        fontWeight: '600',
                       },
                     ]}
                   >
                     {item.name}
-                  </Text>
-                  <Text variant="bodyMedium">{item.description}</Text>
+                  </Typography>
+                  <Typography variant='body' weight="MMedium" color='#212020ff' >{item.description}</Typography>
                 </Card.Content>
               </Card>
             </TouchableOpacity>

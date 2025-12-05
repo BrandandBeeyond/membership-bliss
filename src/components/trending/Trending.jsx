@@ -23,7 +23,7 @@ const Trending = ({ data, onPressTrending }) => {
 
   return (
     <View>
-      <Typography variant="subtitle" weight="SemiBold">
+      <Typography variant="subtitle" weight="MSemiBold">
         Trending
       </Typography>
 

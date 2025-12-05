@@ -58,6 +58,9 @@ export const globalStyle = StyleSheet.create({
   flexWrap: {
     flexWrap: 'wrap',
   },
+  mx5: {
+    marginHorizontal: horizontalScale(5),
+  },
   mx10: {
     marginHorizontal: horizontalScale(10),
   },
@@ -142,5 +145,13 @@ export const globalStyle = StyleSheet.create({
   },
   innerImageTrending: {
     height: verticalScale(80),
+  },
+  BoxEdition: {
+    height: verticalScale(72),
+    width: horizontalScale(90),
+    borderRadius: horizontalScale(20),
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center'
   },
 });

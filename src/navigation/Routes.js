@@ -8,4 +8,5 @@ export const Routes = {
   UpdatesScreen: 'UpdatesScreen',
   LoadingScreen: 'LoadingScreen',
   FAQs: 'FAQs',
+  FarmEdition: 'FarmEdition',
 };

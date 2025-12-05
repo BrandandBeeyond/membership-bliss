@@ -41,11 +41,15 @@ const styles = StyleSheet.create({
     fontSize: scaleFontSize(18),
     lineHeight: verticalScale(26),
   },
+  h6: {
+    fontSize: scaleFontSize(16),
+    lineHeight: verticalScale(24),
+  },
   subtitle: {
     fontSize: scaleFontSize(15),
     lineHeight: verticalScale(23),
   },
-  subtext:{
+  subtext: {
     fontSize: scaleFontSize(13),
     lineHeight: verticalScale(20),
   },

@@ -60,6 +60,9 @@ const AuthScreen = ({ navigation }) => {
       const SignIndata = await GoogleSignin.signIn();
 
       const idToken = SignIndata.data?.idToken;
+
+      console.log("this is token",idToken);
+      
       navigation.navigate('LoadingScreen');
 
       await new Promise((resolve) => setTimeout(resolve, 200));

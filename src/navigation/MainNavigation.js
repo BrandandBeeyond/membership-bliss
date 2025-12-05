@@ -4,10 +4,7 @@ import React from 'react';
 import HomeScreen from '../screens/main/homescreen/HomeScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {
-  verticalScale,
-  horizontalScale,
-} from '../../assets/styles/Scaling';
+import { verticalScale, horizontalScale } from '../../assets/styles/Scaling';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import CategoryScreen from '../screens/main/categories/CategoryScreen';
 import MembershipScreen from '../screens/main/membership/MembershipScreen';
@@ -18,8 +15,9 @@ import { useSelector } from 'react-redux';
 import LoadingScreen from '../screens/Loading/LoadingScreen';
 import FAQs from '../screens/more/faqs/FAQs';
 import CategoryDetail from '../screens/main/categories/CategoryDetail';
+import FarmEdition from '../screens/main/edition/FarmEdition';
 
-const Stack = createStackNavigator(); 
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const CustomBackButton = ({ navigation }) => {
@@ -70,7 +68,7 @@ const HomeTabs = () => (
             size={24}
           />
         ),
-        headerShown:false
+        headerShown: false,
       }}
     />
     <Tab.Screen
@@ -150,6 +148,16 @@ export const MainNavigation = () => {
         component={AuthScreen}
         options={{
           headerStyle: { elevation: 0, shadowOpacity: 0 },
+        }}
+      />
+
+      <Stack.Screen
+        name="FarmEdition"
+        component={FarmEdition}
+        options={{
+          headerStyle: { elevation: 0, shadowOpacity: 0 },
+          headerTitle:"Farm Edition",
+          headerTitleAlign:'center'
         }}
       />
       <Stack.Screen

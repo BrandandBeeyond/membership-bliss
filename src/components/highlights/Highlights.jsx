@@ -31,7 +31,7 @@ const Highlights = ({ data, onPressHighlight }) => {
   return (
     <>
       <View style={[globalStyle.mt10, globalStyle.pt10]}>
-        <Typography variant="subtitle" weight="SemiBold" >
+        <Typography variant="subtitle" weight="MSemiBold" >
           Experience Bliss Living
         </Typography>
 
