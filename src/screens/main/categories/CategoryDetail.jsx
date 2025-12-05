@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   Linking,
@@ -19,11 +19,27 @@ import {
 import { categoryStyles } from './Style';
 import { List, Text } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllMembershipPlans } from '../../../redux/actions/MembershipAction';
 
 const CategoryDetail = ({ route }) => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const { name, image } = route.params;
   const [expanded, setExpanded] = useState(true);
+  const { membershipplans } = useSelector(state => state.membershipplans);
+
+  console.log("membership plans",membershipplans);
+  
+  useEffect(() => {
+    dispatch(getAllMembershipPlans());
+  }, [dispatch]);
+
+  const gradientMap = {
+    green: ['#5A6654', '#2d3628ff'],
+    brown: ['#C3905F', '#744d26ff'],
+    skyblue: ['#A6DFF1', '#629db0ff'],
+  };
 
   return (
     <ScrollView style={[globalStyle.flex, globalStyle.bgwhite]}>
@@ -165,54 +181,32 @@ const CategoryDetail = ({ route }) => {
 
         <View style={globalStyle.my20}>
           <View style={[globalStyle.row, globalStyle.cg15]}>
-            <Pressable
-              style={[globalStyle.column, globalStyle.center]}
-              onPress={() => navigation.navigate('FarmEdition')}
-            >
-              <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                colors={['#5A6654', '#2d3628ff']}
-                style={globalStyle.BoxEdition}
-              >
-                <Image source={require('../../../../assets/images/farm.png')} />
-              </LinearGradient>
+            {membershipplans && membershipplans?.map(plan => (
+                <Pressable
+                  style={[globalStyle.column, globalStyle.center]}
+                  onPress={() => navigation.navigate('EditionScreen',{plan})}
+                >
+                  <LinearGradient
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    colors={gradientMap[plan.colorScheme]}
+                    style={globalStyle.BoxEdition}
+                  >
+                    <Image
+                      source={{ uri: plan.thumbnail.url }}
+                      style={{
+                        width: horizontalScale(60),
+                        height: verticalScale(60),
+                        resizeMode: 'contain',
+                      }}
+                    />
+                  </LinearGradient>
 
-              <Typography weight="MMedium" variant="body" color="#212121ff">
-                Farm Edition
-              </Typography>
-            </Pressable>
-
-            <Pressable style={[globalStyle.column, globalStyle.center]}>
-              <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                colors={['#C3905F', '#744d26ff']}
-                style={globalStyle.BoxEdition}
-              >
-                <Image
-                  source={require('../../../../assets/images/mountain.png')}
-                  style={{ width: horizontalScale(70) }}
-                />
-              </LinearGradient>
-              <Typography weight="MMedium" variant="body" color="#212121ff">
-                Mountain Edition
-              </Typography>
-            </Pressable>
-
-            <Pressable style={[globalStyle.column, globalStyle.center]}>
-              <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                colors={['#A6DFF1', '#629db0ff']}
-                style={globalStyle.BoxEdition}
-              >
-                <Image source={require('../../../../assets/images/sky.png')} />
-              </LinearGradient>
-              <Typography weight="MMedium" variant="body" color="#212121ff">
-                Sky Edition
-              </Typography>
-            </Pressable>
+                  <Typography weight="MMedium" variant="body" color="#212121ff">
+                    {plan.name}
+                  </Typography>
+                </Pressable>
+              ))}
           </View>
         </View>
       </View>

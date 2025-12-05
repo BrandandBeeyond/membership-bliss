@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 import LoadingScreen from '../screens/Loading/LoadingScreen';
 import FAQs from '../screens/more/faqs/FAQs';
 import CategoryDetail from '../screens/main/categories/CategoryDetail';
-import FarmEdition from '../screens/main/edition/FarmEdition';
+import EditionScreen from '../screens/main/edition/EditionScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -152,12 +152,11 @@ export const MainNavigation = () => {
       />
 
       <Stack.Screen
-        name="FarmEdition"
-        component={FarmEdition}
+        name="EditionScreen"
+        component={EditionScreen}
         options={{
           headerStyle: { elevation: 0, shadowOpacity: 0 },
-          headerTitle:"Farm Edition",
-          headerTitleAlign:'center'
+          headerShown:false
         }}
       />
       <Stack.Screen

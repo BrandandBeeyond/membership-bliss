@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import { userReducer } from './reducers/UserReducer';
 import { categoryReducer } from './reducers/CategoryReducer';
+import { MembershipReducer } from './reducers/MembershipReducer';
 
 const persistUserConfig = {
   key: 'user',
@@ -16,6 +17,7 @@ const store = configureStore({
   reducer: {
     user: persistUserReducer,
     categories: categoryReducer,
+    membershipplans: MembershipReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
