@@ -55,6 +55,12 @@ export const globalStyle = StyleSheet.create({
   justifyEnd: {
     justifyContent: 'flex-end',
   },
+  relative:{
+    position:'relative'
+  },
+  absolute:{
+     position:'absolute'
+  },
   flexWrap: {
     flexWrap: 'wrap',
   },
@@ -133,6 +139,9 @@ export const globalStyle = StyleSheet.create({
   authInput: {
     borderRadius: horizontalScale(45),
     backgroundColor: '#f6f6f6',
+  },
+  mtmin40:{
+    marginTop:verticalScale(-40)
   },
   gredientThemeButton: {
     height: verticalScale(35),

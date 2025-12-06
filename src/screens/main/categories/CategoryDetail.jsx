@@ -183,6 +183,7 @@ const CategoryDetail = ({ route }) => {
           <View style={[globalStyle.row, globalStyle.cg15]}>
             {membershipplans && membershipplans?.map(plan => (
                 <Pressable
+                  key={plan._id}
                   style={[globalStyle.column, globalStyle.center]}
                   onPress={() => navigation.navigate('EditionScreen',{plan})}
                 >
