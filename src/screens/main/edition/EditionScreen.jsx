@@ -15,13 +15,13 @@ import Typography from '../../../components/Typography';
 const EditionScreen = ({ route, navigation }) => {
   const { plan } = route.params;
 
-  const benefitIcons = [
-    require('../../../../assets/images/nature.png'),
-    require('../../../../assets/images/invitation.png'),
-    require('../../../../assets/images/meditation.png'),
-    require('../../../../assets/images/platform.png'),
-    require('../../../../assets/images/discount.png'),
-  ];
+  // const benefitIcons = [
+  //   require('../../../../assets/images/nature.png'),
+  //   require('../../../../assets/images/invitation.png'),
+  //   require('../../../../assets/images/meditation.png'),
+  //   require('../../../../assets/images/platform.png'),
+  //   require('../../../../assets/images/discount.png'),
+  // ];
 
   console.log('selected plan', plan);
   return (
@@ -132,12 +132,16 @@ const EditionScreen = ({ route, navigation }) => {
             />
           </View>
 
-          <View style={[globalStyle.mt20,globalStyle.center]}>
+          <View style={[globalStyle.mt20, globalStyle.center]}>
             <Typography variant="h4" weight="MSemiBold" color="#2d532c">
               Benefits
             </Typography>
 
-            <View
+            <View>
+
+                
+            </View>
+            {/* <View
               style={[
                 globalStyle.row,
                 globalStyle.mt10,
@@ -169,7 +173,7 @@ const EditionScreen = ({ route, navigation }) => {
                   </Typography>
                 </View>
               ))}
-            </View>
+            </View> */}
           </View>
         </View>
       </ScrollView>
