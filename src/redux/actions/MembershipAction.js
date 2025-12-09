@@ -3,6 +3,9 @@ import {
   FETCH_MEMBERSHIP_CATEGORY_FAILURE,
   FETCH_MEMBERSHIP_CATEGORY_REQUEST,
   FETCH_MEMBERSHIP_CATEGORY_SUCCESS,
+  FETCH_MEMBERSHIP_OFFERS_FAILURE,
+  FETCH_MEMBERSHIP_OFFERS_REQUEST,
+  FETCH_MEMBERSHIP_OFFERS_SUCCESS,
   FETCH_MEMBERSHIP_PLANS_FAILURE,
   FETCH_MEMBERSHIP_PLANS_REQUEST,
   FETCH_MEMBERSHIP_PLANS_SUCCESS,
@@ -50,6 +53,31 @@ export const getAllMembershipPlans = () => async dispatch => {
     });
     console.log(
       'membership plans fetching failure:',
+      error.response?.data || error,
+    );
+    throw error;
+  }
+};
+
+export const getMembershipPlanOffers = id => async dispatch => {
+  try {
+    dispatch({ type: FETCH_MEMBERSHIP_OFFERS_REQUEST });
+
+    const { data } = await axios.get(
+      `${API_SERVER}/categoryplan/plan/${id}/offers`,
+    );
+
+    dispatch({
+      type: FETCH_MEMBERSHIP_OFFERS_SUCCESS,
+      payload: data.planoffers,
+    });
+  } catch (error) {
+    dispatch({
+      type: FETCH_MEMBERSHIP_OFFERS_FAILURE,
+      payload: error.response?.data?.message || error.message,
+    });
+    console.log(
+      'membership plan offers fetch failure:',
       error.response?.data || error,
     );
     throw error;

@@ -17,8 +17,10 @@ import FAQs from '../screens/more/faqs/FAQs';
 import CategoryDetail from '../screens/main/categories/CategoryDetail';
 import EditionScreen from '../screens/main/edition/EditionScreen';
 
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
 
 const CustomBackButton = ({ navigation }) => {
   return (
@@ -156,7 +158,7 @@ export const MainNavigation = () => {
         component={EditionScreen}
         options={{
           headerStyle: { elevation: 0, shadowOpacity: 0 },
-          headerShown:false
+          headerShown: false,
         }}
       />
       <Stack.Screen
