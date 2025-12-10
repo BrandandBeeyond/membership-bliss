@@ -9,6 +9,7 @@ import { Button } from 'react-native-paper';
 import CrownIcon from 'react-native-vector-icons/Ionicons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { useRef } from 'react';
+import { verticalScale } from '../../../../assets/styles/Scaling';
 
 const MembershipScreen = () => {
   const refRBSheet = useRef();
@@ -95,11 +96,31 @@ const MembershipScreen = () => {
             enabled: false,
           }}
         >
-            <View style={globalStyle.py20}>
-                <Typography variant='h2' color='#000' weight='normal'>Hello</Typography>
-            </View>
+          <View style={globalStyle.py20}>
+            <Typography variant="h2" color="#000" weight="normal">
+              Hello
+            </Typography>
+          </View>
         </RBSheet>
       </View>
+
+      <LinearGradient
+        pointerEvents="none"
+        colors={[
+          'transparent',
+          'rgba(232, 255, 226, 0.4)',
+          'rgba(188, 218, 181, 0.4)',
+          'rgba(94, 137, 83, 0.46)',
+          'rgba(70, 107, 60, 0.55)'
+        ]}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: verticalScale(200),
+        }}
+      />
     </SafeAreaView>
   );
 };

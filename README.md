@@ -95,3 +95,37 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+<!-- benfits backup -->
+
+<View
+style={[
+globalStyle.row,
+globalStyle.mt10,
+globalStyle.flexWrap,
+globalStyle.jusifyCenter,
+{backgroundColor: '#fafff9ff',padding:horizontalScale(10),borderRadius:horizontalScale(14)}
+]} >
+{plan?.benefits?.map((item, index) => (
+<View
+key={index}
+style={[
+globalStyle.column,
+globalStyle.alignCenter,
+globalStyle.my5,
+globalStyle.jusifyCenter,
+globalStyle.textCenter,
+{ width: '50%' },
+]} >
+<Image
+source={benefitIcons[index]}
+style={{ width: horizontalScale(40), height: verticalScale(40) }}
+resizeMode="contain"
+/>
+
+                  <Typography variant="subtext" weight="Medium" color="#303330ff" style={globalStyle.textCenter} >
+                    {item}
+                  </Typography>
+                </View>
+              ))}
+            </View>

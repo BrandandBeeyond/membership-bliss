@@ -5,11 +5,12 @@ import { globalStyle } from '../../../assets/styles/globalStyle';
 import Typography from '../../components/Typography';
 import { Button, Divider, TextInput, Portal, Dialog } from 'react-native-paper';
 import GoogleSigninButton from '../../components/GoogleSignButton';
-import { horizontalScale } from '../../../assets/styles/Scaling';
+import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
 import { googleLoginAction } from '../../redux/actions/UserAction';
 import Loader from '../../components/Loader';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ExploreTitle = ({ onExplorePress }) => {
   return (
@@ -182,6 +183,22 @@ const AuthScreen = ({ navigation }) => {
           </Dialog.Actions>
         </Dialog>
       </Portal>
+
+      <LinearGradient
+        pointerEvents="none"
+        colors={[
+          'transparent',
+          'rgba(232, 255, 226, 0.4)',
+          'rgba(188, 218, 181, 0.4)',
+        ]}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: verticalScale(100),
+        }}
+      />
     </SafeAreaView>
   );
 };

@@ -45,6 +45,14 @@ const styles = StyleSheet.create({
     fontSize: scaleFontSize(16),
     lineHeight: verticalScale(24),
   },
+  fthead:{
+  fontSize: scaleFontSize(16),
+    lineHeight: verticalScale(18),
+  },
+  subhead: {
+    fontSize: scaleFontSize(14),
+    lineHeight: verticalScale(17),
+  },
   subtitle: {
     fontSize: scaleFontSize(15),
     lineHeight: verticalScale(23),
@@ -52,6 +60,10 @@ const styles = StyleSheet.create({
   subtext: {
     fontSize: scaleFontSize(13),
     lineHeight: verticalScale(20),
+  },
+  subline: {
+    fontSize: scaleFontSize(13),
+    lineHeight: verticalScale(17),
   },
   body: {
     fontSize: scaleFontSize(14),

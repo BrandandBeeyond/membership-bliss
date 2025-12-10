@@ -25,6 +25,9 @@ export const globalStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  px10:{
+paddingHorizontal: horizontalScale(10),
+  },
   px20: {
     paddingHorizontal: horizontalScale(20),
   },
@@ -55,11 +58,11 @@ export const globalStyle = StyleSheet.create({
   justifyEnd: {
     justifyContent: 'flex-end',
   },
-  relative:{
-    position:'relative'
+  relative: {
+    position: 'relative',
   },
-  absolute:{
-     position:'absolute'
+  absolute: {
+    position: 'absolute',
   },
   flexWrap: {
     flexWrap: 'wrap',
@@ -140,8 +143,14 @@ export const globalStyle = StyleSheet.create({
     borderRadius: horizontalScale(45),
     backgroundColor: '#f6f6f6',
   },
-  mtmin40:{
-    marginTop:verticalScale(-40)
+  mtmin40: {
+    marginTop: verticalScale(-40),
+  },
+  dashedLine: {
+    borderWidth: horizontalScale(0.5),
+    color: '#646f4dff',
+    borderStyle: 'dashed',
+    marginVertical:verticalScale(4)
   },
   gredientThemeButton: {
     height: verticalScale(35),
@@ -159,8 +168,8 @@ export const globalStyle = StyleSheet.create({
     height: verticalScale(72),
     width: horizontalScale(90),
     borderRadius: horizontalScale(20),
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center'
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

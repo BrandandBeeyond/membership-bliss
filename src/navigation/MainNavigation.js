@@ -16,11 +16,10 @@ import LoadingScreen from '../screens/Loading/LoadingScreen';
 import FAQs from '../screens/more/faqs/FAQs';
 import CategoryDetail from '../screens/main/categories/CategoryDetail';
 import EditionScreen from '../screens/main/edition/EditionScreen';
-
+import PaymentScreen from '../screens/payment/PaymentScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
 
 const CustomBackButton = ({ navigation }) => {
   return (
@@ -176,6 +175,11 @@ export const MainNavigation = () => {
         options={{
           headerShown: false,
         }}
+      />
+      <Stack.Screen
+        name="PaymentScreen"
+        component={PaymentScreen}
+        options={{ headerTitle: 'Payment', headerTitleAlign: 'center' }}
       />
     </Stack.Navigator>
   );

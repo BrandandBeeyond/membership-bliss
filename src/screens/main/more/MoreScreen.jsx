@@ -7,6 +7,8 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../../redux/actions/UserAction';
 import { persistor } from '../../../redux/store';
+import LinearGradient from 'react-native-linear-gradient';
+import { verticalScale } from '../../../../assets/styles/Scaling';
 
 const MoreScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -90,6 +92,23 @@ const MoreScreen = ({ navigation }) => {
           />
         </View>
       </View>
+
+
+      <LinearGradient
+        pointerEvents="none"
+        colors={[
+          'transparent',
+          'rgba(232, 255, 226, 0.4)',
+          'rgba(188, 218, 181, 0.4)',
+        ]}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: verticalScale(100),
+        }}
+      />
     </SafeAreaView>
   );
 };

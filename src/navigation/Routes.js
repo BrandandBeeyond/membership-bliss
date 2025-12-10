@@ -9,4 +9,5 @@ export const Routes = {
   LoadingScreen: 'LoadingScreen',
   FAQs: 'FAQs',
   EditionScreen: 'EditionScreen',
+  PaymentScreen: 'PaymentScreen',
 };

@@ -9,6 +9,7 @@ import { verticalScale } from '../../../../assets/styles/Scaling';
 import { useNavigation } from '@react-navigation/native';
 import Typography from '../../../components/Typography';
 import LottieView from 'lottie-react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const CategoryScreen = () => {
   const navigation = useNavigation();
@@ -111,6 +112,22 @@ const CategoryScreen = () => {
           ))}
         </View>
       </ScrollView>
+
+      <LinearGradient
+        pointerEvents="none"
+        colors={[
+          'transparent',
+          'rgba(232, 255, 226, 0.4)',
+          'rgba(188, 218, 181, 0.4)',
+        ]}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: verticalScale(100),
+        }}
+      />
     </SafeAreaView>
   );
 };
