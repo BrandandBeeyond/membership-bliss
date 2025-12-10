@@ -257,16 +257,17 @@ const EditionScreen = ({ route, navigation }) => {
 
       <Button
         mode="contained"
+        onPress={handleNavigatePayment}
+        loading={loadingPayment} 
+        disabled={loadingPayment} 
         style={[
           globalStyle.rounded10,
           editionStyle.buynow,
           { backgroundColor: '#fff', width: '36%' },
         ]}
-        onPress={handleNavigatePayment}
+        labelStyle={{ color: '#4c5d49ff' }}
       >
-        {loadingPayment ? (
-          <ActivityIndicator size={20} color={'#4c5d49ff'}  />
-        ) : (
+        {!loadingPayment && (
           <Typography variant="body" color="#4c5d49ff" weight="MSemiBold">
             Buy Now
           </Typography>
