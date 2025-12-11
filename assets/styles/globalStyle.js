@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { horizontalScale, verticalScale } from './Scaling';
+import { horizontalScale, scaleFontSize, verticalScale } from './Scaling';
 
 export const globalStyle = StyleSheet.create({
   flex: {
@@ -143,6 +143,11 @@ paddingHorizontal: horizontalScale(10),
     borderRadius: horizontalScale(45),
     backgroundColor: '#f6f6f6',
   },
+  applyBtn:{
+     position:'absolute',
+     bottom:verticalScale(9),
+     right:horizontalScale(14)
+  },
   mtmin40: {
     marginTop: verticalScale(-40),
   },
@@ -172,4 +177,12 @@ paddingHorizontal: horizontalScale(10),
     justifyContent: 'center',
     alignItems: 'center',
   },
+  BoxEditionU:{
+     height: verticalScale(52),
+    width: horizontalScale(70),
+    borderRadius: horizontalScale(20),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });

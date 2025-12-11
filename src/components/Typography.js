@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     fontSize: scaleFontSize(16),
     lineHeight: verticalScale(24),
   },
-  fthead:{
-  fontSize: scaleFontSize(16),
+  fthead: {
+    fontSize: scaleFontSize(16),
     lineHeight: verticalScale(18),
   },
   subhead: {

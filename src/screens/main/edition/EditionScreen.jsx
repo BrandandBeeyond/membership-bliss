@@ -44,11 +44,11 @@ const EditionScreen = ({ route, navigation }) => {
   const discountVouchers =
     offers.filter(item => item.type === 'discount') || [];
 
-  const handleNavigatePayment = () => {
+  const handleNavigateCheckout = () => {
     setLoadingPayment(true);
 
     setTimeout(() => {
-      navigation.navigate('PaymentScreen', { plan });
+      navigation.navigate('CheckoutScreen', { plan });
       setLoadingPayment(false);
     }, 1500);
   };
@@ -241,25 +241,27 @@ const EditionScreen = ({ route, navigation }) => {
           right: horizontalScale(0),
           top: '60%',
           transform: [{ translateY: -25 }],
-          backgroundColor: '#4c5d49ff',
-          paddingVertical: verticalScale(8),
+          borderWidth:2,
+          borderColor: '#4c5d49ff',
+          backgroundColor:'#fff',
+          paddingVertical: verticalScale(5),
           paddingHorizontal: horizontalScale(16),
           borderTopLeftRadius: horizontalScale(15),
           borderBottomLeftRadius: horizontalScale(15),
           zIndex: 20,
-          elevation: 5,
         }}
       >
-        <Typography variant="body" color="#fff" weight="MSemiBold">
+        <Typography variant="h6" color="#4c5d49ff" weight="MSemiBold">
           T & C
         </Typography>
       </TouchableOpacity>
 
       <Button
         mode="contained"
-        onPress={handleNavigatePayment}
+        onPress={handleNavigateCheckout}
         loading={loadingPayment} 
         disabled={loadingPayment} 
+        contentStyle={{height:verticalScale(36)}}
         style={[
           globalStyle.rounded10,
           editionStyle.buynow,
@@ -289,7 +291,7 @@ const EditionScreen = ({ route, navigation }) => {
       <RBSheet
         ref={refRBSheet}
         height={600}
-        useNativeDriver={true}
+        useNativeDriver={false}
         customStyles={{
           wrapper: {
             backgroundColor: 'rgba(0,0,0,0.5)',

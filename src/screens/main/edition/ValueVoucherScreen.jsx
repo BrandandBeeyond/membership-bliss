@@ -17,9 +17,7 @@ const ValueVoucherScreen = ({ valueVouchers }) => {
   const toggleCollapse = index => {
     setActiveIndex(activeIndex === index ? null : index);
   };
-
-  console.log('value vouchers', valueVouchers);
-
+  
   const renderVouchers = ({ item, index }) => {
     const isOpen = index === activeIndex;
 

@@ -17,6 +17,7 @@ import FAQs from '../screens/more/faqs/FAQs';
 import CategoryDetail from '../screens/main/categories/CategoryDetail';
 import EditionScreen from '../screens/main/edition/EditionScreen';
 import PaymentScreen from '../screens/payment/PaymentScreen';
+import CheckoutScreen from '../screens/checkout/CheckoutScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -175,6 +176,11 @@ export const MainNavigation = () => {
         options={{
           headerShown: false,
         }}
+      />
+      <Stack.Screen
+        name="CheckoutScreen"
+        component={CheckoutScreen}
+        options={{ headerTitle: 'Checkout', headerTitleAlign: 'center' }}
       />
       <Stack.Screen
         name="PaymentScreen"

@@ -16,12 +16,20 @@ export const membershipScreenStyle = StyleSheet.create({
     borderRadius: horizontalScale(25),
     padding: horizontalScale(20),
   },
-  bgwhitePadding10Radius:{
-    backgroundColor:'#ffffff',
-    height:verticalScale(45),
-    width:horizontalScale(50),
-    justifyContent:'center',
-    alignItems:'center',
-    borderRadius:horizontalScale(50),
-  }
+  bgwhitePadding10Radius: {
+    backgroundColor: '#ffffff',
+    height: verticalScale(45),
+    width: horizontalScale(50),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: horizontalScale(50),
+  },
+  editionCard: {
+    borderWidth: 0.6,
+    borderColor: '#6c876bff',
+    backgroundColor: '#fcfafaff',
+    borderRadius: horizontalScale(12),
+    padding: horizontalScale(10),
+    width:'100%'
+  },
 });
