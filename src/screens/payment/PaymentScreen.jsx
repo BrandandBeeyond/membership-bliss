@@ -8,7 +8,10 @@ import { Button, TextInput } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 
 const PaymentScreen = ({ route }) => {
-  const { plan } = route.params;
+  const { buyerdetails, membershipdetails } = route.params;
+
+  const plan = membershipdetails;
+
   const [loadingPayment, setLoadingPayment] = useState(false);
 
   return (
@@ -16,6 +19,14 @@ const PaymentScreen = ({ route }) => {
       style={[globalStyle.flex, globalStyle.px20, globalStyle.bgwhite]}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
+        <Typography
+          color="#2f2e2eff"
+          variant="h5"
+          weight="MSemiBold "
+          style={globalStyle.mb20}
+        >
+          Step 2: Payment
+        </Typography>
         <View
           style={[
             globalStyle.row,
@@ -80,8 +91,8 @@ const PaymentScreen = ({ route }) => {
             bottom: verticalScale(25),
             left: horizontalScale(25),
             width: '100%',
-            justifyContent:'space-between',
-            zIndex:22
+            justifyContent: 'space-between',
+            zIndex: 22,
           },
         ]}
       >
@@ -104,28 +115,27 @@ const PaymentScreen = ({ route }) => {
         >
           {!loadingPayment && (
             <Typography variant="body" color="#fff" weight="MSemiBold">
-               Pay now
+              Pay now
             </Typography>
           )}
         </Button>
       </View>
 
-
-       <LinearGradient
-              pointerEvents="none"
-              colors={[
-                'transparent',
-                'rgba(232, 255, 226, 0.4)',
-                'rgba(188, 218, 181, 0.4)',
-              ]}
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: verticalScale(100),
-              }}
-            />
+      <LinearGradient
+        pointerEvents="none"
+        colors={[
+          'transparent',
+          'rgba(232, 255, 226, 0.4)',
+          'rgba(188, 218, 181, 0.4)',
+        ]}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: verticalScale(100),
+        }}
+      />
     </SafeAreaView>
   );
 };

@@ -180,7 +180,10 @@ export const MainNavigation = () => {
       <Stack.Screen
         name="CheckoutScreen"
         component={CheckoutScreen}
-        options={{ headerTitle: 'Checkout', headerTitleAlign: 'center' }}
+        options={{
+          headerTitle: () => null,
+          headerStyle: { elevation: 0, shadowOpacity: 0 },
+        }}
       />
       <Stack.Screen
         name="PaymentScreen"

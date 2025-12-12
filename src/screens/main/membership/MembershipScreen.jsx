@@ -212,7 +212,7 @@ const MembershipScreen = () => {
                           labelStyle={{
                             fontSize: scaleFontSize(12),
                             textTransform: 'none',
-                            color:'#fff'
+                            color: '#fff',
                           }}
                         >
                           Book now
