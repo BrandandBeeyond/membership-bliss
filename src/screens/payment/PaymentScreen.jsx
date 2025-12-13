@@ -28,7 +28,7 @@ const PaymentScreen = ({ route }) => {
       setLoadingPayment(true);
 
       const orderData = await dispatch(
-        createPaymentOrder({ amount: plan.price }),
+        createPaymentOrder(plan.price),
       );
 
       console.log('pay Order Data:', orderData);

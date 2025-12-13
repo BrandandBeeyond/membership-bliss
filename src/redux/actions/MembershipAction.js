@@ -103,7 +103,7 @@ export const createPaymentOrder = amount => async dispatch => {
 
     dispatch({
       type: MEMEBRSHIP_PAYMENT_SUCCESS,
-      payload: data,
+      payload: data.data,
     });
   } catch (error) {
     dispatch({
