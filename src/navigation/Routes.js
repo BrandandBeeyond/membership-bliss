@@ -10,5 +10,6 @@ export const Routes = {
   FAQs: 'FAQs',
   EditionScreen: 'EditionScreen',
   PaymentScreen: 'PaymentScreen',
-  CheckoutScreen:'CheckoutScreen'
+  CheckoutScreen: 'CheckoutScreen',
+  MembershipSuccess: 'MembershipSuccess',
 };

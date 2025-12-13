@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import { userReducer } from './reducers/UserReducer';
 import { categoryReducer } from './reducers/CategoryReducer';
 import { MembershipReducer } from './reducers/MembershipReducer';
+import { MembershipBookingReducer } from './reducers/MembershipbookingReducer';
 
 const persistUserConfig = {
   key: 'user',
@@ -18,6 +19,7 @@ const store = configureStore({
     user: persistUserReducer,
     categories: categoryReducer,
     membershipplans: MembershipReducer,
+    membershipbookings: MembershipBookingReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

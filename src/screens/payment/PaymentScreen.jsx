@@ -1,18 +1,96 @@
-import React, { useState } from 'react';
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import React, { use, useState } from 'react';
+import { Alert, Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../assets/styles/globalStyle';
 import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
 import Typography from '../../components/Typography';
 import { Button, TextInput } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
+import { useDispatch } from 'react-redux';
+import {
+  createMembershipBooking,
+  createPaymentOrder,
+} from '../../redux/actions/MembershipAction';
+import RazorpayCheckout from 'react-native-razorpay';
+import { useNavigation } from '@react-navigation/native';
 
 const PaymentScreen = ({ route }) => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
   const { buyerdetails, membershipdetails } = route.params;
 
   const plan = membershipdetails;
 
   const [loadingPayment, setLoadingPayment] = useState(false);
+
+  const handleMembershipPayment = async () => {
+    try {
+      setLoadingPayment(true);
+
+      const orderData = await dispatch(
+        createPaymentOrder({ amount: plan.price }),
+      );
+
+      console.log('pay Order Data:', orderData);
+
+      if (!orderData) {
+        Alert.alert('Error', 'Failed to create order');
+        return;
+      }
+
+      const options = {
+        key: 'rzp_test_D7EJNKkg5iH19i',
+        description: 'Payment for Membership booking',
+        currency: 'INR',
+        amount: orderData.amount,
+        order_id: orderData.id,
+        prefill: {
+          name: buyerdetails.fullname,
+          email: buyerdetails.email,
+          contact: buyerdetails.phone,
+        },
+        theme: { color: '#4c5d49ff' },
+        method: {
+          upi: true,
+          card: true,
+          netbanking: true,
+          wallet: true,
+        },
+      };
+      console.log('Step 2: Opening Razorpay Checkout...');
+      RazorpayCheckout.open(options)
+        .then(async response => {
+          console.log('Payment success:', response);
+
+          const bookingPayload = {
+            membershipPlanId: plan._id,
+            razorpay_orderId: orderData.id,
+            razorpay_paymentId: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            memberDetails: buyerdetails,
+          };
+
+          const booking = await dispatch(
+            createMembershipBooking(bookingPayload),
+          );
+
+          Alert.alert('Success', 'Membership booked successfully!');
+
+          console.log('Membership booking successful:', booking);
+
+          navigation.replace('MembershipSuccess', { booking });
+        })
+        .catch(error => {
+          console.error('Razorpay Checkout Error:', error);
+          Alert.alert('Payment Failed', 'Transaction was not completed.');
+        });
+    } catch (error) {
+      console.error('Membership payment error:', error);
+      Alert.alert('Error', 'Something went wrong');
+    } finally {
+      setLoadingPayment(false);
+    }
+  };
 
   return (
     <SafeAreaView
@@ -106,6 +184,7 @@ const PaymentScreen = ({ route }) => {
         </View>
 
         <Button
+          onPress={handleMembershipPayment}
           mode="contained"
           loading={loadingPayment}
           disabled={loadingPayment}

@@ -9,6 +9,12 @@ import {
   FETCH_MEMBERSHIP_PLANS_FAILURE,
   FETCH_MEMBERSHIP_PLANS_REQUEST,
   FETCH_MEMBERSHIP_PLANS_SUCCESS,
+  MEMBERSHIP_BOOKING_FAILURE,
+  MEMBERSHIP_BOOKING_REQUEST,
+  MEMBERSHIP_BOOKING_SUCCESS,
+  MEMEBRSHIP_PAYMENT_FAILURE,
+  MEMEBRSHIP_PAYMENT_REQUEST,
+  MEMEBRSHIP_PAYMENT_SUCCESS,
 } from '../constants/membershipconstant';
 import { API_SERVER } from '../../config/Key';
 
@@ -80,6 +86,60 @@ export const getMembershipPlanOffers = id => async dispatch => {
       'membership plan offers fetch failure:',
       error.response?.data || error,
     );
+    throw error;
+  }
+};
+
+export const createPaymentOrder = amount => async dispatch => {
+  try {
+    dispatch({ type: MEMEBRSHIP_PAYMENT_REQUEST });
+
+    if (!amount || isNaN(amount) || amount <= 0) {
+      throw new Error('Invalid amount');
+    }
+    const { data } = await axios.post(`${API_SERVER}/payment/create-order`, {
+      amount,
+    });
+
+    dispatch({
+      type: MEMEBRSHIP_PAYMENT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: MEMEBRSHIP_PAYMENT_FAILURE,
+      payload: error.response?.data?.message || error.message,
+    });
+    console.log(
+      'membership payment order failure:',
+      error.response?.data || error,
+    );
+    throw error;
+  }
+};
+
+export const createMembershipBooking = bookingData => async dispatch => {
+  try {
+    dispatch({ type: MEMBERSHIP_BOOKING_REQUEST });
+
+    const { data } = await axios.post(
+      `${API_SERVER}/bookings/booking/create`,
+      bookingData,
+      { withCredentials: true },
+    );
+
+    dispatch({
+      type: MEMBERSHIP_BOOKING_SUCCESS,
+      payload: data.booking,
+    });
+
+    return data.booking;
+  } catch (error) {
+    dispatch({
+      type: MEMBERSHIP_BOOKING_FAILURE,
+      payload: error.response?.data?.message || error.message,
+    });
+    console.log('membership booking failure:', error.response?.data || error);
     throw error;
   }
 };
