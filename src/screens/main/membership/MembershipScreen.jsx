@@ -163,6 +163,7 @@ const MembershipScreen = () => {
                 {membershipplans.map(plan => {
                   return (
                     <View
+                      key={plan._id}
                       style={[
                         membershipScreenStyle.editionCard,
                         globalStyle.row,

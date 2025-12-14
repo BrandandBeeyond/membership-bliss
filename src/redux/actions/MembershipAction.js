@@ -94,17 +94,21 @@ export const createPaymentOrder = amount => async dispatch => {
   try {
     dispatch({ type: MEMEBRSHIP_PAYMENT_REQUEST });
 
-    if (!amount || isNaN(amount) || amount <= 0) {
+    const numbericAmount = Number(amount);
+
+    if (!numbericAmount || isNaN(numbericAmount) || numbericAmount <= 0) {
       throw new Error('Invalid amount');
     }
     const { data } = await axios.post(`${API_SERVER}/payment/create-order`, {
-      amount,
+      amount: numbericAmount,
     });
 
     dispatch({
       type: MEMEBRSHIP_PAYMENT_SUCCESS,
-      payload: data.data,
+      payload: data.order,
     });
+
+    return data.order;
   } catch (error) {
     dispatch({
       type: MEMEBRSHIP_PAYMENT_FAILURE,
@@ -125,7 +129,11 @@ export const createMembershipBooking = bookingData => async dispatch => {
     const { data } = await axios.post(
       `${API_SERVER}/bookings/booking/create`,
       bookingData,
-      { withCredentials: true },
+      {
+        headers: {
+          Authorization: `Bearer ${bookingData.token}`,
+        },
+      },
     );
 
     dispatch({

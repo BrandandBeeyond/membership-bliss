@@ -6,6 +6,7 @@ import {
   GOOGLE_LOGIN_SUCCESS,
   LOGOUT_USER,
 } from '../constants/Userconstant';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const googleLoginAction = idToken => async dispatch => {
   try {
@@ -15,6 +16,7 @@ export const googleLoginAction = idToken => async dispatch => {
       idToken,
     });
 
+    await AsyncStorage.setItem('token', data.token);
     dispatch({
       type: GOOGLE_LOGIN_SUCCESS,
       payload: {
@@ -22,6 +24,7 @@ export const googleLoginAction = idToken => async dispatch => {
         token: data.token,
       },
     });
+    
   } catch (error) {
     dispatch({
       type: GOOGLE_LOGIN_FAILURE,
@@ -34,6 +37,7 @@ export const googleLoginAction = idToken => async dispatch => {
 
 export const logoutUser = () => async dispatch => {
   try {
+    AsyncStorage.removeItem('token');
     dispatch({ type: LOGOUT_USER });
   } catch (error) {
     console.log('Logout error:', error);

@@ -6,7 +6,7 @@ import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
 import Typography from '../../components/Typography';
 import { Button, TextInput } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   createMembershipBooking,
   createPaymentOrder,
@@ -21,15 +21,15 @@ const PaymentScreen = ({ route }) => {
 
   const plan = membershipdetails;
 
+  const { token } = useSelector(state => state.user);
+
   const [loadingPayment, setLoadingPayment] = useState(false);
 
   const handleMembershipPayment = async () => {
     try {
       setLoadingPayment(true);
 
-      const orderData = await dispatch(
-        createPaymentOrder(plan.price),
-      );
+      const orderData = await dispatch(createPaymentOrder(plan.price));
 
       console.log('pay Order Data:', orderData);
 
@@ -39,7 +39,7 @@ const PaymentScreen = ({ route }) => {
       }
 
       const options = {
-        key: 'rzp_test_D7EJNKkg5iH19i',
+        key: 'rzp_test_Rr7e7HG3vamx0g',
         description: 'Payment for Membership booking',
         currency: 'INR',
         amount: orderData.amount,
@@ -68,7 +68,10 @@ const PaymentScreen = ({ route }) => {
             razorpay_paymentId: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
             memberDetails: buyerdetails,
+            token: token,
           };
+
+          console.log('Plan price (frontend):', plan.price);
 
           const booking = await dispatch(
             createMembershipBooking(bookingPayload),

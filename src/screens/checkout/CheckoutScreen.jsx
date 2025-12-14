@@ -8,7 +8,14 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import { Button, TextInput, RadioButton, List, ActivityIndicator, MD2Colors } from 'react-native-paper';
+import {
+  Button,
+  TextInput,
+  RadioButton,
+  List,
+  ActivityIndicator,
+  MD2Colors,
+} from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { globalStyle } from '../../../assets/styles/globalStyle';
 import Typography from '../../components/Typography';
@@ -38,11 +45,13 @@ const CheckoutScreen = ({ route }) => {
 
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [citySearch, setCitySearch] = useState('');
 
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
 
   const [loadingProceed, setLoadingProceed] = useState(false);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     fetchIndiaStates();
@@ -50,6 +59,7 @@ const CheckoutScreen = ({ route }) => {
 
   const handleChange = (key, value) => {
     setFormData(prev => ({ ...prev, [key]: value }));
+    setErrors(prev => ({ ...prev, [key]: null }));
   };
 
   const handleGenderChange = value => {
@@ -77,6 +87,7 @@ const CheckoutScreen = ({ route }) => {
   const handleStateSelect = async stateName => {
     setSelectedState(stateName);
     handleChange('state', stateName);
+    setErrors(prev => ({ ...prev, city: null }));
     setStateModal(false);
 
     try {
@@ -96,10 +107,46 @@ const CheckoutScreen = ({ route }) => {
     setSelectedCity(cityName);
 
     setFormData(prev => ({ ...prev, city: cityName }));
+    setErrors(prev => ({ ...prev, city: null }));
     setCityModal(false);
   };
 
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!formData.fullname.trim()) {
+      newErrors.fullname = 'Full Name is required';
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    }
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    }
+    if (!formData.dob.trim()) {
+      newErrors.dob = 'Date of Birth is required';
+    }
+    if (!formData.gender.trim()) {
+      newErrors.gender = 'Gender is required';
+    }
+
+    if (!formData.state.trim()) {
+      newErrors.state = 'State is required';
+    }
+    if (!formData.city.trim()) {
+      newErrors.city = 'City is required';
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const gotoPaymentScreen = () => {
+    if (!validateForm()) {
+      return;
+    }
+
     setLoadingProceed(true);
 
     setTimeout(() => {
@@ -111,6 +158,10 @@ const CheckoutScreen = ({ route }) => {
       setLoadingProceed(false);
     }, 2500);
   };
+
+  const filteredCities = cities.filter(city =>
+    city.toLowerCase().includes(citySearch.toLowerCase()),
+  );
 
   return (
     <SafeAreaView
@@ -149,8 +200,17 @@ const CheckoutScreen = ({ route }) => {
             borderRadius: horizontalScale(12),
           }}
           onChangeText={text => handleChange('fullname', text)}
-          style={{ marginBottom: verticalScale(16) }}
+          style={{ marginBottom: verticalScale(6) }}
         />
+        {errors.fullname && (
+          <Typography
+            variant="caption"
+            color="#ca3c3cff"
+            style={{ marginBottom: verticalScale(8) }}
+          >
+            {errors.fullname}
+          </Typography>
+        )}
 
         {/* Email */}
         <TextInput
@@ -164,11 +224,19 @@ const CheckoutScreen = ({ route }) => {
           }}
           keyboardType="email-address"
           onChangeText={text => handleChange('email', text)}
-          style={{ marginBottom: verticalScale(16) }}
+          style={{ marginBottom: verticalScale(6) }}
         />
+        {errors.email && (
+          <Typography
+            variant="caption"
+            color="#ca3c3cff"
+            style={{ marginBottom: verticalScale(8) }}
+          >
+            {errors.email}
+          </Typography>
+        )}
 
-        {/* Phone */}
-        <View style={{ flexDirection: 'row', marginBottom: verticalScale(16) }}>
+        <View style={{ flexDirection: 'row', marginBottom: verticalScale(6) }}>
           <View
             style={{
               backgroundColor: '#daebd2ff',
@@ -202,6 +270,15 @@ const CheckoutScreen = ({ route }) => {
             />
           </View>
         </View>
+        {errors.phone && (
+          <Typography
+            variant="caption"
+            color="#ca3c3cff"
+            style={{ marginBottom: verticalScale(8) }}
+          >
+            {errors.phone}
+          </Typography>
+        )}
 
         <TouchableOpacity onPress={() => setDatePickerVisibility(true)}>
           <TextInput
@@ -214,9 +291,18 @@ const CheckoutScreen = ({ route }) => {
             outlineStyle={{
               borderRadius: horizontalScale(12),
             }}
-            style={{ marginBottom: verticalScale(16) }}
+            style={{ marginBottom: verticalScale(6) }}
           />
         </TouchableOpacity>
+        {errors.dob && (
+          <Typography
+            variant="caption"
+            color="#ca3c3cff"
+            style={{ marginBottom: verticalScale(8) }}
+          >
+            {errors.dob}
+          </Typography>
+        )}
 
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
@@ -266,6 +352,15 @@ const CheckoutScreen = ({ route }) => {
               }}
               editable={false}
             />
+            {errors.state && (
+              <Typography
+                variant="caption"
+                color="#ca3c3cff"
+                style={{ marginBottom: verticalScale(8) }}
+              >
+                {errors.state}
+              </Typography>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -283,6 +378,15 @@ const CheckoutScreen = ({ route }) => {
               }}
               editable={false}
             />
+            {errors.city && (
+              <Typography
+                variant="caption"
+                color="#ca3c3cff"
+                style={{ marginBottom: verticalScale(8) }}
+              >
+                {errors.city}
+              </Typography>
+            )}
           </TouchableOpacity>
         </View>
 
@@ -317,6 +421,7 @@ const CheckoutScreen = ({ route }) => {
               maxHeight: '70%',
             }}
           >
+           
             <FlatList
               data={states}
               keyExtractor={item => item.name}
@@ -349,8 +454,19 @@ const CheckoutScreen = ({ route }) => {
               maxHeight: '70%',
             }}
           >
+             <TextInput
+              placeholder="Search City"
+              mode="outlined"
+              contentStyle={{ height: verticalScale(15) ,borderRadius:horizontalScale(12)}}
+              value={citySearch}
+              outlineColor="#b0aeaeff"
+              activeOutlineColor="#588650ff"
+              onChangeText={text => setCitySearch(text)}
+              style={{ marginBottom: verticalScale(10) }}
+            />
+
             <FlatList
-              data={cities}
+              data={filteredCities}
               keyExtractor={item => item}
               renderItem={({ item }) => (
                 <List.Item
@@ -374,7 +490,7 @@ const CheckoutScreen = ({ route }) => {
           style={{ borderRadius: 10, backgroundColor: '#2d532c' }}
           labelStyle={{ color: '#fff', fontWeight: '600' }}
         >
-         Proceed
+          Proceed
         </Button>
       </View>
 
