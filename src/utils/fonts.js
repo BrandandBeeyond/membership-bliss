@@ -1,10 +1,10 @@
 const Fonts = {
-  Regular: 'Poppins-Regular',
-  Medium: 'Poppins-Medium',
-  SemiBold: 'Poppins-SemiBold',
-  Bold: 'Poppins-Bold',
-  Extrabold: 'Poppins-ExtraBold',
-  Light: 'Poppins-Light',
+  Regular: 'RedHatDisplay-Regular',
+  Medium: 'RedHatDisplay-Medium',
+  SemiBold: 'RedHatDisplay-SemiBold',
+  Bold: 'RedHatDisplay-Bold',
+  Extrabold: 'RedHatDisplay-ExtraBold',
+  Light: 'RedHatDisplay-Light',
 
   MRegular: 'Montserrat-Regular',
   MMedium: 'Montserrat-Medium',

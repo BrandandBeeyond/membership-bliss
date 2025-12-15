@@ -15,6 +15,7 @@ import {
   List,
   ActivityIndicator,
   MD2Colors,
+  Searchbar,
 } from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { globalStyle } from '../../../assets/styles/globalStyle';
@@ -421,7 +422,6 @@ const CheckoutScreen = ({ route }) => {
               maxHeight: '70%',
             }}
           >
-           
             <FlatList
               data={states}
               keyExtractor={item => item.name}
@@ -454,15 +454,21 @@ const CheckoutScreen = ({ route }) => {
               maxHeight: '70%',
             }}
           >
-             <TextInput
+            <Searchbar
               placeholder="Search City"
-              mode="outlined"
-              contentStyle={{ height: verticalScale(15) ,borderRadius:horizontalScale(12)}}
+              contentStyle={{
+                borderRadius: horizontalScale(12),
+              }}
               value={citySearch}
               outlineColor="#b0aeaeff"
               activeOutlineColor="#588650ff"
               onChangeText={text => setCitySearch(text)}
-              style={{ marginBottom: verticalScale(10) }}
+              style={{
+                backgroundColor: '#fcf9f9ff',
+                borderColor: '#d9ebcfff',
+                borderWidth: 1,
+                marginBottom: verticalScale(10),
+              }}
             />
 
             <FlatList
