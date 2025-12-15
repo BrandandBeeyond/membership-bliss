@@ -11,7 +11,6 @@ import MembershipScreen from '../screens/main/membership/MembershipScreen';
 import UpdatesScreen from '../screens/main/updates/UpdatesScreen';
 import Morescreen from '../screens/main/more/MoreScreen';
 import AuthScreen from '../screens/auth/AuthScreen';
-import { useSelector } from 'react-redux';
 import LoadingScreen from '../screens/Loading/LoadingScreen';
 import FAQs from '../screens/more/faqs/FAQs';
 import CategoryDetail from '../screens/main/categories/CategoryDetail';
@@ -19,6 +18,8 @@ import EditionScreen from '../screens/main/edition/EditionScreen';
 import PaymentScreen from '../screens/payment/PaymentScreen';
 import CheckoutScreen from '../screens/checkout/CheckoutScreen';
 import MembershipSuccess from '../screens/main/membership/MembershipSuccess';
+import OnboardingScreen from '../screens/onboarding/OnboardingScreen';
+import AppEntryScreen from '../screens/appflow/AppEntryScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -122,12 +123,18 @@ const HomeTabs = () => (
 );
 
 export const MainNavigation = () => {
-  const { isAuthenticated, user, token } = useSelector(state => state.user);
-
   return (
-    <Stack.Navigator
-      initialRouteName={isAuthenticated ? 'HomeTabs' : 'AuthScreen'}
-    >
+    <Stack.Navigator>
+      <Stack.Screen
+        name="AppEntryScreen"
+        component={AppEntryScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="OnboardingScreen"
+        component={OnboardingScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="HomeTabs"
         component={HomeTabs}

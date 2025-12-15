@@ -1,4 +1,6 @@
 export const Routes = {
+  OnboardingScreen: 'OnboardingScreen',
+  AppEntryScreen: 'AppEntryScreen',
   HomeScreen: 'HomeScreen',
   AuthScreen: 'AuthScreen',
   MembershipScreen: 'MembershipScreen',

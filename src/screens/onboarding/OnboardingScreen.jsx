@@ -1,11 +1,12 @@
 import React from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 import { Button } from 'react-native-paper';
-import { verticalScale } from '../../../assets/styles/Scaling';
+import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
 import { globalStyle } from '../../../assets/styles/globalStyle';
 import { editionStyle } from '../main/edition/Style';
-import Typography from '@/components/Typography';
+import Typography from '../../components/Typography';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
@@ -15,57 +16,123 @@ const Dot = ({ selected }) => {
 
 const NextButton = ({ ...props }) => (
   <Button
+    {...props}
     mode="contained"
     contentStyle={{ height: verticalScale(30) }}
     style={[
       globalStyle.rounded10,
       editionStyle.buynow,
-      { backgroundColor: '#212520ff', width: '36%' },
+      globalStyle.px10,
+      { backgroundColor: '#212520ff' },
     ]}
     labelStyle={{ color: '#fff' }}
   >
-    <Typography variant="body" color="#4c5d49ff" weight="MSemiBold">
-      Next
-    </Typography>
+    Next
   </Button>
 );
 
 const DoneButton = ({ ...props }) => (
   <Button
+    {...props}
     mode="contained"
     contentStyle={{ height: verticalScale(30) }}
     style={[
       globalStyle.rounded10,
       editionStyle.buynow,
-      { backgroundColor: '#212520ff', width: '36%' },
+      { backgroundColor: '#212520ff' },
     ]}
     labelStyle={{ color: '#fff' }}
   >
-    <Typography variant="body" color="#4c5d49ff" weight="MSemiBold">
-      Get Started
-    </Typography>
+    Get Started
   </Button>
 );
 
 const OnboardingScreen = ({ navigation }) => {
+  const finishOnboarding = async () => {
+    await AsyncStorage.setItem('onboardingdone', 'true');
+    navigation.replace('AuthScreen');
+  };
+
   return (
     <Onboarding
       DotComponent={Dot}
       NextButtonComponent={NextButton}
       DoneButtonComponent={DoneButton}
+      showSkip={false}
+      onDone={finishOnboarding}
       bottomBarHighlight={false}
-      onSkip={() => navigation.replace('AuthScreen')}
-      onDone={() => navigation.replace('AuthScreen')}
+      bottomBarHeight={verticalScale(90)}
+      
+      pages={[
+        {
+          backgroundColor: '#f2fbf2ff',
+          image: (
+            <View style={globalStyle.mt10}>
+              <Image
+                source={require('../../../assets/images/natures-club-membershiplogo.png')}
+                style={{
+                  height: verticalScale(140),
+                  width: verticalScale(140),
+                }}
+                resizeMode="contain"
+              />
+            </View>
+          ),
+          title: (
+            <Typography variant="h2" weight="SemiBold" color="#3a3939ff">
+              Welcome to Touchwood Bliss
+            </Typography>
+          ),
+          subtitle: (
+            <Typography
+              variant="h4"
+              color="#6A7A6A"
+              weight="MMedium"
+              style={globalStyle.textCenter}
+            >
+              A peaceful retreat surrounded by nature and comfort.
+            </Typography>
+          ),
+        },
+        {
+          backgroundColor: '#F6FAF1',
+          image: (
+            <View style={styles.imageWrapper}>
+              <Image
+                source={require('../../../assets/images/blissview.jpg')}
+                style={styles.image}
+              />
+            </View>
+          ),
+          title: <Text style={styles.title}>More Than Just a Stay</Text>,
+          subtitle: (
+            <Text style={styles.subtitle}>
+              Exclusive access, priority bookings, and curated resort
+              experiences.
+            </Text>
+          ),
+        },
+        {
+          backgroundColor: '#F6FAF1',
+
+          title: <Text style={styles.title}>Your Journey Begins Here</Text>,
+          subtitle: (
+            <Text style={styles.subtitle}>
+              Manage bookings, explore benefits, and relax — we’ll take care of
+              the rest.
+            </Text>
+          ),
+        },
+      ]}
     />
   );
 };
 const styles = StyleSheet.create({
   imageWrapper: {
     width: width - 60,
-    height: 300,
-    borderRadius: 28,
+    height: verticalScale(300),
+    borderRadius: horizontalScale(26),
     overflow: 'hidden',
-    backgroundColor: '#EAF3D5',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -109,20 +176,6 @@ const styles = StyleSheet.create({
   activeDot: {
     width: 18,
     backgroundColor: '#2D532C',
-  },
-  button: {
-    height: 48,
-    paddingHorizontal: 20,
-    borderRadius: 14,
-    backgroundColor: '#2D532C',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 16,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontFamily: 'Montserrat-SemiBold',
   },
 });
 
