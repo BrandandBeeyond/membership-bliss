@@ -1,3 +1,4 @@
+
 export const Routes = {
   OnboardingScreen: 'OnboardingScreen',
   AppEntryScreen: 'AppEntryScreen',
@@ -14,4 +15,6 @@ export const Routes = {
   PaymentScreen: 'PaymentScreen',
   CheckoutScreen: 'CheckoutScreen',
   MembershipSuccess: 'MembershipSuccess',
+  AboutScreen: 'AboutScreen',
+  ContactScreen: 'ContactScreen',
 };

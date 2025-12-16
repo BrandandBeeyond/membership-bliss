@@ -47,7 +47,7 @@ const MoreScreen = ({ navigation }) => {
           <MenuTabs
             iconName="information-circle-outline"
             label="About Us"
-            onPress={() => {}}
+            onPress={() => {navigation.push('AboutScreen')}}
           />
           <MenuTabs
             iconName="reader-outline"
@@ -57,7 +57,7 @@ const MoreScreen = ({ navigation }) => {
           <MenuTabs
             iconName="headset-outline"
             label="Contact Us"
-            onPress={() => {}}
+            onPress={() => {navigation.push('ContactScreen')}}
           />
           <MenuTabs
             iconName="help-circle-outline"

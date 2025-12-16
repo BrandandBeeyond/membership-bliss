@@ -20,6 +20,8 @@ import CheckoutScreen from '../screens/checkout/CheckoutScreen';
 import MembershipSuccess from '../screens/main/membership/MembershipSuccess';
 import OnboardingScreen from '../screens/onboarding/OnboardingScreen';
 import AppEntryScreen from '../screens/appflow/AppEntryScreen';
+import AboutScreen from '../screens/more/about/AboutScreen';
+import ContactScreen from '../screens/more/contact/ContactScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -202,6 +204,27 @@ export const MainNavigation = () => {
         name="MembershipSuccess"
         component={MembershipSuccess}
         options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="AboutScreen"
+        component={AboutScreen}
+        options={({ navigation }) => ({
+          headerStyle: { elevation: 0, shadowOpacity: 0 },
+          headerTitleAlign: 'center',
+          headerTitle: 'About Us',
+          headerLeft: () => <CustomBackButton navigation={navigation} />,
+        })}
+      />
+      <Stack.Screen
+        name="ContactScreen"
+        component={ContactScreen}
+        options={({ navigation }) => ({
+          headerStyle: { elevation: 0, shadowOpacity: 0 },
+          headerTitleAlign: 'center',
+          headerTitle: 'Contact Us',
+          headerLeft: () => <CustomBackButton navigation={navigation} />,
+        })}
       />
     </Stack.Navigator>
   );
