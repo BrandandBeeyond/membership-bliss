@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   ScrollView,
@@ -7,6 +7,8 @@ import {
   Modal,
   FlatList,
   Image,
+  BackHandler,
+  Alert,
 } from 'react-native';
 import {
   Button,
@@ -22,7 +24,7 @@ import { globalStyle } from '../../../assets/styles/globalStyle';
 import Typography from '../../components/Typography';
 import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const CheckoutScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -85,6 +87,54 @@ const CheckoutScreen = ({ route }) => {
     }
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        Alert.alert(
+          'Cancel Checkout?',
+          'Are you sure you want to go back? Your checkout process will be cancelled.',
+          [
+            { text: 'Cancel', style: 'cancel' },
+            {
+              text: 'Yes',
+              style: 'destructive',
+              onPress: () => navigation.goBack(),
+            },
+          ],
+        );
+        return true; // block default behavior
+      };
+
+      // ✅ NEW API
+      const backHandlerSubscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        onBackPress,
+      );
+
+      const unsubscribe = navigation.addListener('beforeRemove', e => {
+        e.preventDefault();
+
+        Alert.alert(
+          'Cancel Checkout?',
+          'Are you sure you want to go back? Your checkout process will be cancelled.',
+          [
+            { text: 'Cancel', style: 'cancel' },
+            {
+              text: 'Yes',
+              style: 'destructive',
+              onPress: () => navigation.dispatch(e.data.action),
+            },
+          ],
+        );
+      });
+
+      return () => {
+        // ✅ CORRECT CLEANUP
+        backHandlerSubscription.remove();
+        unsubscribe();
+      };
+    }, [navigation]),
+  );
   const handleStateSelect = async stateName => {
     setSelectedState(stateName);
     handleChange('state', stateName);

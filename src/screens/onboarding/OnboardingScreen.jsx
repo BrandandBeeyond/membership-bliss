@@ -39,7 +39,7 @@ const DoneButton = ({ ...props }) => (
     style={[
       globalStyle.rounded10,
       editionStyle.buynow,
-      { backgroundColor: '#212520ff' },
+      { backgroundColor: '#212520ff', width: '100%' },
     ]}
     labelStyle={{ color: '#fff' }}
   >
@@ -61,13 +61,11 @@ const OnboardingScreen = ({ navigation }) => {
       showSkip={false}
       onDone={finishOnboarding}
       bottomBarHighlight={false}
-      bottomBarHeight={verticalScale(90)}
-      
       pages={[
         {
-          backgroundColor: '#f2fbf2ff',
+          backgroundColor: '#fafffaff',
           image: (
-            <View style={globalStyle.mt10}>
+            <View style={[globalStyle.mt10,globalStyle.relative]}>
               <Image
                 source={require('../../../assets/images/natures-club-membershiplogo.png')}
                 style={{
@@ -76,6 +74,8 @@ const OnboardingScreen = ({ navigation }) => {
                 }}
                 resizeMode="contain"
               />
+
+             
             </View>
           ),
           title: (
@@ -85,7 +85,7 @@ const OnboardingScreen = ({ navigation }) => {
           ),
           subtitle: (
             <Typography
-              variant="h4"
+              variant="h5"
               color="#6A7A6A"
               weight="MMedium"
               style={globalStyle.textCenter}
@@ -93,6 +93,7 @@ const OnboardingScreen = ({ navigation }) => {
               A peaceful retreat surrounded by nature and comfort.
             </Typography>
           ),
+          
         },
         {
           backgroundColor: '#F6FAF1',
@@ -104,23 +105,39 @@ const OnboardingScreen = ({ navigation }) => {
               />
             </View>
           ),
-          title: <Text style={styles.title}>More Than Just a Stay</Text>,
+          title: (
+            <Typography variant="h2" weight="SemiBold" color="#3a3939ff">
+              Welcome to Touchwood Bliss
+            </Typography>
+          ),
           subtitle: (
-            <Text style={styles.subtitle}>
-              Exclusive access, priority bookings, and curated resort
-              experiences.
-            </Text>
+            <Typography
+              variant="h5"
+              color="#6A7A6A"
+              weight="MMedium"
+              style={globalStyle.textCenter}
+            >
+              A peaceful retreat surrounded by nature and comfort.
+            </Typography>
           ),
         },
         {
           backgroundColor: '#F6FAF1',
 
-          title: <Text style={styles.title}>Your Journey Begins Here</Text>,
+          title: (
+            <Typography variant="h2" weight="SemiBold" color="#3a3939ff">
+              Welcome to Touchwood Bliss
+            </Typography>
+          ),
           subtitle: (
-            <Text style={styles.subtitle}>
-              Manage bookings, explore benefits, and relax — we’ll take care of
-              the rest.
-            </Text>
+            <Typography
+              variant="h5"
+              color="#6A7A6A"
+              weight="MMedium"
+              style={globalStyle.textCenter}
+            >
+              A peaceful retreat surrounded by nature and comfort.
+            </Typography>
           ),
         },
       ]}
@@ -141,6 +158,7 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover',
   },
+  
   lottieWrapper: {
     width: width - 60,
     height: 300,
@@ -174,8 +192,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   activeDot: {
-    width: 18,
-    backgroundColor: '#2D532C',
+    width: horizontalScale(35),
+    backgroundColor: '#313a31ff',
   },
 });
 

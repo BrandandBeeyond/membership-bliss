@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   Image,
   ScrollView,
   Text,
@@ -56,182 +57,203 @@ const EditionScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
       <View style={globalStyle.flex}>
-        <ScrollView showsHorizontalScrollIndicator={false}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{
-              position: 'absolute',
-              top: verticalScale(25),
-              left: horizontalScale(20),
-              zIndex: 10,
-              backgroundColor: 'rgba(0,0,0,0.4)',
-              padding: 8,
-              borderRadius: 50,
-            }}
-          >
-            <Ionicons name="arrow-back" size={24} color="#fff" />
-          </TouchableOpacity>
-          <View style={[globalStyle.relative]}>
-            <Swiper
-              autoplay={true}
-              showsPagination={true}
-              autoplayTimeout={3}
-              height={260}
-              dot={
-                <View
-                  style={{
-                    backgroundColor: '#ccc',
-                    width: 8,
-                    height: 8,
-                    borderRadius: 4,
-                    marginHorizontal: 3,
-                  }}
-                />
-              }
-              activeDot={
-                <View
-                  style={{
-                    backgroundColor: '#75976bff',
-                    width: 20,
-                    height: 8,
-                    borderRadius: 5,
-                    marginHorizontal: 3,
-                  }}
-                />
-              }
-            >
-              {plan?.images?.map(img => (
-                <View style={globalStyle.relative} key={img.id}>
-                  <Image
-                    source={{ uri: img.url }}
-                    style={editionStyle.wrapImage}
-                  />
+        <FlatList
+          data={[{ key: 'content' }]} 
+          renderItem={null}
+          keyExtractor={item => item.key}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <>
+             
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={{
+                  position: 'absolute',
+                  top: verticalScale(25),
+                  left: horizontalScale(20),
+                  zIndex: 10,
+                  backgroundColor: 'rgba(0,0,0,0.4)',
+                  padding: 8,
+                  borderRadius: 50,
+                }}
+              >
+                <Ionicons name="arrow-back" size={24} color="#fff" />
+              </TouchableOpacity>
+
+              {/* IMAGE SWIPER */}
+              <View style={globalStyle.relative}>
+                <Swiper
+                  autoplay
+                  showsPagination
+                  autoplayTimeout={3}
+                  height={260}
+                  dot={
+                    <View
+                      style={{
+                        backgroundColor: '#ccc',
+                        width: 8,
+                        height: 8,
+                        borderRadius: 4,
+                        marginHorizontal: 3,
+                      }}
+                    />
+                  }
+                  activeDot={
+                    <View
+                      style={{
+                        backgroundColor: '#75976bff',
+                        width: 20,
+                        height: 8,
+                        borderRadius: 5,
+                        marginHorizontal: 3,
+                      }}
+                    />
+                  }
+                >
+                  {plan?.images?.map(img => (
+                    <View style={globalStyle.relative} key={img.id}>
+                      <Image
+                        source={{ uri: img.url }}
+                        style={editionStyle.wrapImage}
+                      />
+                      <LinearGradient
+                        colors={['transparent', 'rgba(0,0,0,0.6)']}
+                        style={{
+                          position: 'absolute',
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          height: verticalScale(150),
+                        }}
+                      />
+                    </View>
+                  ))}
+                </Swiper>
+
+                {/* LOGO */}
+                <View style={editionStyle.wrapLogo}>
                   <LinearGradient
-                    colors={['transparent', 'rgba(0,0,0,0.6)']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    colors={['#172113ff', '#202e1aeb', '#2d4124ca']}
+                    style={globalStyle.BoxEdition}
+                  >
+                    <Image
+                      source={require('../../../../assets/images/natures-club-membershiplogo.png')}
+                      style={{
+                        width: horizontalScale(80),
+                        height: verticalScale(80),
+                        resizeMode: 'contain',
+                      }}
+                    />
+                  </LinearGradient>
+                </View>
+              </View>
+
+              {/* PLAN INFO */}
+              <View
+                style={[
+                  globalStyle.px20,
+                  globalStyle.mtmin40,
+                  globalStyle.center,
+                ]}
+              >
+                <Typography variant="h3" weight="MSemiBold" color="#2d532c">
+                  {plan.name}
+                </Typography>
+                <Typography variant="h6" weight="MMedium" color="#303330ff">
+                  By Touchwood Bliss
+                </Typography>
+                <Typography variant="body" weight="Medium" color="#303330ff">
+                  India's 1st & Only Family wellness membership
+                </Typography>
+
+                <View style={globalStyle.my10}>
+                  <Image
+                    source={require('../../../../assets/images/blisslogo.png')}
                     style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      height: verticalScale(150),
+                      height: verticalScale(100),
+                      width: horizontalScale(100),
+                      resizeMode: 'contain',
                     }}
                   />
                 </View>
-              ))}
-            </Swiper>
-            <View style={editionStyle.wrapLogo}>
-              <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                colors={['#172113ff', '#202e1aeb', '#2d4124ca']}
-                style={globalStyle.BoxEdition}
+
+                <Typography variant="h4" weight="MSemiBold" color="#2d532c">
+                  Explore Benefits
+                </Typography>
+              </View>
+
+              {/* TABS */}
+              <View
+                style={[globalStyle.px20, { marginTop: verticalScale(20) }]}
               >
-                <Image
-                  source={require('../../../../assets/images/natures-club-membershiplogo.png')}
+                <View
                   style={{
-                    width: horizontalScale(80),
-                    height: verticalScale(80),
-                    resizeMode: 'contain',
+                    flexDirection: 'row',
+                    borderWidth: 1,
+                    borderColor: '#2d532c',
+                    borderRadius: horizontalScale(13),
+                    overflow: 'hidden',
                   }}
-                />
-              </LinearGradient>
-            </View>
-          </View>
+                >
+                  <TouchableOpacity
+                    style={{
+                      flex: 1,
+                      backgroundColor:
+                        activeTab === 'value' ? '#305830ff' : 'transparent',
+                      paddingVertical: verticalScale(6),
+                    }}
+                    onPress={() => setActiveTab('value')}
+                  >
+                    <Typography
+                      variant="body"
+                      weight="MSemiBold"
+                      color={activeTab === 'value' ? '#fff' : '#2d532c'}
+                      style={globalStyle.textCenter}
+                    >
+                      Value Vouchers
+                    </Typography>
+                  </TouchableOpacity>
 
-          <View
-            style={[globalStyle.px20, globalStyle.mtmin40, globalStyle.center]}
-          >
-            <Typography variant="h3" weight="MSemiBold" color="#2d532c">
-              {plan.name}
-            </Typography>
-            <Typography variant="h6" weight="MMedium" color="#303330ff">
-              By Touchwood Bliss
-            </Typography>
-            <Typography variant="body" weight="Medium" color="#303330ff">
-              India's 1st & Only Family wellness membership
-            </Typography>
-
-            <View style={globalStyle.my10}>
-              <Image
-                source={require('../../../../assets/images/blisslogo.png')}
-                style={{
-                  height: verticalScale(100),
-                  width: horizontalScale(100),
-                  resizeMode: 'contain',
-                }}
-              />
-            </View>
-
-            <View style={[globalStyle.mt20, globalStyle.center]}>
-              <Typography variant="h4" weight="MSemiBold" color="#2d532c">
-                Explore Benefits
-              </Typography>
-            </View>
-          </View>
-
-          <View
-            style={[
-              globalStyle.px20,
-              { marginTop: verticalScale(20), marginBottom: verticalScale(60) },
-            ]}
-          >
+                  <TouchableOpacity
+                    style={{
+                      flex: 1,
+                      backgroundColor:
+                        activeTab === 'discount' ? '#305830ff' : 'transparent',
+                      paddingVertical: verticalScale(6),
+                    }}
+                    onPress={() => setActiveTab('discount')}
+                  >
+                    <Typography
+                      variant="body"
+                      weight="MSemiBold"
+                      color={activeTab === 'discount' ? '#fff' : '#2d532c'}
+                      style={globalStyle.textCenter}
+                    >
+                      Discount Vouchers
+                    </Typography>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </>
+          }
+          ListFooterComponent={
             <View
-              style={{
-                flexDirection: 'row',
-                borderWidth: horizontalScale(1),
-                borderColor: '#2d532c',
-                borderRadius: horizontalScale(13),
-                overflow: 'hidden',
-              }}
+              style={[
+                globalStyle.px20,
+                globalStyle.mt20,
+                { paddingBottom: 100 },
+              ]}
             >
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  backgroundColor:
-                    activeTab === 'value' ? '#305830ff' : 'transparent',
-                  paddingVertical: verticalScale(3),
-                }}
-                onPress={() => setActiveTab('value')}
-              >
-                <Typography
-                  weight="MSemiBold"
-                  variant="body"
-                  color={activeTab === 'value' ? '#fff' : '#2d532c'}
-                  style={globalStyle.textCenter}
-                >
-                  Value Vouchers
-                </Typography>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  backgroundColor:
-                    activeTab === 'discount' ? '#305830ff' : 'transparent',
-                  paddingVertical: verticalScale(3),
-                }}
-                onPress={() => setActiveTab('discount')}
-              >
-                <Typography
-                  weight="MSemiBold"
-                  variant="body"
-                  style={globalStyle.textCenter}
-                  color={activeTab === 'discount' ? '#fff' : '#2d532c'}
-                >
-                  Discount Vouchers
-                </Typography>
-              </TouchableOpacity>
-            </View>
-
-            <View style={globalStyle.mt20}>
               {activeTab === 'value' ? (
                 <ValueVoucherScreen valueVouchers={valueVouchers} />
               ) : (
                 <DiscountVoucherScreen discountVouchers={discountVouchers} />
               )}
             </View>
-          </View>
-        </ScrollView>
+          }
+        />
       </View>
 
       <TouchableOpacity
@@ -241,9 +263,9 @@ const EditionScreen = ({ route, navigation }) => {
           right: horizontalScale(0),
           top: '60%',
           transform: [{ translateY: -25 }],
-          borderWidth:2,
+          borderWidth: 2,
           borderColor: '#4c5d49ff',
-          backgroundColor:'#fff',
+          backgroundColor: '#fff',
           paddingVertical: verticalScale(5),
           paddingHorizontal: horizontalScale(16),
           borderTopLeftRadius: horizontalScale(15),
@@ -259,9 +281,9 @@ const EditionScreen = ({ route, navigation }) => {
       <Button
         mode="contained"
         onPress={handleNavigateCheckout}
-        loading={loadingPayment} 
-        disabled={loadingPayment} 
-        contentStyle={{height:verticalScale(36)}}
+        loading={loadingPayment}
+        disabled={loadingPayment}
+        contentStyle={{ height: verticalScale(36) }}
         style={[
           globalStyle.rounded10,
           editionStyle.buynow,

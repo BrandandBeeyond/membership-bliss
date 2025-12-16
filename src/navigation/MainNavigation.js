@@ -201,7 +201,7 @@ export const MainNavigation = () => {
       <Stack.Screen
         name="MembershipSuccess"
         component={MembershipSuccess}
-        options={{ headerTitle: 'Payment', headerTitleAlign: 'center' }}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
