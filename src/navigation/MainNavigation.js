@@ -22,6 +22,7 @@ import OnboardingScreen from '../screens/onboarding/OnboardingScreen';
 import AppEntryScreen from '../screens/appflow/AppEntryScreen';
 import AboutScreen from '../screens/more/about/AboutScreen';
 import ContactScreen from '../screens/more/contact/ContactScreen';
+import ProfileScreen from '../screens/more/profile/ProfileScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -213,6 +214,16 @@ export const MainNavigation = () => {
           headerStyle: { elevation: 0, shadowOpacity: 0 },
           headerTitleAlign: 'center',
           headerTitle: 'About Us',
+          headerLeft: () => <CustomBackButton navigation={navigation} />,
+        })}
+      />
+      <Stack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={({ navigation }) => ({
+          headerStyle: { elevation: 0, shadowOpacity: 0 },
+          headerTitleAlign: 'center',
+          headerTitle: 'My Profile',
           headerLeft: () => <CustomBackButton navigation={navigation} />,
         })}
       />

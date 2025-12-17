@@ -43,11 +43,19 @@ const MoreScreen = ({ navigation }) => {
           General
         </Typography>
         <View style={[globalStyle.column, { columnGap: 15 }]}>
-          <MenuTabs iconName="user-o" label="Profile" onPress={() => {}} />
+          <MenuTabs
+            iconName="user-o"
+            label="Profile"
+            onPress={() => {
+              navigation.push('ProfileScreen');
+            }}
+          />
           <MenuTabs
             iconName="information-circle-outline"
             label="About Us"
-            onPress={() => {navigation.push('AboutScreen')}}
+            onPress={() => {
+              navigation.push('AboutScreen');
+            }}
           />
           <MenuTabs
             iconName="reader-outline"
@@ -57,7 +65,9 @@ const MoreScreen = ({ navigation }) => {
           <MenuTabs
             iconName="headset-outline"
             label="Contact Us"
-            onPress={() => {navigation.push('ContactScreen')}}
+            onPress={() => {
+              navigation.push('ContactScreen');
+            }}
           />
           <MenuTabs
             iconName="help-circle-outline"
@@ -92,7 +102,6 @@ const MoreScreen = ({ navigation }) => {
           />
         </View>
       </View>
-
 
       <LinearGradient
         pointerEvents="none"

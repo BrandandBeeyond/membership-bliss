@@ -100,7 +100,7 @@ const OnboardingScreen = ({ navigation }) => {
           image: (
             <View style={styles.imageWrapper}>
               <Image
-                source={require('../../../assets/images/blissview.jpg')}
+                source={require('../../../assets/images/onboarding2.png')}
                 style={styles.image}
               />
             </View>

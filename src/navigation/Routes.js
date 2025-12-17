@@ -17,4 +17,5 @@ export const Routes = {
   MembershipSuccess: 'MembershipSuccess',
   AboutScreen: 'AboutScreen',
   ContactScreen: 'ContactScreen',
+  ProfileScreen: 'ProfileScreen',
 };
