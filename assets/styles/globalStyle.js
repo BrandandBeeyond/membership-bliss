@@ -8,6 +8,9 @@ export const globalStyle = StyleSheet.create({
   bgwhite: {
     backgroundColor: '#ffffff',
   },
+  bgslate:{
+     backgroundColor: '#e9eff9',
+  },
   borderBtm: {
     borderBottomWidth: verticalScale(0.5),
     borderBottomColor: '#e0e0e0',

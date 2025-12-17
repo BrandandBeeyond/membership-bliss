@@ -9,7 +9,7 @@ import {
 import { Text, TextInput, Button, IconButton } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
-import { verticalScale } from '../../../../assets/styles/Scaling';
+import { horizontalScale, verticalScale } from '../../../../assets/styles/Scaling';
 
 const ProfileScreen = () => {
   return (
@@ -103,9 +103,9 @@ const styles = StyleSheet.create({
   },
 
   profileImage: {
-    width: verticalScale(100),
-    height: 100,
-    borderRadius: 50,
+    width: horizontalScale(122),
+    height: verticalScale(100),
+    borderRadius: horizontalScale(100),
     backgroundColor: '#eee',
   },
 

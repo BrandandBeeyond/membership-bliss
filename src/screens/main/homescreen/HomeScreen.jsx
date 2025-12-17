@@ -56,7 +56,7 @@ const trendingData = [
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
+    <SafeAreaView style={[globalStyle.flex, globalStyle.bgslate]}>
       <View style={[globalStyle.px20,globalStyle.my20]}>
         <Topbar navigation={navigation} />
         <Searchbar
@@ -69,11 +69,9 @@ const HomeScreen = ({ navigation }) => {
         />
       </View>
 
-      <Divider/>
-
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={globalStyle.px20}>
-          <View>
+          <View style={[globalStyle.bgwhite,globalStyle.px10,globalStyle.py5,globalStyle.rounded15]}>
             <Highlights
               data={dummyHighLights}
               onPressHighlight={item =>

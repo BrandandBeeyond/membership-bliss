@@ -65,7 +65,7 @@ const OnboardingScreen = ({ navigation }) => {
         {
           backgroundColor: '#fafffaff',
           image: (
-            <View style={[globalStyle.mt10,globalStyle.relative]}>
+            <View style={[globalStyle.mt10, globalStyle.relative]}>
               <Image
                 source={require('../../../assets/images/natures-club-membershiplogo.png')}
                 style={{
@@ -74,8 +74,6 @@ const OnboardingScreen = ({ navigation }) => {
                 }}
                 resizeMode="contain"
               />
-
-             
             </View>
           ),
           title: (
@@ -93,7 +91,6 @@ const OnboardingScreen = ({ navigation }) => {
               A peaceful retreat surrounded by nature and comfort.
             </Typography>
           ),
-          
         },
         {
           backgroundColor: '#F6FAF1',
@@ -126,7 +123,8 @@ const OnboardingScreen = ({ navigation }) => {
 
           title: (
             <Typography variant="h2" weight="SemiBold" color="#3a3939ff">
-              Welcome to Touchwood Bliss
+              Step into a life of nature, comfort, and unforgettable family
+              moments.
             </Typography>
           ),
           subtitle: (
@@ -136,7 +134,8 @@ const OnboardingScreen = ({ navigation }) => {
               weight="MMedium"
               style={globalStyle.textCenter}
             >
-              A peaceful retreat surrounded by nature and comfort.
+              “Everything you need for a peaceful, well-deserved escape — in one
+              place.”
             </Typography>
           ),
         },
@@ -158,7 +157,7 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover',
   },
-  
+
   lottieWrapper: {
     width: width - 60,
     height: 300,
