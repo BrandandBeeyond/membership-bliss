@@ -9,7 +9,7 @@ export const globalStyle = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   bgslate:{
-     backgroundColor: '#e9eff9',
+     backgroundColor: '#f9fbf8ff',
   },
   borderBtm: {
     borderBottomWidth: verticalScale(0.5),
@@ -167,10 +167,15 @@ paddingHorizontal: horizontalScale(10),
     padding: horizontalScale(10),
   },
   trendingItem: {
-    width: horizontalScale(190),
+    width: horizontalScale(200),
+    overflow: 'hidden',
+    borderRadius: horizontalScale(20),
+    elevation: horizontalScale(8),
+   
   },
   innerImageTrending: {
     height: verticalScale(80),
+    borderRadius: horizontalScale(15),
   },
   BoxEdition: {
     height: verticalScale(72),
@@ -187,5 +192,15 @@ paddingHorizontal: horizontalScale(10),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
+  cardShadow: {
+  padding: horizontalScale(10),
+  borderRadius: horizontalScale(20),
+  shadowColor: '#242323ff',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.08,
+  shadowRadius: 4,
+  elevation: 3,
+}
+
 });

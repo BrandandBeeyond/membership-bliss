@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "126026178486",
+    "project_id": "bliss-membership-app-eb6fa",
+    "storage_bucket": "bliss-membership-app-eb6fa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126026178486:android:8cb6a6689e16c15c9cab17",
+        "android_client_info": {
+          "package_name": "com.membershipapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvroa15HG9g28IzYu1t7amSqZ2EZlFycQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,11 +4,16 @@ import { globalStyle } from '../../../../assets/styles/globalStyle';
 import { Image, ScrollView, View } from 'react-native';
 import Highlights from '../../../components/highlights/Highlights';
 import Topbar from '../../../components/Topbar';
-import { Divider, Searchbar } from 'react-native-paper';
+import { Searchbar } from 'react-native-paper';
 import { HomeScreenStyles } from './Style';
 import Swiper from 'react-native-swiper';
 import Trending from '../../../components/trending/Trending';
-import { verticalScale } from '../../../../assets/styles/Scaling';
+import {
+  horizontalScale,
+  verticalScale,
+} from '../../../../assets/styles/Scaling';
+import { Routes } from '../../../navigation/Routes';
+import { useSelector } from 'react-redux';
 
 const dummyHighLights = [
   {
@@ -55,23 +60,27 @@ const trendingData = [
 ];
 
 const HomeScreen = ({ navigation }) => {
+  const { membershipplans } = useSelector(state => state.membershipplans);
+
+  const farmPlan = membershipplans.find(plan => plan.name === 'Farm Edition');
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgslate]}>
-      <View style={[globalStyle.px20,globalStyle.my20]}>
+      <View style={[globalStyle.px20, globalStyle.my20]}>
         <Topbar navigation={navigation} />
         <Searchbar
           placeholder="Search"
           style={{
-            backgroundColor: '#fcf9f9ff',
+            backgroundColor: '#ffffff',
             borderColor: '#d9ebcfff',
-            borderWidth: 1,
+            borderWidth: horizontalScale(1),
+            borderRadius: horizontalScale(20),
           }}
         />
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={globalStyle.px20}>
-          <View style={[globalStyle.bgwhite,globalStyle.px10,globalStyle.py5,globalStyle.rounded15]}>
+          <View style={[globalStyle.bgwhite, globalStyle.cardShadow]}>
             <Highlights
               data={dummyHighLights}
               onPressHighlight={item =>
@@ -81,26 +90,30 @@ const HomeScreen = ({ navigation }) => {
           </View>
         </View>
 
-        <View style={[globalStyle.mt8]}>
-          <Swiper
-            autoplay={true}
-            autoplayTimeout={3}
-            showPagination={false}
-            height={300}
-          >
-            {bannerData.map((item, index) => (
-              <Image
-                key={index}
-                source={item.image}
-                style={HomeScreenStyles.imageBanner}
-                resizeMode="cover"
-              />
-            ))}
-          </Swiper>
-        </View>
-
-        <View style={[globalStyle.px20,{paddingBottom:verticalScale(100)}]}>
-          <Trending data={trendingData} />
+        <View style={[globalStyle.px20, { paddingBottom: verticalScale(100) }]}>
+          <View style={[globalStyle.mt8]}>
+            <Swiper
+              autoplay={true}
+              autoplayTimeout={3}
+              showPagination={false}
+              height={300}
+            >
+              {bannerData.map((item, index) => (
+                <Image
+                  key={index}
+                  source={item.image}
+                  style={HomeScreenStyles.imageBanner}
+                  resizeMode="cover"
+                />
+              ))}
+            </Swiper>
+          </View>
+          <Trending
+            data={trendingData}
+            onPressTrending={() =>
+              navigation.navigate(Routes.EditionScreen, { plan: farmPlan })
+            }
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

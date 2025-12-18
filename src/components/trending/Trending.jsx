@@ -3,15 +3,15 @@ import { FlatList, View } from 'react-native';
 import { globalStyle } from '../../../assets/styles/globalStyle';
 import Typography from '../Typography';
 import { Card, Text } from 'react-native-paper';
-import { verticalScale } from '../../../assets/styles/Scaling';
+import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
 
 const Trending = ({ data, onPressTrending }) => {
   const renderItem = ({ item }) => {
     return (
-      <Card style={[globalStyle.trendingItem,globalStyle.bgThemeLight]}>
+      <Card style={[globalStyle.trendingItem,globalStyle.bgwhite,{padding:horizontalScale(8)}]} onPress={() => onPressTrending(item)}>
         <Card.Cover source={item.thumbnail} style={globalStyle.innerImageTrending}/>
         <Card.Content>
-          <Text variant="titleSmall" style={[globalStyle.py10,{marginTop:verticalScale(4)}]}>{item.title}</Text>
+          <Typography variant="fthead" weight='Bold' style={[globalStyle.py10,{marginTop:verticalScale(4)}]}>{item.title}</Typography>
           <Text variant="bodyMedium" onPress={() => onPressTrending(item)}>
             {item.description}
           </Text>
@@ -23,7 +23,7 @@ const Trending = ({ data, onPressTrending }) => {
 
   return (
     <View>
-      <Typography variant="subtitle" weight="MSemiBold">
+      <Typography variant="h5" weight="Bold">
         Trending
       </Typography>
 

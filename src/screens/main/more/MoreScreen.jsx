@@ -9,15 +9,23 @@ import { logoutUser } from '../../../redux/actions/UserAction';
 import { persistor } from '../../../redux/store';
 import LinearGradient from 'react-native-linear-gradient';
 import { verticalScale } from '../../../../assets/styles/Scaling';
+import { useState } from 'react';
 
 const MoreScreen = ({ navigation }) => {
+  const [loadingLogout, setLoadingLogout] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
     try {
+      setLoadingLogout(true);
+
       await GoogleSignin.signOut();
 
-      dispatch(logoutUser());
+      setTimeout(() => {
+        dispatch(logoutUser());
+        setLoadingLogout(false);
+      }, 2000);
 
       persistor.purge();
 
@@ -98,6 +106,7 @@ const MoreScreen = ({ navigation }) => {
           <MenuTabs
             iconName="log-out-outline"
             label="Logout"
+            loading={loadingLogout}
             onPress={handleLogout}
           />
         </View>

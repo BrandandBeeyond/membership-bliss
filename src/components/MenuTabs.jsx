@@ -1,4 +1,4 @@
-import { TouchableOpacity } from 'react-native';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import Typography from './Typography';
 import { globalStyle } from '../../assets/styles/globalStyle';
@@ -8,7 +8,7 @@ import HeadsetIcon from 'react-native-vector-icons/Ionicons';
 import RightArrow from 'react-native-vector-icons/Feather';
 import { horizontalScale } from '../../assets/styles/Scaling';
 
-const MenuTabs = ({ iconName, label, onPress }) => {
+const MenuTabs = ({ iconName, label, onPress, loading = false }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -19,19 +19,29 @@ const MenuTabs = ({ iconName, label, onPress }) => {
         globalStyle.my5,
         globalStyle.justifyBetween,
         globalStyle.borderBtm,
-        {padding:horizontalScale(3)}
+        { padding: horizontalScale(3) },
       ]}
     >
       <View
         style={[globalStyle.row, globalStyle.cg10, globalStyle.alignCenter]}
       >
-       {label === 'Profile' ? <ProfileIcon name={iconName} size={18} /> : label === 'Customer Support'? <HeadsetIcon name={iconName} size={21} /> : <Icon name={iconName} size={21} />}
+        {label === 'Profile' ? (
+          <ProfileIcon name={iconName} size={18} />
+        ) : label === 'Customer Support' ? (
+          <HeadsetIcon name={iconName} size={21} />
+        ) : (
+          <Icon name={iconName} size={21} />
+        )}
         <Typography variant="subtitle" weight="Normal">
           {label}
         </Typography>
       </View>
 
-      <RightArrow name="chevron-right" size={20} color="#3d3c3cff" />
+      {loading ? (
+        <ActivityIndicator size="small" color="#3d3c3cff" />
+      ) : (
+        <RightArrow name="chevron-right" size={20} color="#3d3c3cff" />
+      )}
     </TouchableOpacity>
   );
 };
