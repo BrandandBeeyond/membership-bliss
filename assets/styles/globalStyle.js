@@ -8,8 +8,8 @@ export const globalStyle = StyleSheet.create({
   bgwhite: {
     backgroundColor: '#ffffff',
   },
-  bgslate:{
-     backgroundColor: '#f9fbf8ff',
+  bgslate: {
+    backgroundColor: '#f9fbf8ff',
   },
   borderBtm: {
     borderBottomWidth: verticalScale(0.5),
@@ -28,8 +28,11 @@ export const globalStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  px10:{
-paddingHorizontal: horizontalScale(10),
+  p7: {
+    padding: horizontalScale(7),
+  },
+  px10: {
+    paddingHorizontal: horizontalScale(10),
   },
   px20: {
     paddingHorizontal: horizontalScale(20),
@@ -142,14 +145,11 @@ paddingHorizontal: horizontalScale(10),
   bgThemeLight: {
     backgroundColor: '#f7fbf1ff',
   },
-  authInput: {
-    borderRadius: horizontalScale(45),
-    backgroundColor: '#f6f6f6',
-  },
-  applyBtn:{
-     position:'absolute',
-     bottom:verticalScale(9),
-     right:horizontalScale(14)
+ 
+  applyBtn: {
+    position: 'absolute',
+    bottom: verticalScale(9),
+    right: horizontalScale(14),
   },
   mtmin40: {
     marginTop: verticalScale(-40),
@@ -158,7 +158,7 @@ paddingHorizontal: horizontalScale(10),
     borderWidth: horizontalScale(0.5),
     color: '#646f4dff',
     borderStyle: 'dashed',
-    marginVertical:verticalScale(4)
+    marginVertical: verticalScale(4),
   },
   gredientThemeButton: {
     height: verticalScale(35),
@@ -171,7 +171,8 @@ paddingHorizontal: horizontalScale(10),
     overflow: 'hidden',
     borderRadius: horizontalScale(20),
     elevation: horizontalScale(8),
-   
+    borderWidth:horizontalScale(0.5),
+    borderColor:'#d1d1d1ff',
   },
   innerImageTrending: {
     height: verticalScale(80),
@@ -185,8 +186,8 @@ paddingHorizontal: horizontalScale(10),
     justifyContent: 'center',
     alignItems: 'center',
   },
-  BoxEditionU:{
-     height: verticalScale(52),
+  BoxEditionU: {
+    height: verticalScale(52),
     width: horizontalScale(70),
     borderRadius: horizontalScale(20),
     display: 'flex',
@@ -194,13 +195,12 @@ paddingHorizontal: horizontalScale(10),
     alignItems: 'center',
   },
   cardShadow: {
-  padding: horizontalScale(10),
-  borderRadius: horizontalScale(20),
-  shadowColor: '#242323ff',
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.08,
-  shadowRadius: 4,
-  elevation: 3,
-}
-
+    padding: horizontalScale(10),
+    borderRadius: horizontalScale(20),
+    shadowColor: '#242323ff',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
+  },
 });

@@ -7,6 +7,7 @@ import { globalStyle } from '../../../assets/styles/globalStyle';
 import { editionStyle } from '../main/edition/Style';
 import Typography from '../../components/Typography';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import OnboardinghexLayout from './OnboardinghexLayout';
 
 const { width } = Dimensions.get('window');
 
@@ -95,12 +96,7 @@ const OnboardingScreen = ({ navigation }) => {
         {
           backgroundColor: '#F6FAF1',
           image: (
-            <View style={styles.imageWrapper}>
-              <Image
-                source={require('../../../assets/images/onboarding2.png')}
-                style={styles.image}
-              />
-            </View>
+            <OnboardinghexLayout/>
           ),
           title: (
             <Typography variant="h2" weight="SemiBold" color="#3a3939ff">

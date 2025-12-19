@@ -5,11 +5,10 @@ import { globalStyle } from '../../../assets/styles/globalStyle';
 import Typography from '../../components/Typography';
 import { Button, Divider, TextInput, Portal, Dialog } from 'react-native-paper';
 import GoogleSigninButton from '../../components/GoogleSignButton';
-import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
+import { horizontalScale, scaleFontSize, verticalScale } from '../../../assets/styles/Scaling';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
 import { googleLoginAction } from '../../redux/actions/UserAction';
-import Loader from '../../components/Loader';
 import LinearGradient from 'react-native-linear-gradient';
 
 const ExploreTitle = ({ onExplorePress }) => {
@@ -54,22 +53,19 @@ const AuthScreen = ({ navigation }) => {
 
   const handleGoogleLogin = async () => {
     try {
-     
-
       await GoogleSignin.hasPlayServices();
 
       const SignIndata = await GoogleSignin.signIn();
 
       const idToken = SignIndata.data?.idToken;
 
-      console.log("this is token",idToken);
-      
+      console.log('this is token', idToken);
+
       navigation.navigate('LoadingScreen');
 
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       await dispatch(googleLoginAction(idToken));
-
 
       navigation.replace('HomeTabs');
     } catch (error) {
@@ -77,8 +73,6 @@ const AuthScreen = ({ navigation }) => {
       setLoading(false);
     }
   };
-
- 
 
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
@@ -114,14 +108,13 @@ const AuthScreen = ({ navigation }) => {
           maxLength={10}
           value={mobile}
           onChangeText={setMobile}
-          style={[globalStyle.my10, globalStyle.authInput]}
-          theme={{
-            roundness: horizontalScale(22),
-            colors: {
-              placeholder: '#bbbbbb',
-              primary: '#2d7828',
-              outline: '#add5aaff',
-            },
+          style={[globalStyle.my10]}
+          contentStyle={{ height: verticalScale(35),lineHeight: verticalScale(20) }}
+          outlineColor="#b0aeaeff"
+          activeOutlineColor="#588650ff"
+          outlineStyle={{
+            borderRadius: horizontalScale(12),
+            paddingHorizontal: horizontalScale(10),
           }}
         />
 
@@ -130,12 +123,14 @@ const AuthScreen = ({ navigation }) => {
           buttonColor="#689d58ff"
           textColor="#fff"
           disabled={mobile.length !== 10}
+          contentStyle={{height: verticalScale(35)}}
           style={[
             globalStyle.mb20,
             globalStyle.mt20,
             globalStyle.py3,
-            { borderRadius: horizontalScale(22) },
+            { borderRadius: horizontalScale(20) },
           ]}
+          labelStyle={{ fontSize: scaleFontSize(15) }}
         >
           Send OTP
         </Button>

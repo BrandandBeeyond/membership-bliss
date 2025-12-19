@@ -5,7 +5,10 @@ import { useEffect, useState } from 'react';
 import { getAllMembershipCategories } from '../../../redux/actions/MembershipAction';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import { Card, Searchbar, Text } from 'react-native-paper';
-import { verticalScale } from '../../../../assets/styles/Scaling';
+import {
+  horizontalScale,
+  verticalScale,
+} from '../../../../assets/styles/Scaling';
 import { useNavigation } from '@react-navigation/native';
 import Typography from '../../../components/Typography';
 import LottieView from 'lottie-react-native';
@@ -52,7 +55,7 @@ const CategoryScreen = () => {
     <SafeAreaView
       style={[
         globalStyle.flex,
-        globalStyle.bgwhite,
+        globalStyle.bgslate,
         globalStyle.alignCenter,
         globalStyle.jusifyCenter,
         globalStyle.px20,
@@ -63,9 +66,10 @@ const CategoryScreen = () => {
           <Searchbar
             placeholder="Search"
             style={{
-              backgroundColor: '#fcf9f9ff',
+              backgroundColor: '#ffffff',
               borderColor: '#d9ebcfff',
-              borderWidth: 1,
+              borderWidth: horizontalScale(1),
+              borderRadius: horizontalScale(20),
             }}
           />
         </View>
@@ -81,7 +85,24 @@ const CategoryScreen = () => {
                 })
               }
             >
-              <Card style={{ backgroundColor: '#f9fdf3ff' }} key={item._id}>
+              <Card
+                key={item._id}
+                style={[
+                  globalStyle.p7,
+                  {
+                    backgroundColor: '#ffffff',
+                    borderRadius: 12,
+                    elevation: horizontalScale(8),
+                    borderWidth: horizontalScale(0.5),
+                    borderColor: '#d1d1d1ff',
+
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 3 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 4,
+                  },
+                ]}
+              >
                 <Card.Cover
                   source={{ uri: item.thumbnail?.url }}
                   style={{
@@ -89,7 +110,7 @@ const CategoryScreen = () => {
                     objectFit: 'contain',
                   }}
                 />
-                <Card.Content>
+                <Card.Content style={globalStyle.bgwhite}>
                   <Typography
                     weight="MSemiBold"
                     color="#4b6144ff"
