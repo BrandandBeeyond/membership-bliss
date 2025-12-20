@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../assets/styles/globalStyle';
@@ -66,8 +66,15 @@ const Signupscreen = ({ route, navigation }) => {
   const filteredCities = cities.filter(c =>
     c.toLowerCase().includes(citySearch.toLowerCase()),
   );
+
+  useEffect(() => {
+    fetchStates();
+  }, []);
+
   return (
-    <SafeAreaView style={[globalStyle.flex, globalStyle.bgslate,globalStyle.px20]}>
+    <SafeAreaView
+      style={[globalStyle.flex, globalStyle.bgslate, globalStyle.px20]}
+    >
       <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
         <Typography variant="h6" weight="MSemiBold" style={globalStyle.mb20}>
           Complete Your Profile
