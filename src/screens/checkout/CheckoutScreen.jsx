@@ -504,20 +504,21 @@ const CheckoutScreen = ({ route }) => {
               maxHeight: '70%',
             }}
           >
-            <Searchbar
-              placeholder="Search City"
-              contentStyle={{
-                borderRadius: horizontalScale(12),
-              }}
+            <TextInput
+              mode="outlined"
+              left={<TextInput.Icon icon="magnify" />}
               value={citySearch}
+              onChangeText={text => setCitySearch(text)}
+              placeholder="Search city"
+              style={{
+                marginBottom: verticalScale(10),
+                height: verticalScale(30),
+                lineHeight: verticalScale(20),
+              }}
               outlineColor="#b0aeaeff"
               activeOutlineColor="#588650ff"
-              onChangeText={text => setCitySearch(text)}
-              style={{
-                backgroundColor: '#fcf9f9ff',
-                borderColor: '#d9ebcfff',
-                borderWidth: 1,
-                marginBottom: verticalScale(10),
+              outlineStyle={{
+                borderRadius: horizontalScale(12),
               }}
             />
 

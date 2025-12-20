@@ -7,6 +7,7 @@ import {
   Button,
   List,
   Modal,
+  Portal,
   RadioButton,
   Searchbar,
   TextInput,
@@ -34,9 +35,16 @@ const Signupscreen = ({ route, navigation }) => {
   const [citySearch, setCitySearch] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+
   const handleChange = (key, value) => {
     setFormData(prev => ({ ...prev, [key]: value }));
     setErrors(prev => ({ ...prev, [key]: null }));
+  };
+
+  const handleGenderChange = value => {
+    handleChange('gender', value);
   };
 
   const fetchStates = async () => {
@@ -61,6 +69,33 @@ const Signupscreen = ({ route, navigation }) => {
     } catch (err) {
       console.log('City API error', err);
     }
+  };
+
+  const handleStateSelect = async stateName => {
+    setSelectedState(stateName);
+    handleChange('state', stateName);
+    setErrors(prev => ({ ...prev, city: null }));
+    setStateModal(false);
+
+    try {
+      const { data } = await axios.post(
+        'https://countriesnow.space/api/v0.1/countries/state/cities',
+        { country: 'India', state: stateName },
+        { headers: { 'Content-Type': 'application/json' } },
+      );
+
+      setCities(data.data || []);
+    } catch (error) {
+      console.log('City API Error:', error);
+    }
+  };
+
+  const handleCitySelect = cityName => {
+    setSelectedCity(cityName);
+
+    setFormData(prev => ({ ...prev, city: cityName }));
+    setErrors(prev => ({ ...prev, city: null }));
+    setCityModal(false);
   };
 
   const filteredCities = cities.filter(c =>
@@ -132,20 +167,33 @@ const Signupscreen = ({ route, navigation }) => {
         />
 
         {/* Gender */}
-        <RadioButton.Group
-          value={formData.gender}
-          onValueChange={v => handleChange('gender', v)}
-        >
-          <View style={{ flexDirection: 'row', marginTop: verticalScale(10) }}>
-            <RadioButton value="male" color="#2d532c" />
-            <Typography>Male</Typography>
-            <RadioButton value="female" color="#2d532c" />
-            <Typography>Female</Typography>
-          </View>
-        </RadioButton.Group>
+        <View style={{ marginVertical: verticalScale(15) }}>
+          <RadioButton.Group
+            onValueChange={handleGenderChange}
+            value={formData.gender}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <RadioButton color="#2d532c" value="male" />
+              <Button
+                textColor="#2d532c"
+                onPress={() => handleGenderChange('male')}
+              >
+                Male
+              </Button>
+
+              <RadioButton color="#2d532c" value="female" />
+              <Button
+                textColor="#2d532c"
+                onPress={() => handleGenderChange('female')}
+              >
+                Female
+              </Button>
+            </View>
+          </RadioButton.Group>
+        </View>
 
         {/* State & City */}
-        <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
+        <View style={{ flexDirection: 'row', gap: 10 }}>
           <TouchableOpacity
             style={{ flex: 1 }}
             onPress={() => setStateModal(true)}
@@ -153,21 +201,49 @@ const Signupscreen = ({ route, navigation }) => {
             <TextInput
               label="State"
               mode="outlined"
-              value={formData.state}
+              value={selectedState}
+              outlineColor="#b0aeaeff"
+              activeOutlineColor="#588650ff"
+              outlineStyle={{
+                borderRadius: horizontalScale(12),
+              }}
               editable={false}
             />
+            {errors.state && (
+              <Typography
+                variant="caption"
+                color="#ca3c3cff"
+                style={{ marginBottom: verticalScale(8) }}
+              >
+                {errors.state}
+              </Typography>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
             style={{ flex: 1 }}
-            onPress={() => formData.state && setCityModal(true)}
+            onPress={() => selectedState && setCityModal(true)}
           >
             <TextInput
               label="City"
               mode="outlined"
-              value={formData.city}
+              value={selectedCity}
+              outlineColor="#b0aeaeff"
+              activeOutlineColor="#588650ff"
+              outlineStyle={{
+                borderRadius: horizontalScale(12),
+              }}
               editable={false}
             />
+            {errors.city && (
+              <Typography
+                variant="caption"
+                color="#ca3c3cff"
+                style={{ marginBottom: verticalScale(8) }}
+              >
+                {errors.city}
+              </Typography>
+            )}
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -184,69 +260,84 @@ const Signupscreen = ({ route, navigation }) => {
         </Button>
       </View>
 
-      {/* State Modal */}
-      <Modal visible={stateModal} transparent>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: '#00000060',
-            justifyContent: 'center',
+      <Portal>
+        <Modal
+          visible={stateModal}
+          onDismiss={() => setStateModal(false)}
+          contentContainerStyle={{
+            backgroundColor: '#fff',
+            margin: 20,
+            borderRadius: 12,
+            maxHeight: '70%',
           }}
         >
-          <View
-            style={{ backgroundColor: '#fff', margin: 20, borderRadius: 10 }}
-          >
-            <FlatList
-              data={states}
-              keyExtractor={i => i.name}
-              renderItem={({ item }) => (
-                <List.Item
-                  title={item.name}
-                  onPress={() => {
-                    handleChange('state', item.name);
-                    fetchCities(item.name);
-                    setStateModal(false);
-                  }}
-                />
-              )}
-            />
-          </View>
-        </View>
-      </Modal>
+          <FlatList
+            data={states}
+            keyExtractor={item => item.name}
+            renderItem={({ item }) => (
+              <List.Item
+                title={item.name}
+                onPress={() => handleStateSelect(item.name)}
+              />
+            )}
+          />
 
-      {/* City Modal */}
-      <Modal visible={cityModal} transparent>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: '#00000060',
-            justifyContent: 'center',
+          <Button onPress={() => setStateModal(false)}>Close</Button>
+        </Modal>
+      </Portal>
+
+      <Portal>
+        <Modal
+          visible={cityModal}
+          onDismiss={() => setCityModal(false)}
+          contentContainerStyle={{
+            backgroundColor: '#fff',
+            margin: 20,
+            borderRadius: 12,
+            maxHeight: '70%',
           }}
         >
           <View
-            style={{ backgroundColor: '#fff', margin: 20, borderRadius: 10 }}
+            style={{
+
+              backgroundColor: 'white',
+              borderRadius: 10,
+              padding: 10,
+              maxHeight: '70%',
+            }}
           >
-            <Searchbar
-              placeholder="Search city"
+            <TextInput
+              mode="outlined"
+              left={<TextInput.Icon icon="magnify" />}
               value={citySearch}
-              onChangeText={setCitySearch}
+              onChangeText={text => setCitySearch(text)}
+              placeholder="Search city"
+              style={{
+                marginBottom: verticalScale(10),
+                height: verticalScale(30),
+                lineHeight: verticalScale(20),
+              }}
+              outlineColor="#b0aeaeff"
+              activeOutlineColor="#588650ff"
+              outlineStyle={{
+                borderRadius: horizontalScale(12),
+              }}
             />
+
             <FlatList
               data={filteredCities}
-              keyExtractor={i => i}
+              keyExtractor={item => item}
               renderItem={({ item }) => (
                 <List.Item
                   title={item}
-                  onPress={() => {
-                    handleChange('city', item);
-                    setCityModal(false);
-                  }}
+                  onPress={() => handleCitySelect(item)}
                 />
               )}
             />
+            <Button onPress={() => setCityModal(false)}>Close</Button>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      </Portal>
     </SafeAreaView>
   );
 };

@@ -5,7 +5,11 @@ import { globalStyle } from '../../../assets/styles/globalStyle';
 import Typography from '../../components/Typography';
 import { Button, Divider, TextInput, Portal, Dialog } from 'react-native-paper';
 import GoogleSigninButton from '../../components/GoogleSignButton';
-import { horizontalScale, scaleFontSize, verticalScale } from '../../../assets/styles/Scaling';
+import {
+  horizontalScale,
+  scaleFontSize,
+  verticalScale,
+} from '../../../assets/styles/Scaling';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
 import { googleLoginAction } from '../../redux/actions/UserAction';
@@ -109,7 +113,10 @@ const AuthScreen = ({ navigation }) => {
           value={mobile}
           onChangeText={setMobile}
           style={[globalStyle.my10]}
-          contentStyle={{ height: verticalScale(35),lineHeight: verticalScale(20) }}
+          contentStyle={{
+            height: verticalScale(35),
+            lineHeight: verticalScale(20),
+          }}
           outlineColor="#b0aeaeff"
           activeOutlineColor="#588650ff"
           outlineStyle={{
@@ -122,14 +129,14 @@ const AuthScreen = ({ navigation }) => {
           mode="contained"
           buttonColor="#689d58ff"
           textColor="#fff"
-          onPress={()=>navigation.navigate("Signupscreen",{phone:mobile})}
+          onPress={() => navigation.navigate('Signupscreen', { phone: mobile })}
           disabled={mobile.length !== 10}
-          contentStyle={{height: verticalScale(35)}}
+          contentStyle={{ height: verticalScale(30) }}
           style={[
             globalStyle.mb20,
             globalStyle.mt20,
             globalStyle.py3,
-            { borderRadius: horizontalScale(20) },
+            { borderRadius: horizontalScale(15) },
           ]}
           labelStyle={{ fontSize: scaleFontSize(15) }}
         >
