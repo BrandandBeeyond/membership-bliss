@@ -122,6 +122,7 @@ const AuthScreen = ({ navigation }) => {
           mode="contained"
           buttonColor="#689d58ff"
           textColor="#fff"
+          onPress={()=>navigation.navigate("Signupscreen",{phone:mobile})}
           disabled={mobile.length !== 10}
           contentStyle={{height: verticalScale(35)}}
           style={[

@@ -23,6 +23,7 @@ import AppEntryScreen from '../screens/appflow/AppEntryScreen';
 import AboutScreen from '../screens/more/about/AboutScreen';
 import ContactScreen from '../screens/more/contact/ContactScreen';
 import ProfileScreen from '../screens/more/profile/ProfileScreen';
+import Signupscreen from '../screens/auth/Signupscreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -160,7 +161,19 @@ export const MainNavigation = () => {
         name="AuthScreen"
         component={AuthScreen}
         options={{
-          headerStyle: { elevation: 0, shadowOpacity: 0 },
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Signupscreen"
+        component={Signupscreen}
+        options={{
+           headerTitle: 'Sign Up',
+           headerTitleAlign: 'center',
+           headerStyle: { elevation: 0, shadowOpacity: 0 },
         }}
       />
 

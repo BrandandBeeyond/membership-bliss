@@ -1,9 +1,9 @@
-
 export const Routes = {
   OnboardingScreen: 'OnboardingScreen',
   AppEntryScreen: 'AppEntryScreen',
   HomeScreen: 'HomeScreen',
   AuthScreen: 'AuthScreen',
+  Signupscreen: 'Signupscreen',
   MembershipScreen: 'MembershipScreen',
   CategoryScreen: 'CategoryScreen',
   CategoryDetail: 'CategoryDetail',
