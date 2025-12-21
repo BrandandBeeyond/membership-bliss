@@ -14,7 +14,7 @@ const Loader = () => {
     >
       <LottieView
         source={require('../asset/loader/loader.json')}
-        style={{ width: 250, height: 250 }}
+        style={{ width: 330, height: 330 }}
         autoPlay
         loop
       />

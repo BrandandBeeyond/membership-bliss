@@ -47,7 +47,7 @@ const MembershipSuccess = ({ navigation }) => {
           mode="outlined"
           style={[
             globalStyle.px5,
-            { marginTop: verticalScale(20), borderColor: '#acacacff' },
+            { marginTop: verticalScale(20), borderColor: '#7ca97aff', elevation: 3 },
           ]}
         >
           <Card.Content>
@@ -85,8 +85,8 @@ const MembershipSuccess = ({ navigation }) => {
           <Card.Actions style={{ justifyContent: 'flex-start',marginVertical:verticalScale(10) }}>
             <Button
               mode="outlined"
-              contentStyle={{ height: verticalScale(25) }}
-              style={{ borderRadius: horizontalScale(35), borderColor: '#2d532c' }}
+  
+              style={{ borderRadius: horizontalScale(15), borderColor: '#2d532c', height: verticalScale(35),lineHeight: verticalScale(20) }}
               labelStyle={{
                 color: '#2d532c',
                 fontWeight: '600',
