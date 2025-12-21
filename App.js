@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MainNavigation } from './src/navigation/MainNavigation';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { MD3LightTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 import store, { persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -14,11 +14,24 @@ const App = () => {
     initGoogleSignin();
   }, []);
 
+  const lightTheme = {
+    ...MD3LightTheme,
+    colors: {
+      ...MD3LightTheme.colors,
+      primary: '#588650ff',
+      secondary: '#689d58ff',
+      background: '#ffffff',
+      surface: '#ffffff',
+      onSurface: '#000000',
+      onBackground: '#000000',
+    },
+  };
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SafeAreaProvider>
-          <PaperProvider>
+          <PaperProvider theme={lightTheme}>
             <NavigationContainer>
               <MainNavigation />
             </NavigationContainer>

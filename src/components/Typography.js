@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     lineHeight: verticalScale(26),
   },
   h6: {
-    fontSize: scaleFontSize(16),
+    fontSize: scaleFontSize(17),
     lineHeight: verticalScale(24),
   },
   fthead: {

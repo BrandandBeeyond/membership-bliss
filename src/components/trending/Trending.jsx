@@ -23,7 +23,7 @@ const Trending = ({ data, onPressTrending }) => {
 
   return (
     <View>
-      <Typography variant="h5" weight="Bold">
+      <Typography variant="h6" weight="Bold">
         Trending
       </Typography>
 

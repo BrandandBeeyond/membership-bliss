@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getAllMembershipCategories } from '../../../redux/actions/MembershipAction';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
-import { Card, Searchbar, Text } from 'react-native-paper';
+import { Card, Searchbar, Text, TextInput } from 'react-native-paper';
 import {
   horizontalScale,
   verticalScale,
@@ -63,13 +63,21 @@ const CategoryScreen = () => {
     >
       <ScrollView>
         <View style={globalStyle.my20}>
-          <Searchbar
+          <TextInput
+            mode="outlined"
+            left={<TextInput.Icon icon="magnify" />}
             placeholder="Search"
             style={{
+              marginTop: verticalScale(5),
+              marginBottom: verticalScale(10),
+              height: verticalScale(35),
+              lineHeight: verticalScale(25),
               backgroundColor: '#ffffff',
-              borderColor: '#d9ebcfff',
-              borderWidth: horizontalScale(1),
-              borderRadius: horizontalScale(20),
+            }}
+            outlineColor="#c2e4bdff"
+            activeOutlineColor="#588650ff"
+            outlineStyle={{
+              borderRadius: horizontalScale(15),
             }}
           />
         </View>

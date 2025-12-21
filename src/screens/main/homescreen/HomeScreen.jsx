@@ -4,7 +4,7 @@ import { globalStyle } from '../../../../assets/styles/globalStyle';
 import { Image, ScrollView, View } from 'react-native';
 import Highlights from '../../../components/highlights/Highlights';
 import Topbar from '../../../components/Topbar';
-import { Searchbar } from 'react-native-paper';
+import { Searchbar, TextInput } from 'react-native-paper';
 import { HomeScreenStyles } from './Style';
 import Swiper from 'react-native-swiper';
 import Trending from '../../../components/trending/Trending';
@@ -65,21 +65,29 @@ const HomeScreen = ({ navigation }) => {
   const farmPlan = membershipplans.find(plan => plan.name === 'Farm Edition');
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgslate]}>
-      <View style={[globalStyle.px20, globalStyle.my20]}>
+      <View style={[globalStyle.px20]}>
         <Topbar navigation={navigation} />
-        <Searchbar
+        <TextInput
+          mode="outlined"
+          left={<TextInput.Icon icon="magnify" />}
           placeholder="Search"
           style={{
+            marginTop: verticalScale(5),
+            marginBottom: verticalScale(10),
+            height: verticalScale(35),
+            lineHeight: verticalScale(25),
             backgroundColor: '#ffffff',
-            borderColor: '#d9ebcfff',
-            borderWidth: horizontalScale(1),
-            borderRadius: horizontalScale(20),
+          }}
+          outlineColor="#c2e4bdff"
+          activeOutlineColor="#588650ff"
+          outlineStyle={{
+            borderRadius: horizontalScale(15),
           }}
         />
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={globalStyle.px20}>
+        <View style={[globalStyle.px20,globalStyle.mt10]}>
           <View style={[globalStyle.bgwhite, globalStyle.cardShadow]}>
             <Highlights
               data={dummyHighLights}

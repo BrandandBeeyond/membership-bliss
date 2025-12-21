@@ -92,7 +92,7 @@ const MembershipScreen = () => {
           mode="contained"
           style={[
             globalStyle.rounded10,
-            { backgroundColor: '#202b1d', width: '40%' },
+            { backgroundColor: '#202b1d' },
           ]}
           onPress={() => refMemberships.current.open()}
         >
