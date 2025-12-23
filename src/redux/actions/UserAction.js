@@ -10,6 +10,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const googleLoginAction = idToken => async dispatch => {
   try {
+    console.log('SENDING ID TOKEN TO BACKEND:', idToken);
+
     dispatch({ type: GOOGLE_LOGIN_REQUEST });
 
     const { data } = await axios.post(`${API_SERVER}/user/google-login`, {
@@ -17,6 +19,7 @@ export const googleLoginAction = idToken => async dispatch => {
     });
 
     await AsyncStorage.setItem('token', data.token);
+
     dispatch({
       type: GOOGLE_LOGIN_SUCCESS,
       payload: {
@@ -24,16 +27,12 @@ export const googleLoginAction = idToken => async dispatch => {
         token: data.token,
       },
     });
-    
   } catch (error) {
-    dispatch({
-      type: GOOGLE_LOGIN_FAILURE,
-      payload: error.response?.data?.message || error.message,
-    });
     console.log('Google Login Error:', error.response?.data || error);
     throw error;
   }
 };
+
 
 export const logoutUser = () => async dispatch => {
   try {

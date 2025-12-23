@@ -41,11 +41,15 @@ const dummyHighLights = [
 const bannerData = [
   {
     id: 1,
-    image: require('../../../../assets/images/courtyard.webp'),
+    image: require('../../../../assets/images/slider1.jpg'),
   },
   {
     id: 2,
-    image: require('../../../../assets/images/amoravilla.jpg'),
+    image: require('../../../../assets/images/slider2.jpg'),
+  },
+  {
+    id: 3,
+    image: require('../../../../assets/images/slider3.jpg'),
   },
 ];
 
@@ -111,7 +115,7 @@ const HomeScreen = ({ navigation }) => {
                   key={index}
                   source={item.image}
                   style={HomeScreenStyles.imageBanner}
-                  resizeMode="cover"
+                  resizeMode="contain"
                 />
               ))}
             </Swiper>

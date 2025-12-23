@@ -1,4 +1,7 @@
 import {
+  GET_MY_MEMBERSHIP_FAILURE,
+  GET_MY_MEMBERSHIP_REQUEST,
+  GET_MY_MEMBERSHIP_SUCCESS,
   MEMBERSHIP_BOOKING_FAILURE,
   MEMBERSHIP_BOOKING_REQUEST,
   MEMBERSHIP_BOOKING_SUCCESS,
@@ -12,6 +15,7 @@ let initialState = {
   order: null,
   booking: null,
   error: null,
+  activeMembership: null,
 };
 
 export const MembershipBookingReducer = (state = initialState, action) => {
@@ -23,11 +27,26 @@ export const MembershipBookingReducer = (state = initialState, action) => {
         loading: true,
       };
 
+    case GET_MY_MEMBERSHIP_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+
     case MEMBERSHIP_BOOKING_SUCCESS:
       return {
         ...state,
         loading: false,
         booking: action.payload,
+        error: null,
+      };
+
+    case GET_MY_MEMBERSHIP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        activeMembership: action.payload,
         error: null,
       };
 
@@ -46,6 +65,14 @@ export const MembershipBookingReducer = (state = initialState, action) => {
         loading: false,
         order: null,
         booking: null,
+        error: action.payload,
+      };
+
+    case GET_MY_MEMBERSHIP_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        activeMembership: null,
         error: action.payload,
       };
 

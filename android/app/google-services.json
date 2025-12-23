@@ -12,7 +12,20 @@
           "package_name": "com.membershipapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "126026178486-74827og39o5uvcgmoc16hq3vgd7s40kp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.membershipapp",
+            "certificate_hash": "22aec9ebe9e43e1b4cf30061f61c6154a71d4a88"
+          }
+        },
+        {
+          "client_id": "126026178486-94jk9ptdpc3681lcsq4vls2obqm66ap3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAvroa15HG9g28IzYu1t7amSqZ2EZlFycQ"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126026178486-94jk9ptdpc3681lcsq4vls2obqm66ap3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

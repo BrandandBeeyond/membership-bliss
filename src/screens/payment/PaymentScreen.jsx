@@ -77,9 +77,7 @@ const PaymentScreen = ({ route }) => {
             createMembershipBooking(bookingPayload),
           );
 
-          Alert.alert('Success', 'Membership booked successfully!');
-
-          console.log('Membership booking successful:', booking);
+         
 
           navigation.replace('MembershipSuccess', { booking });
         })

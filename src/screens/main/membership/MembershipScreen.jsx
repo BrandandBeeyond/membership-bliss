@@ -22,9 +22,13 @@ const MembershipScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const refMemberships = useRef();
-  const { membershipplans, loading } = useSelector(
+  const { membershipplans, loading, activeMembership } = useSelector(
     state => state.membershipplans,
   );
+
+  const hasMembership = Boolean(activeMembership);
+
+  console.log("has membership for the user",hasMembership);
 
   const [buttonLoading, setButtonLoading] = useState(null);
 
@@ -90,10 +94,7 @@ const MembershipScreen = () => {
       >
         <Button
           mode="contained"
-          style={[
-            globalStyle.rounded10,
-            { backgroundColor: '#202b1d' },
-          ]}
+          style={[globalStyle.rounded10, { backgroundColor: '#202b1d' }]}
           onPress={() => refMemberships.current.open()}
         >
           <View

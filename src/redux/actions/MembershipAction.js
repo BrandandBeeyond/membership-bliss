@@ -9,6 +9,12 @@ import {
   FETCH_MEMBERSHIP_PLANS_FAILURE,
   FETCH_MEMBERSHIP_PLANS_REQUEST,
   FETCH_MEMBERSHIP_PLANS_SUCCESS,
+  GET_MEMBERSHIP_BY_ID_FAILURE,
+  GET_MEMBERSHIP_BY_ID_REQUEST,
+  GET_MEMBERSHIP_BY_ID_SUCCESS,
+  GET_MY_MEMBERSHIP_FAILURE,
+  GET_MY_MEMBERSHIP_REQUEST,
+  GET_MY_MEMBERSHIP_SUCCESS,
   MEMBERSHIP_BOOKING_FAILURE,
   MEMBERSHIP_BOOKING_REQUEST,
   MEMBERSHIP_BOOKING_SUCCESS,
@@ -149,5 +155,43 @@ export const createMembershipBooking = bookingData => async dispatch => {
     });
     console.log('membership booking failure:', error.response?.data || error);
     throw error;
+  }
+};
+
+export const getMembershipPlanbyId = id => async dispatch => {
+  try {
+    dispatch({ type: GET_MEMBERSHIP_BY_ID_REQUEST });
+
+    const { data } = await axios.get(`${API_SERVER}/categoryplan/${id}`);
+
+    dispatch({
+      type: GET_MEMBERSHIP_BY_ID_SUCCESS,
+      payload: data.membershipPlan,
+    });
+
+    return data.membershipPlan;
+  } catch (error) {
+    dispatch({
+      type: GET_MEMBERSHIP_BY_ID_FAILURE,
+      payload: error.message,
+    });
+  }
+};
+
+export const getMymembershipDetail = () => async dispatch => {
+  try {
+    dispatch({ type: GET_MY_MEMBERSHIP_REQUEST });
+
+    const { data } = await axios.get(`${API_SERVER}/bookings/booking/my`);
+
+    dispatch({
+      type: GET_MY_MEMBERSHIP_SUCCESS,
+      payload: data.bookedmembership,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_MY_MEMBERSHIP_FAILURE,
+      payload: error.response?.data?.message || 'Failed to load membership',
+    });
   }
 };

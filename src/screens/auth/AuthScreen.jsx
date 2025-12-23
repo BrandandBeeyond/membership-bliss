@@ -59,9 +59,10 @@ const AuthScreen = ({ navigation }) => {
     try {
       await GoogleSignin.hasPlayServices();
 
-      const SignIndata = await GoogleSignin.signIn();
+      const userInfo = await GoogleSignin.signIn();
 
-      const idToken = SignIndata.data?.idToken;
+     
+      const idToken = userInfo?.data?.idToken;
 
       console.log('this is token', idToken);
 
@@ -186,8 +187,6 @@ const AuthScreen = ({ navigation }) => {
           </Dialog.Actions>
         </Dialog>
       </Portal>
-
-     
     </SafeAreaView>
   );
 };

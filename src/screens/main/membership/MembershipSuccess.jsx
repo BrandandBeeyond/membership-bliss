@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import { ScrollView, View } from 'react-native';
@@ -10,8 +10,22 @@ import {
   scaleFontSize,
   verticalScale,
 } from '../../../../assets/styles/Scaling';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMembershipPlanbyId } from '../../../redux/actions/MembershipAction';
 
-const MembershipSuccess = ({ navigation }) => {
+const MembershipSuccess = ({ navigation, route }) => {
+  const dispatch = useDispatch();
+  const { booking } = route.params;
+  const { plan } = useSelector(state => state.membershipplans);
+
+  const planId = booking.membershipPlanId;
+
+  useEffect(() => {
+    if (planId) {
+      dispatch(getMembershipPlanbyId(planId));
+    }
+  }, [dispatch, planId]);
+
   return (
     <SafeAreaView
       style={[globalStyle.flex, globalStyle.bgwhite, globalStyle.px20]}
@@ -47,7 +61,11 @@ const MembershipSuccess = ({ navigation }) => {
           mode="outlined"
           style={[
             globalStyle.px5,
-            { marginTop: verticalScale(20), borderColor: '#7ca97aff', elevation: 3 },
+            {
+              marginTop: verticalScale(20),
+              borderColor: '#7ca97aff',
+              elevation: 3,
+            },
           ]}
         >
           <Card.Content>
@@ -71,26 +89,50 @@ const MembershipSuccess = ({ navigation }) => {
                 weight="MSemiBold"
                 color="#383737ff"
               >
-                BookingId -
+                OrderId -
               </Typography>
               <Typography variant="subtext" weight="MMedium" color="#383737ff">
-                TWB- 52441488
+                {booking.razorpay_orderId}
               </Typography>
             </View>
-
-            <Typography variant="subtext" weight="MSemiBold" color="#383737ff">
-              Booking Details{' '}
-            </Typography>
+            <View
+              style={[
+                globalStyle.row,
+                globalStyle.cg10,
+                globalStyle.alignCenter,
+              ]}
+            >
+              <Typography
+                variant="subtext"
+                weight="MSemiBold"
+                color="#383737ff"
+              >
+                Edition -
+              </Typography>
+              <Typography variant="subtext" weight="MMedium" color="#383737ff">
+                {plan?.name}
+              </Typography>
+            </View>
           </Card.Content>
-          <Card.Actions style={{ justifyContent: 'flex-start',marginVertical:verticalScale(10) }}>
+          <Card.Actions
+            style={{
+              justifyContent: 'flex-start',
+              marginVertical: verticalScale(10),
+            }}
+          >
             <Button
               mode="outlined"
-  
-              style={{ borderRadius: horizontalScale(15), borderColor: '#2d532c', height: verticalScale(35),lineHeight: verticalScale(20) }}
+              onPress={()=>navigation.replace('MembershipScreen',{booking})}
+              style={{
+                borderRadius: horizontalScale(15),
+                borderColor: '#2d532c',
+                height: verticalScale(33),
+                lineHeight: verticalScale(16),
+              }}
               labelStyle={{
                 color: '#2d532c',
                 fontWeight: '600',
-                fontSize: scaleFontSize(12),
+                fontSize:scaleFontSize(10)
               }}
             >
               Get Digital Membership Card

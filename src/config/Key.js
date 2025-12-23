@@ -1,5 +1,4 @@
 export const GOOGLE_WEB_CLIENT_ID =
-  '525787711094-lqhn84cjsshp8imd1p2tr6aev7s75g4b.apps.googleusercontent.com';
-export const ANDROID_CLIENT_Id =
-  '525787711094-aakb9pmvt9uh5ql4g27da9cta1r0s7p1.apps.googleusercontent.com';
-export const API_SERVER = 'https://membership-bliss-server.onrender.com/api/v1'
+  '126026178486-94jk9ptdpc3681lcsq4vls2obqm66ap3.apps.googleusercontent.com';
+
+export const API_SERVER = 'https://membership-bliss-server.onrender.com/api/v1';

@@ -29,8 +29,8 @@ const CategoryDetail = ({ route }) => {
   const [expanded, setExpanded] = useState(true);
   const { membershipplans } = useSelector(state => state.membershipplans);
 
-  console.log("membership plans",membershipplans);
-  
+  console.log('membership plans', membershipplans);
+
   useEffect(() => {
     dispatch(getAllMembershipPlans());
   }, [dispatch]);
@@ -104,7 +104,7 @@ const CategoryDetail = ({ route }) => {
           <List.Accordion
             expanded={expanded}
             onPress={() => setExpanded(!expanded)}
-            title="Why Nature's Club Membership?"
+            title="Why Choose Nature's Club Membership?"
             titleNumberOfLines={2}
             titleStyle={{
               fontSize: scaleFontSize(16),
@@ -117,35 +117,46 @@ const CategoryDetail = ({ route }) => {
             ]}
           >
             <List.Item
-              titleStyle={{
-                fontSize: scaleFontSize(15),
-                lineHeight: verticalScale(22),
-                color: '#333',
-              }}
-              titleNumberOfLines={200}
+              titleNumberOfLines={300}
               title={
                 <Text
                   style={{ fontSize: 15, lineHeight: 22, color: '#2D2D2D' }}
                 >
-                  Unlock{' '}
+                  Because some things in life deserve to be lived{' '}
                   <Text style={{ fontWeight: '700', color: '#2a6f27' }}>
-                    10,000+ premium benefits
-                  </Text>{' '}
-                  — all for just{' '}
-                  <Text style={{ fontWeight: '700', color: '#2a6f27' }}>
-                    ₹10,000.
+                    slowly.
                   </Text>
                   {'\n\n'}
-                  Nature’s Club isn’t just a membership — it’s a{' '}
-                  <Text style={{ fontWeight: '700', color: '#1c4d1a' }}>
-                    lifestyle upgrade
-                  </Text>{' '}
-                  designed for people who love{' '}
-                  <Text style={{ fontWeight: '700' }}>nature</Text>,{' '}
-                  <Text style={{ fontWeight: '700' }}>wellness</Text>,{' '}
-                  <Text style={{ fontWeight: '700' }}>travel</Text> and{' '}
+                  Nature’s Club Membership is thoughtfully created for families
+                  who value{' '}
                   <Text style={{ fontWeight: '700' }}>
-                    exclusive member-only privileges.
+                    peace, presence and togetherness
+                  </Text>{' '}
+                  over rush and routine. It is not about discounts or deals, but
+                  about meaningful moments in nature, quality time with loved
+                  ones and experiences that truly refresh the heart.
+                  {'\n\n'}
+                  With Nature’s Club, you enjoy{' '}
+                  <Text style={{ fontWeight: '700' }}>
+                    year-round access
+                  </Text>{' '}
+                  to nature stays, wellness experiences, joyful celebrations and
+                  family-friendly activities — all thoughtfully curated at{' '}
+                  <Text style={{ fontWeight: '700', color: '#1c4d1a' }}>
+                    Touchwood Bliss.
+                  </Text>{' '}
+                  Every visit feels familiar, welcoming and personal.
+                  {'\n\n'}
+                  More than a membership, it is a{' '}
+                  <Text style={{ fontWeight: '700' }}>
+                    like-minded community
+                  </Text>{' '}
+                  that chooses calm over chaos and connection over screens.
+                  {'\n\n'}
+                  If nature feels like home to you,
+                  {'\n'}
+                  <Text style={{ fontWeight: '700', color: '#2a6f27' }}>
+                    this membership was made for you.
                   </Text>
                 </Text>
               }
@@ -181,11 +192,12 @@ const CategoryDetail = ({ route }) => {
 
         <View style={globalStyle.my20}>
           <View style={[globalStyle.row, globalStyle.cg15]}>
-            {membershipplans && membershipplans?.map(plan => (
+            {membershipplans &&
+              membershipplans?.map(plan => (
                 <Pressable
                   key={plan._id}
                   style={[globalStyle.column, globalStyle.center]}
-                  onPress={() => navigation.navigate('EditionScreen',{plan})}
+                  onPress={() => navigation.navigate('EditionScreen', { plan })}
                 >
                   <LinearGradient
                     start={{ x: 0, y: 0 }}
