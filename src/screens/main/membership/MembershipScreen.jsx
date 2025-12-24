@@ -5,7 +5,13 @@ import { globalStyle } from '../../../../assets/styles/globalStyle';
 import LinearGradient from 'react-native-linear-gradient';
 import { membershipScreenStyle } from './Style';
 import UserIcon from 'react-native-vector-icons/FontAwesome';
-import { ActivityIndicator, Button, MD2Colors } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Button,
+  MD2Colors,
+  Modal,
+  Portal,
+} from 'react-native-paper';
 import CrownIcon from 'react-native-vector-icons/Ionicons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { useEffect, useRef, useState } from 'react';
@@ -20,6 +26,7 @@ import {
   getMymembershipDetail,
 } from '../../../redux/actions/MembershipAction';
 import { useNavigation } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
 
 const MembershipScreen = () => {
   const dispatch = useDispatch();
@@ -33,9 +40,8 @@ const MembershipScreen = () => {
 
   const hasMembership = Boolean(activeMembership);
 
-  console.log('has membership for the user', hasMembership);
-
   const [buttonLoading, setButtonLoading] = useState(null);
+  const [detailsModal, setDetailsModal] = useState(false);
 
   useEffect(() => {
     dispatch(getAllMembershipPlans());
@@ -69,214 +75,419 @@ const MembershipScreen = () => {
     <SafeAreaView
       style={[globalStyle.px20, globalStyle.flex, globalStyle.bgwhite]}
     >
-      <View style={[membershipScreenStyle.memberCard]}>
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          colors={['#4b6144ff', '#465f3fff', '#3a5135ff', '#2c3c28ff']}
-          style={membershipScreenStyle.background}
-        >
+      {loading ? (
+        <LottieView
+          source={require('../../../asset/loader/loader.json')}
+          style={{ width: 330, height: 330 }}
+          autoPlay
+          loop
+        />
+      ) : (
+        <View>
+          <View style={[membershipScreenStyle.memberCard]}>
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={['#4b6144ff', '#465f3fff', '#3a5135ff', '#2c3c28ff']}
+              style={membershipScreenStyle.background}
+            >
+              <View
+                style={[
+                  globalStyle.row,
+                  globalStyle.justifyBetween,
+                  globalStyle.alignCenter,
+                ]}
+              >
+                <Typography variant="h5" color="#ffffff" weight="MSemiBold">
+                  {hasMembership
+                    ? activeMembership.memberDetails.fullname
+                    : 'No Membership'}
+                </Typography>
+                <View style={membershipScreenStyle.bgwhitePadding10Radius}>
+                  <UserIcon name="user-o" color="#6d6969ff" size={25} />
+                </View>
+              </View>
+
+              <View
+                style={[
+                  globalStyle.row,
+                  globalStyle.mt10,
+                  { columnGap: verticalScale(40) },
+                ]}
+              >
+                <View style={globalStyle.column}>
+                  <Typography variant="caption" weight="MMedium" color="#fff">
+                    Valid From{''}
+                  </Typography>
+                  <Typography variant="subline" weight="MSemiBold" color="#fff">
+                    {hasMembership
+                      ? formatDate(activeMembership.startDate)
+                      : '--'}
+                  </Typography>
+                </View>
+
+                <View style={globalStyle.column}>
+                  <Typography variant="caption" weight="MMedium" color="#fff">
+                    Valid To{''}
+                  </Typography>
+                  <Typography variant="subline" weight="MSemiBold" color="#fff">
+                    {hasMembership
+                      ? formatDate(activeMembership.endDate)
+                      : '--'}
+                  </Typography>
+                </View>
+              </View>
+            </LinearGradient>
+          </View>
+
           <View
             style={[
-              globalStyle.row,
-              globalStyle.justifyBetween,
+              globalStyle.dflex,
               globalStyle.alignCenter,
+              globalStyle.mt20,
             ]}
           >
-            <Typography variant="h5" color="#ffffff" weight="MSemiBold">
-              {hasMembership
-                ? activeMembership.memberDetails.fullname
-                : 'No Membership'}
-            </Typography>
-            <View style={membershipScreenStyle.bgwhitePadding10Radius}>
-              <UserIcon name="user-o" color="#6d6969ff" size={25} />
-            </View>
+            {!hasMembership ? (
+              <Button
+                mode="contained"
+                style={[globalStyle.rounded10, { backgroundColor: '#202b1d' }]}
+                onPress={() => refMemberships.current.open()}
+              >
+                <View
+                  style={[
+                    globalStyle.row,
+                    globalStyle.alignCenter,
+                    globalStyle.cg5,
+                  ]}
+                >
+                  <Typography variant="body" color="#fff">
+                    Join Now
+                  </Typography>
+                  <CrownIcon name="flash-outline" color="#fff" size={20} />
+                </View>
+              </Button>
+            ) : (
+              <Button mode="outlined" onPress={() => setDetailsModal(true)}>
+                View details
+              </Button>
+            )}
+
+            <RBSheet
+              ref={refMemberships}
+              height={550}
+              useNativeDriver={false}
+              customStyles={{
+                wrapper: {
+                  backgroundColor: 'rgba(0,0,0,0.5)',
+                },
+                container: {
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                  paddingHorizontal: 20,
+                },
+                draggableIcon: {
+                  backgroundColor: '#000',
+                },
+              }}
+              customModalProps={{
+                animationType: 'slide',
+                statusBarTranslucent: true,
+              }}
+              customAvoidingViewProps={{
+                enabled: false,
+              }}
+            >
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                  paddingVertical: 20,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <View style={[globalStyle.py20, globalStyle.px10]}>
+                  <Typography
+                    variant="h4"
+                    color="#2d532c"
+                    weight="MSemiBold"
+                    style={globalStyle.textCenter}
+                  >
+                    Choose Edition
+                  </Typography>
+                </View>
+
+                {loading ? (
+                  <>
+                    <ActivityIndicator
+                      color={MD2Colors.green600}
+                      animating={true}
+                    />
+                  </>
+                ) : (
+                  <>
+                    {membershipplans.map(plan => {
+                      return (
+                        <View
+                          key={plan._id}
+                          style={[
+                            membershipScreenStyle.editionCard,
+                            globalStyle.row,
+                            globalStyle.mb20,
+                            { columnGap: horizontalScale(60) },
+                          ]}
+                        >
+                          <LinearGradient
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 0 }}
+                            colors={gradientMap[plan.colorScheme]}
+                            style={globalStyle.BoxEditionU}
+                          >
+                            <Image
+                              source={{ uri: plan.thumbnail.url }}
+                              style={{
+                                width: horizontalScale(45),
+                                height: verticalScale(45),
+                                resizeMode: 'contain',
+                              }}
+                            />
+                          </LinearGradient>
+
+                          <View>
+                            <Typography
+                              variant="h6"
+                              weight="MSemiBold"
+                              color="#465346ff"
+                            >
+                              {plan.name}
+                            </Typography>
+
+                            <Button
+                              onPress={() => handleBookNow(plan)}
+                              mode="contained"
+                              loading={buttonLoading === plan._id}
+                              disabled={buttonLoading === plan._id}
+                              contentStyle={{
+                                height: verticalScale(24),
+                              }}
+                              style={{
+                                backgroundColor: '#5A6654',
+                                width: horizontalScale(100),
+                                alignSelf: 'flex-start',
+                                borderRadius: 6,
+                              }}
+                              labelStyle={{
+                                fontSize: scaleFontSize(12),
+                                textTransform: 'none',
+                                color: '#fff',
+                              }}
+                            >
+                              Book now
+                            </Button>
+                          </View>
+                        </View>
+                      );
+                    })}
+                  </>
+                )}
+              </ScrollView>
+            </RBSheet>
           </View>
-
-          <View
-            style={[
-              globalStyle.row,
-              globalStyle.mt10,
-              { columnGap: verticalScale(40) },
-            ]}
-          >
-            <View style={globalStyle.column}>
-              <Typography variant="caption" weight="MMedium" color="#fff">
-                Valid From{''}
-              </Typography>
-              <Typography variant="subline" weight="MSemiBold" color="#fff">
-                {hasMembership ? formatDate(activeMembership.startDate) : '--'}
-              </Typography>
-            </View>
-
-            <View style={globalStyle.column}>
-              <Typography variant="caption" weight="MMedium" color="#fff">
-                Valid To{''}
-              </Typography>
-              <Typography variant="subline" weight="MSemiBold" color="#fff">
-                {hasMembership ? formatDate(activeMembership.endDate) : '--'}
-              </Typography>
-            </View>
-          </View>
-        </LinearGradient>
-      </View>
-
-      <View
-        style={[globalStyle.dflex, globalStyle.alignCenter, globalStyle.mt20]}
-      >
-        {!hasMembership ? (
-          <Button
-            mode="contained"
-            style={[globalStyle.rounded10, { backgroundColor: '#202b1d' }]}
-            onPress={() => refMemberships.current.open()}
-          >
+        </View>
+      )}
+      <Portal>
+        <Modal
+          visible={detailsModal}
+          onDismiss={() => setDetailsModal(false)}
+          contentContainerStyle={{
+            margin: 20,
+            backgroundColor: 'white',
+            borderRadius: 10,
+            padding: 16,
+            maxHeight: '75%',
+          }}
+        >
+          <View style={globalStyle.mt10}>
             <View
               style={[
                 globalStyle.row,
                 globalStyle.alignCenter,
-                globalStyle.cg5,
+                globalStyle.cg20,
+                globalStyle.my3,
               ]}
             >
-              <Typography variant="body" color="#fff">
-                Join Now
-              </Typography>
-              <CrownIcon name="flash-outline" color="#fff" size={20} />
-            </View>
-          </Button>
-        ) : (
-          <Button
-            mode="outlined"
-            onPress={() =>
-              navigation.navigate('MembershipCardScreen', {
-                membership: activeMembership,
-              })
-            }
-          >
-            View details
-          </Button>
-        )}
-
-        <RBSheet
-          ref={refMemberships}
-          height={550}
-          useNativeDriver={false}
-          customStyles={{
-            wrapper: {
-              backgroundColor: 'rgba(0,0,0,0.5)',
-            },
-            container: {
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
-              paddingHorizontal: 20,
-            },
-            draggableIcon: {
-              backgroundColor: '#000',
-            },
-          }}
-          customModalProps={{
-            animationType: 'slide',
-            statusBarTranslucent: true,
-          }}
-          customAvoidingViewProps={{
-            enabled: false,
-          }}
-        >
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-              paddingVertical: 20,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <View style={[globalStyle.py20, globalStyle.px10]}>
               <Typography
-                variant="h4"
-                color="#2d532c"
+                variant="subhead"
                 weight="MSemiBold"
-                style={globalStyle.textCenter}
+                color="#2e2c2cff"
               >
-                Choose Edition
+                Membership No :
+              </Typography>
+              <Typography variant="subhead" weight="MMedium" color="#2e2c2cff">
+                {activeMembership?.membershipNumber}
               </Typography>
             </View>
 
-            {loading ? (
-              <>
-                <ActivityIndicator
-                  color={MD2Colors.green600}
-                  animating={true}
-                />
-              </>
-            ) : (
-              <>
-                {membershipplans.map(plan => {
-                  return (
-                    <View
-                      key={plan._id}
-                      style={[
-                        membershipScreenStyle.editionCard,
-                        globalStyle.row,
-                        globalStyle.mb20,
-                        { columnGap: horizontalScale(60) },
-                      ]}
-                    >
-                      <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={gradientMap[plan.colorScheme]}
-                        style={globalStyle.BoxEditionU}
-                      >
-                        <Image
-                          source={{ uri: plan.thumbnail.url }}
-                          style={{
-                            width: horizontalScale(45),
-                            height: verticalScale(45),
-                            resizeMode: 'contain',
-                          }}
-                        />
-                      </LinearGradient>
+            <View
+              style={[
+                globalStyle.row,
+                globalStyle.alignCenter,
+                globalStyle.cg20,
+                globalStyle.my3,
+              ]}
+            >
+              <Typography
+                variant="subhead"
+                weight="MSemiBold"
+                color="#2e2c2cff"
+              >
+                Membership Name :
+              </Typography>
+              <Typography variant="subhead" weight="MMedium" color="#2e2c2cff">
+                {activeMembership?.memberDetails.fullname}
+              </Typography>
+            </View>
 
-                      <View>
-                        <Typography
-                          variant="h6"
-                          weight="MSemiBold"
-                          color="#465346ff"
-                        >
-                          {plan.name}
-                        </Typography>
+            <View
+              style={[
+                globalStyle.row,
+                globalStyle.alignCenter,
+                globalStyle.cg20,
+                globalStyle.my3,
+              ]}
+            >
+              <Typography
+                variant="subhead"
+                weight="MSemiBold"
+                color="#2e2c2cff"
+              >
+                Edition ID:
+              </Typography>
+              <Typography variant="subhead" weight="MMedium" color="#2e2c2cff">
+                {activeMembership?.membershipPlanId.name}
+              </Typography>
+            </View>
 
-                        <Button
-                          onPress={() => handleBookNow(plan)}
-                          mode="contained"
-                          loading={buttonLoading === plan._id}
-                          disabled={buttonLoading === plan._id}
-                          contentStyle={{
-                            height: verticalScale(24),
-                          }}
-                          style={{
-                            backgroundColor: '#5A6654',
-                            width: horizontalScale(100),
-                            alignSelf: 'flex-start',
-                            borderRadius: 6,
-                          }}
-                          labelStyle={{
-                            fontSize: scaleFontSize(12),
-                            textTransform: 'none',
-                            color: '#fff',
-                          }}
-                        >
-                          Book now
-                        </Button>
-                      </View>
-                    </View>
-                  );
-                })}
-              </>
-            )}
-          </ScrollView>
-        </RBSheet>
-      </View>
+            <View
+              style={[
+                globalStyle.row,
+                globalStyle.alignCenter,
+                globalStyle.cg20,
+                globalStyle.my3,
+              ]}
+            >
+              <Typography
+                variant="subhead"
+                weight="MSemiBold"
+                color="#2e2c2cff"
+              >
+                Status:
+              </Typography>
+              <Typography variant="subhead" weight="MMedium" color="#409a55ff">
+                {activeMembership?.status}
+              </Typography>
+            </View>
+
+            <View
+              style={[
+                globalStyle.row,
+                globalStyle.alignCenter,
+                globalStyle.cg20,
+                globalStyle.my3,
+              ]}
+            >
+              <Typography
+                variant="subhead"
+                weight="MSemiBold"
+                color="#2e2c2cff"
+              >
+                Payment Status:
+              </Typography>
+              <Typography variant="subhead" weight="MMedium" color="#409a55ff">
+                {activeMembership?.paymentStatus}
+              </Typography>
+            </View>
+
+            <View
+              style={[
+                globalStyle.row,
+                globalStyle.alignCenter,
+                globalStyle.cg20,
+                globalStyle.my3,
+              ]}
+            >
+              <Typography
+                variant="subhead"
+                weight="MSemiBold"
+                color="#2e2c2cff"
+              >
+                Payment Date:
+              </Typography>
+              <Typography
+                variant="subhead"
+                weight="MSemiBold"
+                color="#2e2c2cff"
+              >
+                {formatDate(activeMembership?.paymentDate)}
+              </Typography>
+            </View>
+
+            <View
+              style={[
+                globalStyle.row,
+                globalStyle.alignCenter,
+                globalStyle.cg20,
+                globalStyle.my3,
+              ]}
+            >
+              <Typography
+                variant="subhead"
+                weight="MSemiBold"
+                color="#2e2c2cff"
+              >
+                Valid From:
+              </Typography>
+
+              <Typography
+                variant="subhead"
+                weight="MSemiBold"
+                color="#2e2c2cff"
+              >
+                {formatDate(activeMembership?.startDate)}
+              </Typography>
+            </View>
+
+            <View
+              style={[
+                globalStyle.row,
+                globalStyle.alignCenter,
+                globalStyle.cg20,
+                globalStyle.my3,
+              ]}
+            >
+              <Typography
+                variant="subhead"
+                weight="MSemiBold"
+                color="#2e2c2cff"
+              >
+                Valid To:
+              </Typography>
+
+              <Typography
+                variant="subhead"
+                weight="MSemiBold"
+                color="#2e2c2cff"
+              >
+                {formatDate(activeMembership?.endDate)}
+              </Typography>
+            </View>
+
+           
+          </View>
+
+          <Button onPress={() => setDetailsModal(false)}>Close</Button>
+        </Modal>
+      </Portal>
 
       <LinearGradient
         pointerEvents="none"

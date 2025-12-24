@@ -82,6 +82,9 @@ export const globalStyle = StyleSheet.create({
   mx20: {
     marginHorizontal: horizontalScale(20),
   },
+  my3: {
+    marginVertical: verticalScale(3),
+  },
   my5: {
     marginVertical: verticalScale(5),
   },
