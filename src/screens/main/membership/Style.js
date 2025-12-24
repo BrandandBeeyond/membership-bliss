@@ -11,18 +11,19 @@ export const membershipScreenStyle = StyleSheet.create({
     flexDirection: 'column',
   },
   background: {
-    height: '170',
+    height: '190',
     width: '100%',
     borderRadius: horizontalScale(25),
     padding: horizontalScale(20),
   },
   bgwhitePadding10Radius: {
     backgroundColor: '#ffffff',
-    height: verticalScale(45),
-    width: horizontalScale(50),
+    height: horizontalScale(60),
+    width: horizontalScale(60),
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: horizontalScale(50),
+    elevation:4
   },
   editionCard: {
     borderWidth: 0.6,

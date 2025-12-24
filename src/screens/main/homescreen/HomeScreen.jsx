@@ -109,6 +109,28 @@ const HomeScreen = ({ navigation }) => {
               autoplayTimeout={3}
               showPagination={false}
               height={300}
+              dot={
+                <View
+                  style={{
+                    backgroundColor: '#a2cda8ff',
+                    width: 8,
+                    height: 8,
+                    borderRadius: 4,
+                    marginHorizontal: 3,
+                  }}
+                />
+              }
+              activeDot={
+                <View
+                  style={{
+                    backgroundColor: '#3c5a3fd0',
+                    width: 40,
+                    height: 8,
+                    borderRadius: 5,
+                    marginHorizontal: 3,
+                  }}
+                />
+              }
             >
               {bannerData.map((item, index) => (
                 <Image

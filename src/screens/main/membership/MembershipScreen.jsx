@@ -15,25 +15,31 @@ import {
   verticalScale,
 } from '../../../../assets/styles/Scaling';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllMembershipPlans } from '../../../redux/actions/MembershipAction';
+import {
+  getAllMembershipPlans,
+  getMymembershipDetail,
+} from '../../../redux/actions/MembershipAction';
 import { useNavigation } from '@react-navigation/native';
 
 const MembershipScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const refMemberships = useRef();
-  const { membershipplans, loading, activeMembership } = useSelector(
+  const { membershipplans, loading } = useSelector(
     state => state.membershipplans,
   );
 
+  const { activeMembership } = useSelector(state => state.membershipbookings);
+
   const hasMembership = Boolean(activeMembership);
 
-  console.log("has membership for the user",hasMembership);
+  console.log('has membership for the user', hasMembership);
 
   const [buttonLoading, setButtonLoading] = useState(null);
 
   useEffect(() => {
     dispatch(getAllMembershipPlans());
+    dispatch(getMymembershipDetail());
   }, [dispatch]);
 
   const gradientMap = {
@@ -51,6 +57,13 @@ const MembershipScreen = () => {
       navigation.navigate('EditionScreen', { plan });
     }, 2000);
   };
+
+  const formatDate = date =>
+    new Date(date).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
 
   return (
     <SafeAreaView
@@ -70,21 +83,40 @@ const MembershipScreen = () => {
               globalStyle.alignCenter,
             ]}
           >
-            <Typography variant="body" color="#ffffff" weight="normal">
-              No Membership
+            <Typography variant="h5" color="#ffffff" weight="MSemiBold">
+              {hasMembership
+                ? activeMembership.memberDetails.fullname
+                : 'No Membership'}
             </Typography>
             <View style={membershipScreenStyle.bgwhitePadding10Radius}>
-              <UserIcon name="user-o" color="#6d6969ff" size={30} />
+              <UserIcon name="user-o" color="#6d6969ff" size={25} />
             </View>
           </View>
 
-          <View style={[globalStyle.row, globalStyle.cg20, globalStyle.mt10]}>
-            <Typography variant="small" color="#ffffff" weight="normal">
-              Valid {'\n'} From --
-            </Typography>
-            <Typography variant="small" color="#ffffff" weight="normal">
-              Valid {'\n'} To --
-            </Typography>
+          <View
+            style={[
+              globalStyle.row,
+              globalStyle.mt10,
+              { columnGap: verticalScale(40) },
+            ]}
+          >
+            <View style={globalStyle.column}>
+              <Typography variant="caption" weight="MMedium" color="#fff">
+                Valid From{''}
+              </Typography>
+              <Typography variant="subline" weight="MSemiBold" color="#fff">
+                {hasMembership ? formatDate(activeMembership.startDate) : '--'}
+              </Typography>
+            </View>
+
+            <View style={globalStyle.column}>
+              <Typography variant="caption" weight="MMedium" color="#fff">
+                Valid To{''}
+              </Typography>
+              <Typography variant="subline" weight="MSemiBold" color="#fff">
+                {hasMembership ? formatDate(activeMembership.endDate) : '--'}
+              </Typography>
+            </View>
           </View>
         </LinearGradient>
       </View>
@@ -92,20 +124,37 @@ const MembershipScreen = () => {
       <View
         style={[globalStyle.dflex, globalStyle.alignCenter, globalStyle.mt20]}
       >
-        <Button
-          mode="contained"
-          style={[globalStyle.rounded10, { backgroundColor: '#202b1d' }]}
-          onPress={() => refMemberships.current.open()}
-        >
-          <View
-            style={[globalStyle.row, globalStyle.alignCenter, globalStyle.cg5]}
+        {!hasMembership ? (
+          <Button
+            mode="contained"
+            style={[globalStyle.rounded10, { backgroundColor: '#202b1d' }]}
+            onPress={() => refMemberships.current.open()}
           >
-            <Typography variant="body" color="#fff" weight="normal">
-              Join Now
-            </Typography>
-            <CrownIcon name="flash-outline" color="#fff" size={20} />
-          </View>
-        </Button>
+            <View
+              style={[
+                globalStyle.row,
+                globalStyle.alignCenter,
+                globalStyle.cg5,
+              ]}
+            >
+              <Typography variant="body" color="#fff">
+                Join Now
+              </Typography>
+              <CrownIcon name="flash-outline" color="#fff" size={20} />
+            </View>
+          </Button>
+        ) : (
+          <Button
+            mode="outlined"
+            onPress={() =>
+              navigation.navigate('MembershipCardScreen', {
+                membership: activeMembership,
+              })
+            }
+          >
+            View details
+          </Button>
+        )}
 
         <RBSheet
           ref={refMemberships}

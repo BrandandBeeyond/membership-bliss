@@ -23,6 +23,7 @@ import {
   MEMEBRSHIP_PAYMENT_SUCCESS,
 } from '../constants/membershipconstant';
 import { API_SERVER } from '../../config/Key';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getAllMembershipCategories = () => async dispatch => {
   try {
@@ -182,11 +183,18 @@ export const getMymembershipDetail = () => async dispatch => {
   try {
     dispatch({ type: GET_MY_MEMBERSHIP_REQUEST });
 
-    const { data } = await axios.get(`${API_SERVER}/bookings/booking/my`);
+    const token = await AsyncStorage.getItem('token');
+
+
+    const { data } = await axios.get(`${API_SERVER}/bookings/booking/my`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     dispatch({
       type: GET_MY_MEMBERSHIP_SUCCESS,
-      payload: data.bookedmembership,
+      payload: data.booking,
     });
   } catch (error) {
     dispatch({
