@@ -1,21 +1,37 @@
-import React from 'react';
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import {
+  Dimensions,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  View,
+} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 import { Button } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
 import { globalStyle } from '../../../assets/styles/globalStyle';
 import { editionStyle } from '../main/edition/Style';
 import Typography from '../../components/Typography';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import OnboardinghexLayout from './OnboardinghexLayout';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-const Dot = ({ selected }) => {
-  return <View style={[styles.dot, selected ? styles.activeDot : null]} />;
-};
+/* ---------- Background Images ---------- */
+const backgrounds = [
+  require('../../../assets/images/sliderbg.png'),
+  // require('../../../assets/images/onboarding-bg-2.jpg'),
+  // require('../../../assets/images/onboarding-bg-3.jpg'),
+];
 
-const NextButton = ({ ...props }) => (
+/* ---------- Dots ---------- */
+const Dot = ({ selected }) => (
+  <View style={[styles.dot, selected && styles.activeDot]} />
+);
+
+/* ---------- Buttons ---------- */
+const NextButton = props => (
   <Button
     {...props}
     mode="contained"
@@ -32,7 +48,7 @@ const NextButton = ({ ...props }) => (
   </Button>
 );
 
-const DoneButton = ({ ...props }) => (
+const DoneButton = props => (
   <Button
     {...props}
     mode="contained"
@@ -48,136 +64,137 @@ const DoneButton = ({ ...props }) => (
   </Button>
 );
 
+/* ---------- Screen ---------- */
 const OnboardingScreen = ({ navigation }) => {
+  const [pageIndex, setPageIndex] = useState(0);
+
   const finishOnboarding = async () => {
     await AsyncStorage.setItem('onboardingdone', 'true');
     navigation.replace('AuthScreen');
   };
 
   return (
-    <Onboarding
-      DotComponent={Dot}
-      NextButtonComponent={NextButton}
-      DoneButtonComponent={DoneButton}
-      showSkip={false}
-      onDone={finishOnboarding}
-      bottomBarHighlight={false}
-      pages={[
-        {
-          backgroundColor: '#fafffaff',
-          image: (
-            <View style={[globalStyle.mt10, globalStyle.relative]}>
-              <Image
-                source={require('../../../assets/images/natures-club-membershiplogo.png')}
-                style={{
-                  height: verticalScale(140),
-                  width: verticalScale(140),
-                }}
-                resizeMode="contain"
-              />
-            </View>
-          ),
-          title: (
-            <Typography variant="h2" weight="SemiBold" color="#3a3939ff">
-              Welcome to Touchwood Bliss
-            </Typography>
-          ),
-          subtitle: (
-            <Typography
-              variant="h5"
-              color="#6A7A6A"
-              weight="MMedium"
-              style={globalStyle.textCenter}
-            >
-              A peaceful retreat surrounded by nature and comfort.
-            </Typography>
-          ),
-        },
-        {
-          backgroundColor: '#F6FAF1',
-          image: (
-            <OnboardinghexLayout/>
-          ),
-          title: (
-            <Typography variant="h2" weight="SemiBold" color="#3a3939ff">
-              Welcome to Touchwood Bliss
-            </Typography>
-          ),
-          subtitle: (
-            <Typography
-              variant="h5"
-              color="#6A7A6A"
-              weight="MMedium"
-              style={globalStyle.textCenter}
-            >
-              A peaceful retreat surrounded by nature and comfort.
-            </Typography>
-          ),
-        },
-        {
-          backgroundColor: '#F6FAF1',
+    <View style={{ flex: 1 }}>
+      {/* 🔥 FULL SCREEN BACKGROUND */}
+      <ImageBackground
+        source={backgrounds[pageIndex]}
+        style={StyleSheet.absoluteFillObject}
+        resizeMode="cover"
+      />
 
-          title: (
-            <Typography variant="h2" weight="SemiBold" color="#3a3939ff">
-              Step into a life of nature, comfort, and unforgettable family
-              moments.
-            </Typography>
-          ),
-          subtitle: (
-            <Typography
-              variant="h5"
-              color="#6A7A6A"
-              weight="MMedium"
-              style={globalStyle.textCenter}
-            >
-              “Everything you need for a peaceful, well-deserved escape — in one
-              place.”
-            </Typography>
-          ),
-        },
-      ]}
-    />
+      {/* Optional overlay for readability */}
+      <View
+        style={[
+          StyleSheet.absoluteFillObject,
+          { backgroundColor: 'rgba(0,0,0,0.35)' },
+        ]}
+      />
+
+      <Onboarding
+        scrollEnabled={false} // ✅ button only
+        showSkip={false}
+        bottomBarHighlight={false}
+        DotComponent={Dot}
+        NextButtonComponent={NextButton}
+        DoneButtonComponent={DoneButton}
+        onPageChange={index => setPageIndex(index)}
+        onDone={finishOnboarding}
+        pages={[
+          {
+            backgroundColor: 'transparent',
+            image: (
+              <View style={styles.logoWrapper}>
+                
+                <Image
+                  source={require('../../../assets/images/natures-club-membershiplogo.png')}
+                  style={{
+                    height: verticalScale(140),
+                    width: verticalScale(140),
+                  }}
+                  resizeMode="contain"
+                />
+              </View>
+            ),
+            title: (
+              <Typography variant="h2" weight="SemiBold" color="#ffffff">
+                Welcome to Touchwood Bliss
+              </Typography>
+            ),
+            subtitle: (
+              <Typography
+                variant="h5"
+                color="#E4EFE4"
+                weight="MMedium"
+                style={globalStyle.textCenter}
+              >
+                A peaceful retreat surrounded by nature and comfort.
+              </Typography>
+            ),
+          },
+          {
+            backgroundColor: 'transparent',
+            image: <OnboardinghexLayout />,
+            title: (
+              <Typography variant="h2" weight="SemiBold" color="#ffffff">
+                Experiences rooted in nature
+              </Typography>
+            ),
+            subtitle: (
+              <Typography
+                variant="h5"
+                color="#E4EFE4"
+                weight="MMedium"
+                style={globalStyle.textCenter}
+              >
+                Wellness, celebrations and togetherness.
+              </Typography>
+            ),
+          },
+          {
+            backgroundColor: 'transparent',
+            title: (
+              <Typography variant="h2" weight="SemiBold" color="#ffffff">
+                Step into a life of calm and connection
+              </Typography>
+            ),
+            subtitle: (
+              <Typography
+                variant="h5"
+                color="#E4EFE4"
+                weight="MMedium"
+                style={globalStyle.textCenter}
+              >
+                Everything you need for a peaceful escape.
+              </Typography>
+            ),
+          },
+        ]}
+      />
+    </View>
   );
 };
+
+/* ---------- Styles ---------- */
 const styles = StyleSheet.create({
-  imageWrapper: {
-    width: width - 60,
-    height: verticalScale(300),
-    borderRadius: horizontalScale(26),
-    overflow: 'hidden',
+  logoWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  image: {
+  glowWrapper: {
+    position: 'absolute',
+    width: verticalScale(260),
+    height: verticalScale(260),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  glow: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover',
+    borderRadius: 130,
+    backgroundColor: '#FFDFA8', // warm sunlight tone
+    opacity: 0.35,
+    transform: [{ scale: 1.1 }],
   },
-
-  lottieWrapper: {
-    width: width - 60,
-    height: 300,
-    borderRadius: 28,
-    backgroundColor: '#EAF3D5',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  // title: {
-  //   marginTop: 40,
-  //   fontSize: 24,
-  //   fontFamily: 'Montserrat-SemiBold',
-  //   color: '#1F2F1F',
-  //   textAlign: 'center',
-  //   paddingHorizontal: 20,
-  // },
-  // subtitle: {
-  //   marginTop: 12,
-  //   fontSize: 14,
-  //   color: '#6A7A6A',
-  //   textAlign: 'center',
-  //   paddingHorizontal: 32,
-  //   lineHeight: 22,
-  // },
   dot: {
     width: 8,
     height: 8,
@@ -187,7 +204,7 @@ const styles = StyleSheet.create({
   },
   activeDot: {
     width: horizontalScale(35),
-    backgroundColor: '#313a31ff',
+    backgroundColor: '#ffffff',
   },
 });
 
