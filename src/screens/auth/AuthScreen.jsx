@@ -61,7 +61,6 @@ const AuthScreen = ({ navigation }) => {
 
       const userInfo = await GoogleSignin.signIn();
 
-     
       const idToken = userInfo?.data?.idToken;
 
       console.log('this is token', idToken);
@@ -80,7 +79,13 @@ const AuthScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
+    <SafeAreaView
+      style={[
+        globalStyle.flex,
+        globalStyle.relative,
+        { backgroundColor: '#fdfcf8' },
+      ]}
+    >
       <ScrollView contentContainerStyle={[globalStyle.px20, globalStyle.py30]}>
         <View
           style={[globalStyle.dflex, globalStyle.alignCenter, globalStyle.mb20]}
@@ -143,7 +148,7 @@ const AuthScreen = ({ navigation }) => {
         >
           Send OTP
         </Button>
-        <View style={{ marginVertical: 50 }}>
+        <View style={{ marginVertical: verticalScale(15) }}>
           <Divider />
           <Text
             style={{
@@ -187,6 +192,20 @@ const AuthScreen = ({ navigation }) => {
           </Dialog.Actions>
         </Dialog>
       </Portal>
+
+      <Image
+        source={require('../../../assets/images/loginmountains.png')}
+        resizeMode="cover"
+        style={[
+          globalStyle.absolute,
+          {
+            height: verticalScale(120),
+            width: '100%',
+            bottom: verticalScale(-20),
+            left: horizontalScale(0),
+          },
+        ]}
+      />
     </SafeAreaView>
   );
 };
