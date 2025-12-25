@@ -95,7 +95,7 @@ const HomeTabs = () => (
       }}
     />
     <Tab.Screen
-      name="updates"
+      name="Updates"
       component={UpdatesScreen}
       options={{
         tabBarIcon: ({ focused, color }) => (
@@ -105,6 +105,8 @@ const HomeTabs = () => (
             size={24}
           />
         ),
+        headerTitleAlign:'center',
+        headerStyle: { elevation: 0, shadowOpacity: 0 },
       }}
     />
     <Tab.Screen

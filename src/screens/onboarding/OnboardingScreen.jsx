@@ -1,210 +1,173 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
-  Dimensions,
+  View,
+  StyleSheet,
+  FlatList,
   Image,
   ImageBackground,
-  StyleSheet,
-  View,
+  Dimensions,
 } from 'react-native';
-import Onboarding from 'react-native-onboarding-swiper';
 import { Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import Typography from '../../components/Typography';
 import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
 import { globalStyle } from '../../../assets/styles/globalStyle';
-import { editionStyle } from '../main/edition/Style';
-import Typography from '../../components/Typography';
 import OnboardinghexLayout from './OnboardinghexLayout';
 
 const { width, height } = Dimensions.get('window');
 
-/* ---------- Background Images ---------- */
-const backgrounds = [
-  require('../../../assets/images/sliderbg.png'),
-  // require('../../../assets/images/onboarding-bg-2.jpg'),
-  // require('../../../assets/images/onboarding-bg-3.jpg'),
+
+const SLIDES = [
+  {
+    key: '1',
+    bg: require('../../../assets/images/sliderbg.png'),
+    image: require('../../../assets/images/natures-club-membershiplogo.png'),
+    title: 'Welcome to Touchwood Bliss',
+    subtitle: 'A peaceful retreat surrounded by nature and comfort.',
+  },
+  {
+    key: '2',
+    bg: require('../../../assets/images/sliderbg.png'),
+    custom: true,
+    title: 'Experiences rooted in nature',
+    subtitle: 'Wellness, celebrations and togetherness.',
+  },
+  {
+    key: '3',
+    bg: require('../../../assets/images/sliderbg4.png'),
+    title: 'Step into a life of calm & connection',
+    subtitle: 'Everything you need for a peaceful escape.',
+  },
 ];
 
-/* ---------- Dots ---------- */
-const Dot = ({ selected }) => (
-  <View style={[styles.dot, selected && styles.activeDot]} />
-);
-
-/* ---------- Buttons ---------- */
-const NextButton = props => (
-  <Button
-    {...props}
-    mode="contained"
-    contentStyle={{ height: verticalScale(30) }}
-    style={[
-      globalStyle.rounded10,
-      editionStyle.buynow,
-      globalStyle.px10,
-      { backgroundColor: '#212520ff' },
-    ]}
-    labelStyle={{ color: '#fff' }}
-  >
-    Next
-  </Button>
-);
-
-const DoneButton = props => (
-  <Button
-    {...props}
-    mode="contained"
-    contentStyle={{ height: verticalScale(30) }}
-    style={[
-      globalStyle.rounded10,
-      editionStyle.buynow,
-      { backgroundColor: '#212520ff', width: '100%' },
-    ]}
-    labelStyle={{ color: '#fff' }}
-  >
-    Get Started
-  </Button>
-);
-
-/* ---------- Screen ---------- */
 const OnboardingScreen = ({ navigation }) => {
-  const [pageIndex, setPageIndex] = useState(0);
+  const flatRef = useRef(null);
+  const [index, setIndex] = useState(0);
 
-  const finishOnboarding = async () => {
-    await AsyncStorage.setItem('onboardingdone', 'true');
-    navigation.replace('AuthScreen');
+  const next = async () => {
+    if (index < SLIDES.length - 1) {
+      flatRef.current.scrollToIndex({ index: index + 1, animated: true });
+      setIndex(index + 1);
+    } else {
+      await AsyncStorage.setItem('onboardingdone', 'true');
+      navigation.replace('AuthScreen');
+    }
   };
+
+  const renderItem = ({ item }) => (
+    <ImageBackground source={item.bg} style={styles.slide}>
+      {item.custom ? (
+        <OnboardinghexLayout />
+      ) : item.image ? (
+        <Image source={item.image} style={styles.logo} resizeMode="contain" />
+      ) : null}
+
+      <Typography variant="h2" weight="Bold" color="#fff" style={globalStyle.textCenter}>
+        {item.title}
+      </Typography>
+
+      <Typography
+        variant="h5"
+        weight="MMedium"
+        color="#E4EFE4"
+        style={globalStyle.textCenter}
+      >
+        {item.subtitle}
+      </Typography>
+    </ImageBackground>
+  );
 
   return (
     <View style={{ flex: 1 }}>
-      {/* 🔥 FULL SCREEN BACKGROUND */}
-      <ImageBackground
-        source={backgrounds[pageIndex]}
-        style={StyleSheet.absoluteFillObject}
-        resizeMode="cover"
+      {/* 🔒 Swipe Disabled */}
+      <FlatList
+        ref={flatRef}
+        data={SLIDES}
+        renderItem={renderItem}
+        keyExtractor={item => item.key}
+        horizontal
+        pagingEnabled
+        scrollEnabled={false}
+        showsHorizontalScrollIndicator={false}
       />
 
-      {/* Optional overlay for readability */}
-      <View
-        style={[
-          StyleSheet.absoluteFillObject,
-          { backgroundColor: 'rgba(0,0,0,0.35)' },
-        ]}
-      />
+      {/* 🔥 Bottom Bar */}
+      <View style={styles.bottom}>
+        {/* Pagination */}
+        <View style={styles.pagination}>
+          {SLIDES.map((_, i) => (
+            <View
+              key={i}
+              style={[
+                styles.dot,
+                index === i && styles.activeDot,
+              ]}
+            />
+          ))}
+        </View>
 
-      <Onboarding
-        scrollEnabled={false} // ✅ button only
-        showSkip={false}
-        bottomBarHighlight={false}
-        DotComponent={Dot}
-        NextButtonComponent={NextButton}
-        DoneButtonComponent={DoneButton}
-        onPageChange={index => setPageIndex(index)}
-        onDone={finishOnboarding}
-        pages={[
-          {
-            backgroundColor: 'transparent',
-            image: (
-              <View style={styles.logoWrapper}>
-                
-                <Image
-                  source={require('../../../assets/images/natures-club-membershiplogo.png')}
-                  style={{
-                    height: verticalScale(140),
-                    width: verticalScale(140),
-                  }}
-                  resizeMode="contain"
-                />
-              </View>
-            ),
-            title: (
-              <Typography variant="h2" weight="SemiBold" color="#ffffff">
-                Welcome to Touchwood Bliss
-              </Typography>
-            ),
-            subtitle: (
-              <Typography
-                variant="h5"
-                color="#E4EFE4"
-                weight="MMedium"
-                style={globalStyle.textCenter}
-              >
-                A peaceful retreat surrounded by nature and comfort.
-              </Typography>
-            ),
-          },
-          {
-            backgroundColor: 'transparent',
-            image: <OnboardinghexLayout />,
-            title: (
-              <Typography variant="h2" weight="SemiBold" color="#ffffff">
-                Experiences rooted in nature
-              </Typography>
-            ),
-            subtitle: (
-              <Typography
-                variant="h5"
-                color="#E4EFE4"
-                weight="MMedium"
-                style={globalStyle.textCenter}
-              >
-                Wellness, celebrations and togetherness.
-              </Typography>
-            ),
-          },
-          {
-            backgroundColor: 'transparent',
-            title: (
-              <Typography variant="h2" weight="SemiBold" color="#ffffff">
-                Step into a life of calm and connection
-              </Typography>
-            ),
-            subtitle: (
-              <Typography
-                variant="h5"
-                color="#E4EFE4"
-                weight="MMedium"
-                style={globalStyle.textCenter}
-              >
-                Everything you need for a peaceful escape.
-              </Typography>
-            ),
-          },
-        ]}
-      />
+        {/* Button */}
+        <Button
+          mode="contained"
+          onPress={next}
+          contentStyle={{ paddingHorizontal: 20 }}
+          style={styles.btn}
+        >
+          {index === SLIDES.length - 1 ? 'Get Started' : 'Next'}
+        </Button>
+      </View>
     </View>
   );
 };
 
 /* ---------- Styles ---------- */
 const styles = StyleSheet.create({
-  logoWrapper: {
+  slide: {
+    width,
+    height,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 24,
   },
-  glowWrapper: {
+  logo: {
+    height: verticalScale(200),
+    width: verticalScale(140),
+    marginBottom: 30,
+  },
+
+  /* Bottom Bar */
+  bottom: {
     position: 'absolute',
-    width: verticalScale(260),
-    height: verticalScale(260),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  glow: {
+    bottom: 40,
     width: '100%',
-    height: '100%',
-    borderRadius: 130,
-    backgroundColor: '#FFDFA8', // warm sunlight tone
-    opacity: 0.35,
-    transform: [{ scale: 1.1 }],
+    paddingHorizontal: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  /* Pagination */
+  pagination: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   dot: {
     width: 8,
     height: 8,
     borderRadius: 4,
     backgroundColor: '#C9D8C2',
-    marginHorizontal: 4,
+    marginRight: 6,
   },
   activeDot: {
-    width: horizontalScale(35),
+    width: horizontalScale(28),
     backgroundColor: '#ffffff',
+  },
+
+  /* Button */
+  btn: {
+    backgroundColor: '#212520',
+    borderRadius: 10,
   },
 });
 
