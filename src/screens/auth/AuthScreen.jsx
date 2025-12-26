@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Image, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../assets/styles/globalStyle';
@@ -37,8 +37,10 @@ const ExploreTitle = ({ onExplorePress }) => {
 const AuthScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState('');
+  const mobileInputRef = useRef();
   const [showGuestPopup, setShowGuestPopup] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loadingOtp, setLoadingOtp] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const openGuestPopup = () => setShowGuestPopup(true);
   const closeGuestPopup = () => setShowGuestPopup(false);
@@ -54,6 +56,18 @@ const AuthScreen = ({ navigation }) => {
       headerStyle: { elevation: 0, shadowOpacity: 0 },
     });
   }, [navigation]);
+
+  useEffect(() => {
+    if (mobileInputRef.current) {
+      mobileInputRef.current.focus();
+    }
+  }, []);
+
+  const handleSendOtp = () => {
+    navigation.navigate('OtpScreen', { phone: mobile });
+  };
+
+  // Google sign in
 
   const handleGoogleLogin = async () => {
     try {
@@ -74,7 +88,7 @@ const AuthScreen = ({ navigation }) => {
       navigation.replace('HomeTabs');
     } catch (error) {
       console.log('Google login failed:', error);
-      setLoading(false);
+      setGoogleLoading(false);
     }
   };
 
@@ -96,7 +110,7 @@ const AuthScreen = ({ navigation }) => {
           />
         </View>
         <Typography
-          variant="h4"
+          variant="h3"
           color="#1e1e1eff"
           weight="SemiBold"
           style={[globalStyle.my10, globalStyle.textCenter]}
@@ -112,6 +126,7 @@ const AuthScreen = ({ navigation }) => {
         </Typography>
 
         <TextInput
+          ref={mobileInputRef}
           label="Mobile Number"
           mode="outlined"
           keyboardType="phone-pad"
@@ -120,10 +135,10 @@ const AuthScreen = ({ navigation }) => {
           onChangeText={setMobile}
           style={[globalStyle.my10]}
           contentStyle={{
-            height: verticalScale(35),
-            lineHeight: verticalScale(20),
+            height: verticalScale(32),
+            lineHeight: verticalScale(17),
           }}
-          outlineColor="#b0aeaeff"
+          outlineColor="#cbc8c8ff"
           activeOutlineColor="#588650ff"
           outlineStyle={{
             borderRadius: horizontalScale(12),
@@ -131,37 +146,83 @@ const AuthScreen = ({ navigation }) => {
           }}
         />
 
-        <Button
-          mode="contained"
-          buttonColor="#689d58ff"
-          textColor="#fff"
-          onPress={() => navigation.navigate('Signupscreen', { phone: mobile })}
-          disabled={mobile.length !== 10}
-          contentStyle={{ height: verticalScale(30) }}
-          style={[
-            globalStyle.mb20,
-            globalStyle.mt20,
-            globalStyle.py3,
-            { borderRadius: horizontalScale(15) },
-          ]}
-          labelStyle={{ fontSize: scaleFontSize(15) }}
+        <LinearGradient
+          colors={
+            mobile.length === 10
+              ? ['#9fbe78', '#6f9c5a']
+              : ['#e5e5e5', '#e5e5e5']
+          }
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{
+            borderRadius: horizontalScale(12),
+            marginTop: verticalScale(10),
+            marginBottom: verticalScale(10),
+          }}
         >
-          Send OTP
-        </Button>
-        <View style={{ marginVertical: verticalScale(15) }}>
-          <Divider />
-          <Text
+          <Button
+            mode="contained"
+            onPress={handleSendOtp}
+            disabled={mobile.length !== 10}
+            contentStyle={{
+              height: verticalScale(32),
+            }}
             style={{
-              textAlign: 'center',
-              marginTop: -10,
-              backgroundColor: '#ffffffff',
-              alignSelf: 'center',
-              paddingHorizontal: 10,
-              color: '#8c8c8c',
+              backgroundColor: 'transparent',
+              borderRadius: horizontalScale(14),
+            }}
+            labelStyle={{
+              fontSize: scaleFontSize(15),
+              fontWeight: '600',
+              color: mobile.length === 10 ? '#ffffff' : '#9e9e9e',
             }}
           >
-            OR
-          </Text>
+            Send OTP
+          </Button>
+        </LinearGradient>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: verticalScale(14),
+          }}
+        >
+          {/* Left Line */}
+          <View
+            style={{
+              flex: 1,
+              height: verticalScale(0.6),
+              backgroundColor: '#cdd8c0',
+            }}
+          />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingHorizontal: horizontalScale(10),
+              backgroundColor: '#fdfcf8',
+            }}
+          >
+            <Text
+              style={{
+                fontSize: scaleFontSize(13),
+                color: '#7a7a7a',
+                fontWeight: '500',
+              }}
+            >
+              OR
+            </Text>
+          </View>
+
+          {/* Right Line */}
+          <View
+            style={{
+              flex: 1,
+              height: verticalScale(0.6),
+              backgroundColor: '#cdd8c0',
+            }}
+          />
         </View>
 
         <View style={[globalStyle.mt10]}>

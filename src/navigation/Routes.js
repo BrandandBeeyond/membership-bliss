@@ -18,4 +18,5 @@ export const Routes = {
   AboutScreen: 'AboutScreen',
   ContactScreen: 'ContactScreen',
   ProfileScreen: 'ProfileScreen',
+  OtpScreen: 'OtpScreen',
 };

@@ -21,8 +21,6 @@ const RetreatsEventsTab = () => {
           <Typography variant="body2" style={styles.desc}>
             Join our rejuvenating yoga retreat surrounded by nature.
           </Typography>
-
-           
         </View>
       </View>
     </View>

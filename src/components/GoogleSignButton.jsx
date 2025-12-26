@@ -9,13 +9,13 @@ const GoogleSignButton = ({ onPress }) => {
       onPress={onPress}
       style={{
         width: '100%',
-        height: verticalScale(35),
-        borderRadius: horizontalScale(15),
+        height: verticalScale(32),
+        borderRadius: horizontalScale(12),
         backgroundColor: '#e7f5ddff', // black color
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        elevation: horizontalScale(2),
+        elevation: horizontalScale(1.3),
       }}
     >
       <Image

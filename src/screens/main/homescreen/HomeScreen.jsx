@@ -14,6 +14,7 @@ import {
 } from '../../../../assets/styles/Scaling';
 import { Routes } from '../../../navigation/Routes';
 import { useSelector } from 'react-redux';
+import Reviews from '../../../components/reviews/Reviews';
 
 const dummyHighLights = [
   {
@@ -91,7 +92,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={[globalStyle.px20,globalStyle.mt10]}>
+        <View style={[globalStyle.px20, globalStyle.mt10]}>
           <View style={[globalStyle.bgwhite, globalStyle.cardShadow]}>
             <Highlights
               data={dummyHighLights}
@@ -148,7 +149,11 @@ const HomeScreen = ({ navigation }) => {
               navigation.navigate(Routes.EditionScreen, { plan: farmPlan })
             }
           />
+
+           <Reviews />
         </View>
+
+       
       </ScrollView>
     </SafeAreaView>
   );

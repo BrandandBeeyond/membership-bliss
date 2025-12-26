@@ -24,6 +24,7 @@ import AboutScreen from '../screens/more/about/AboutScreen';
 import ContactScreen from '../screens/more/contact/ContactScreen';
 import ProfileScreen from '../screens/more/profile/ProfileScreen';
 import Signupscreen from '../screens/auth/Signupscreen';
+import OtpScreen from '../screens/auth/otp/OtpScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -105,7 +106,7 @@ const HomeTabs = () => (
             size={24}
           />
         ),
-        headerTitleAlign:'center',
+        headerTitleAlign: 'center',
         headerStyle: { elevation: 0, shadowOpacity: 0 },
       }}
     />
@@ -166,16 +167,24 @@ export const MainNavigation = () => {
           headerStyle: {
             elevation: 0,
             shadowOpacity: 0,
+            backgroundColor: '#fdfcf8',
           },
+        }}
+      />
+      <Stack.Screen
+        name="OtpScreen"
+        component={OtpScreen}
+        options={{
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="Signupscreen"
         component={Signupscreen}
         options={{
-           headerTitle: 'Sign Up',
-           headerTitleAlign: 'center',
-           headerStyle: { elevation: 0, shadowOpacity: 0 },
+          headerTitle: 'Sign Up',
+          headerTitleAlign: 'center',
+          headerStyle: { elevation: 0, shadowOpacity: 0 },
         }}
       />
 
