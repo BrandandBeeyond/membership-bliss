@@ -148,7 +148,7 @@ export const globalStyle = StyleSheet.create({
   bgThemeLight: {
     backgroundColor: '#f7fbf1ff',
   },
- 
+
   applyBtn: {
     position: 'absolute',
     bottom: verticalScale(9),
@@ -174,8 +174,8 @@ export const globalStyle = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: horizontalScale(20),
     elevation: horizontalScale(8),
-    borderWidth:horizontalScale(0.5),
-    borderColor:'#d1d1d1ff',
+    borderWidth: horizontalScale(0.5),
+    borderColor: '#d1d1d1ff',
   },
   innerImageTrending: {
     height: verticalScale(80),
@@ -205,5 +205,13 @@ export const globalStyle = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 3,
+  },
+  reviewcard: {
+    backgroundColor: '#ffffff',
+    borderRadius: horizontalScale(20),
+    width: horizontalScale(150),
+    minHeight: verticalScale(90),
+    elevation: horizontalScale(2),
+    padding: horizontalScale(10),
   },
 });

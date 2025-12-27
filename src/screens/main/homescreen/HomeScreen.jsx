@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
-import { Image, ScrollView, View } from 'react-native';
+import { Image, ImageBackground, ScrollView, View } from 'react-native';
 import Highlights from '../../../components/highlights/Highlights';
 import Topbar from '../../../components/Topbar';
 import { Searchbar, TextInput } from 'react-native-paper';
@@ -150,10 +150,12 @@ const HomeScreen = ({ navigation }) => {
             }
           />
 
-           <Reviews />
+          <ImageBackground
+            source={require('../../../../assets/images/reviewsbg.png')}
+          >
+            <Reviews />
+          </ImageBackground>
         </View>
-
-       
       </ScrollView>
     </SafeAreaView>
   );
