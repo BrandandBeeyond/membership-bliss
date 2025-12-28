@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { Platform, TextInput, View } from 'react-native';
 import {
   horizontalScale,
   verticalScale,
@@ -8,48 +8,63 @@ import { globalStyle } from '../../../../assets/styles/globalStyle';
 
 const OtpInput = ({ onOtpChange }) => {
   const OTP_LENGTH = 6;
-
   const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(''));
-
   const inputsRef = useRef([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       inputsRef.current[0]?.focus();
-    }, 300);
-
+    }, 120);
     return () => clearTimeout(timer);
   }, []);
+
+  const updateOtp = newOtp => {
+    setOtp(newOtp);
+    onOtpChange(newOtp.join(''));
+  };
 
   const handleChange = (value, index) => {
     const newOtp = [...otp];
 
-    // ⬅️ Detect BACKSPACE via empty value
-    if (value === '') {
-      newOtp[index] = '';
-      setOtp(newOtp);
-      onOtpChange(newOtp.join(''));
-
-      if (index > 0) {
-        setTimeout(() => {
-          inputsRef.current[index - 1]?.focus();
-        }, 50);
-      }
+    // Handle paste
+    if (value.length > 1) {
+      const chars = value.split('').slice(0, OTP_LENGTH);
+      chars.forEach((c, i) => (newOtp[i] = c));
+      updateOtp(newOtp);
+      inputsRef.current[Math.min(chars.length - 1, OTP_LENGTH - 1)]?.focus();
       return;
     }
 
-    // ⬅️ Allow only numbers
-    if (!/^\d$/.test(value)) return;
+    // Only digits
+    if (!/^\d?$/.test(value)) return;
 
     newOtp[index] = value;
-    setOtp(newOtp);
-    onOtpChange(newOtp.join(''));
+    updateOtp(newOtp);
 
-    // ⬅️ Move to next field
-    if (index < OTP_LENGTH - 1) {
-      setTimeout(() => {
-        inputsRef.current[index + 1]?.focus();
-      }, 50);
+    // Go forward
+    if (value && index < OTP_LENGTH - 1) {
+      inputsRef.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyPress = (e, index) => {
+    const key = e.nativeEvent.key;
+    const newOtp = [...otp];
+
+    if (key === 'Backspace') {
+      // Case 1: current box has a digit → clear only this box
+      if (newOtp[index] !== '') {
+        newOtp[index] = '';
+        updateOtp(newOtp);
+        return;
+      }
+
+      // Case 2: current is already empty → move back & clear previous
+      if (index > 0) {
+        newOtp[index - 1] = '';
+        updateOtp(newOtp);
+        inputsRef.current[index - 1]?.focus();
+      }
     }
   };
 
@@ -68,10 +83,11 @@ const OtpInput = ({ onOtpChange }) => {
           key={index}
           ref={ref => (inputsRef.current[index] = ref)}
           value={digit}
-          keyboardType="number-pad"
+          keyboardType={Platform.OS === 'ios' ? 'number-pad' : 'numeric'}
           maxLength={1}
-          onChangeText={value => handleChange(value, index)}
-          editable={index === 0 || otp[index - 1] !== ''}
+          onChangeText={v => handleChange(v, index)}
+          onKeyPress={e => handleKeyPress(e, index)}
+          autoFocus={index === 0}
           style={{
             width: horizontalScale(45),
             height: horizontalScale(45),

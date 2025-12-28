@@ -12,10 +12,36 @@ import { Button } from 'react-native-paper';
 import Typography from '../../../components/Typography';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import OtpInput from './OtpInput';
+import { useDispatch } from 'react-redux';
+import { verifyOtpAction } from '../../../redux/actions/UserAction';
 
 const OtpScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const { phone } = route.params;
   const [otpValue, setOtpValue] = useState('');
+
+  const [loadingVerifyOtp, setLoadingVerifyOtp] = useState(false);
+
+  const handleOTPVerify = async () => {
+    try {
+      setLoadingVerifyOtp(true);
+      if (otpValue.length !== 6) return;
+
+      const res = await dispatch(verifyOtpAction(phone, otpValue));
+
+      console.log('res verify otp', res);
+
+      if (!res?.user.profileCompleted) {
+        navigation.replace('Signupscreen', { phone: phone });
+      } else {
+        navigation.replace('HomeTabs');
+      }
+    } catch (error) {
+      console.log('OTP Verification Error:', error);
+    } finally {
+      setLoadingVerifyOtp(false);
+    }
+  };
 
   return (
     <SafeAreaView
@@ -100,7 +126,9 @@ const OtpScreen = ({ navigation, route }) => {
         >
           <Button
             mode="contained"
-            disabled={otpValue.length !== 6}
+            disabled={otpValue.length !== 6 || loadingVerifyOtp}
+            loading={loadingVerifyOtp}
+            onPress={handleOTPVerify}
             contentStyle={{
               height: verticalScale(32),
             }}
@@ -111,9 +139,6 @@ const OtpScreen = ({ navigation, route }) => {
             labelStyle={{
               fontSize: scaleFontSize(15),
               fontWeight: '600',
-            }}
-            onPress={() => {
-              console.log('OTP:', otpValue);
             }}
           >
             Verify OTP
@@ -145,7 +170,7 @@ const OtpScreen = ({ navigation, route }) => {
           {
             height: verticalScale(120),
             width: '100%',
-            bottom: verticalScale(20),
+            bottom: verticalScale(0),
             left: horizontalScale(0),
           },
         ]}

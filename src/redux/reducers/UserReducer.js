@@ -1,4 +1,7 @@
 import {
+  COMPLETE_PROFILE_FAILURE,
+  COMPLETE_PROFILE_REQUEST,
+  COMPLETE_PROFILE_SUCCESS,
   GOOGLE_LOGIN_FAILURE,
   GOOGLE_LOGIN_REQUEST,
   GOOGLE_LOGIN_SUCCESS,
@@ -26,6 +29,7 @@ export const userReducer = (state = initialState, action) => {
     case SEND_OTP_REQUEST:
     case VERIFY_OTP_REQUEST:
     case GOOGLE_LOGIN_REQUEST:
+    case COMPLETE_PROFILE_REQUEST:
       return {
         ...state,
         loading: true,
@@ -39,6 +43,14 @@ export const userReducer = (state = initialState, action) => {
         loading: false,
         otpSent: true,
         phone: action.payload,
+      };
+
+    case COMPLETE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+        isAuthenticated: true,
       };
 
     case VERIFY_OTP_SUCCESS:
@@ -62,6 +74,7 @@ export const userReducer = (state = initialState, action) => {
     case SEND_OTP_FAILURE:
     case VERIFY_OTP_FAILURE:
     case GOOGLE_LOGIN_FAILURE:
+    case COMPLETE_PROFILE_FAILURE:
       return {
         ...state,
         loading: false,

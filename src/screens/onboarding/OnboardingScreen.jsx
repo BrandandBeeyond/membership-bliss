@@ -63,7 +63,7 @@ const OnboardingScreen = ({ navigation }) => {
         <Image source={item.image} style={styles.logo} resizeMode="contain" />
       ) : null}
 
-      <Typography variant="h2" weight="Bold" color="#fff" style={globalStyle.textCenter}>
+      <Typography variant="h2" weight="Bold" color="#4f3e1aff" style={globalStyle.textCenter}>
         {item.title}
       </Typography>
 
@@ -164,7 +164,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
 
-  /* Button */
   btn: {
     backgroundColor: '#212520',
     borderRadius: 10,

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../assets/styles/globalStyle';
 import Typography from '../../components/Typography';
@@ -14,8 +20,12 @@ import {
 } from 'react-native-paper';
 import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
 import axios from 'axios';
+import { completeProfileAction } from '../../redux/actions/UserAction';
+import { useDispatch } from 'react-redux';
 
 const Signupscreen = ({ route, navigation }) => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -105,12 +115,64 @@ const Signupscreen = ({ route, navigation }) => {
   useEffect(() => {
     fetchStates();
   }, []);
+  const handleCompleteProfile = async () => {
+    try {
+      const newErrors = {};
 
+      if (!formData.firstName.trim()) {
+        newErrors.firstName = 'First name is required';
+      }
+
+      if (!formData.lastName.trim()) {
+        newErrors.lastName = 'Last name is required';
+      }
+      if (!formData.email.trim()) {
+        newErrors.email = 'Email is required';
+      } else if (
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
+      ) {
+        newErrors.email = 'Invalid email address';
+      }
+      if (!formData.gender) {
+        newErrors.gender = 'Gender is required';
+      }
+      if (!selectedState) {
+        newErrors.state = 'State is required';
+      }
+      if (!selectedCity) {
+        newErrors.city = 'City is required';
+      }
+
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return;
+      }
+
+      setLoading(true);
+
+      const payload = {
+        firstname: formData.firstName,
+        lastname: formData.lastName,
+        email: formData.email,
+        gender: formData.gender,
+        state: selectedState,
+        city: selectedCity,
+      };
+
+      await dispatch(completeProfileAction(payload, navigation));
+    } catch (error) {
+      console.log('Complete Profile Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <SafeAreaView
-      style={[globalStyle.flex, globalStyle.bgslate, globalStyle.px20]}
+      style={[globalStyle.flex, globalStyle.bgslate, globalStyle.relative]}
     >
-      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
+      <ScrollView
+        contentContainerStyle={[globalStyle.px20, { paddingBottom: 120 }]}
+      >
         <Typography variant="h6" weight="MSemiBold" style={globalStyle.mb20}>
           Complete Your Profile
         </Typography>
@@ -249,15 +311,24 @@ const Signupscreen = ({ route, navigation }) => {
       </ScrollView>
 
       {/* Submit */}
-      <View style={{ position: 'absolute', bottom: 20, left: 20, right: 20 }}>
-        <Button
-          mode="contained"
-          loading={loading}
-          contentStyle={{ height: 48 }}
-          style={{ borderRadius: 10, backgroundColor: '#2d532c' }}
+      <View style={{ position: 'absolute', bottom: 50, left: 20, right: 20 }}>
+        <View
+          style={{ padding: horizontalScale(10), backgroundColor: '#ffffff',borderRadius:horizontalScale(30),elevation:5 }}
         >
-          Complete Signup
-        </Button>
+          <Button
+            mode="contained"
+            onPress={handleCompleteProfile}
+            disabled={loading}
+            loading={loading}
+            contentStyle={{ height: 48 }}
+            style={{
+              borderRadius: horizontalScale(30),
+              backgroundColor: '#2d532c',
+            }}
+          >
+            Complete Profile
+          </Button>
+        </View>
       </View>
 
       <Portal>
@@ -299,7 +370,6 @@ const Signupscreen = ({ route, navigation }) => {
         >
           <View
             style={{
-
               backgroundColor: 'white',
               borderRadius: 10,
               padding: 10,
@@ -338,6 +408,19 @@ const Signupscreen = ({ route, navigation }) => {
           </View>
         </Modal>
       </Portal>
+
+      <Image
+        source={require('../../../assets/images/promisesbg.png')}
+        style={{
+          position: 'absolute',
+          bottom: verticalScale(-50),
+          left: 0,
+          height: verticalScale(300),
+          width: '100%',
+          zIndex: -1,
+        }}
+        resizeMode="contain"
+      />
     </SafeAreaView>
   );
 };

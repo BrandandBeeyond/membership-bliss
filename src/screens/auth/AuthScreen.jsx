@@ -11,8 +11,11 @@ import {
   verticalScale,
 } from '../../../assets/styles/Scaling';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { useDispatch } from 'react-redux';
-import { googleLoginAction } from '../../redux/actions/UserAction';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  googleLoginAction,
+  sendOtpAction,
+} from '../../redux/actions/UserAction';
 import LinearGradient from 'react-native-linear-gradient';
 
 const ExploreTitle = ({ onExplorePress }) => {
@@ -42,6 +45,8 @@ const AuthScreen = ({ navigation }) => {
   const [loadingOtp, setLoadingOtp] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
+  const { otpSent } = useSelector(state => state.user);
+
   const openGuestPopup = () => setShowGuestPopup(true);
   const closeGuestPopup = () => setShowGuestPopup(false);
 
@@ -63,8 +68,24 @@ const AuthScreen = ({ navigation }) => {
     }
   }, []);
 
-  const handleSendOtp = () => {
-    navigation.navigate('OtpScreen', { phone: mobile });
+  const handleSendOtp = async() => {
+    try {
+      setLoadingOtp(true);
+
+      const res = await dispatch(sendOtpAction(mobile));
+
+      console.log('res', res);
+
+      if (res?.success) {
+        navigation.navigate('OtpScreen', { phone: mobile });
+      } else {
+        console.log('Failed to send OTP');
+      }
+    } catch (error) {
+      console.log('Send OTP Error:', error);
+    } finally {
+      setLoadingOtp(false);
+    }
   };
 
   // Google sign in
@@ -163,7 +184,8 @@ const AuthScreen = ({ navigation }) => {
           <Button
             mode="contained"
             onPress={handleSendOtp}
-            disabled={mobile.length !== 10}
+            loading={loadingOtp}
+            disabled={mobile.length !== 10 || loadingOtp}
             contentStyle={{
               height: verticalScale(32),
             }}
