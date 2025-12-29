@@ -1,22 +1,37 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 import { List } from 'react-native-paper';
 import { globalStyle } from '../../../assets/styles/globalStyle';
 import { verticalScale } from '../../../assets/styles/Scaling';
+import { faqStyle } from './Style';
 
-const Faq = ({ faqQuestion, faqAnswer }) => {
-  const [expanded, setExpanded] = useState(false);
+const Faq = ({ id, expandedId, setExpandedId, faqQuestion, faqAnswer }) => {
+  const isExpanded = expandedId === id;
 
   return (
-    <View style={[globalStyle.mb20]}>
+    <View style={faqStyle.wrapper}>
       <List.Accordion
-        expanded={expanded}
-        onPress={() => setExpanded(!expanded)}
+        expanded={isExpanded}
+        onPress={() => setExpandedId(isExpanded ? null : id)}
         title={faqQuestion}
         titleNumberOfLines={2}
-        style={[globalStyle.rounded15,{backgroundColor:'#eef2ebff',height:verticalScale(38)}]}
+        titleStyle={faqStyle.title}
+        style={faqStyle.accordion}
+        right={props => (
+          <List.Icon
+            {...props}
+            icon={isExpanded ? 'chevron-up' : 'chevron-down'}
+            color="#3E5F3C"
+          />
+        )}
       >
-        <List.Item title={faqAnswer} titleNumberOfLines={10} />
+        <View style={faqStyle.answerWrapper}>
+          <List.Item
+            title={faqAnswer}
+            titleNumberOfLines={10}
+            titleStyle={faqStyle.answer}
+          />
+        </View>
       </List.Accordion>
     </View>
   );

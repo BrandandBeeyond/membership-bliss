@@ -1,6 +1,12 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView, View, TouchableOpacity } from 'react-native';
+import {
+  ScrollView,
+  View,
+  TouchableOpacity,
+  Pressable,
+  Linking,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
@@ -27,118 +33,131 @@ const ContactScreen = ({ navigation }) => {
           you.
         </Typography>
 
-        <LinearGradient
-          colors={['#779d75ff', '#486d47ff']}
-          style={{
-            padding: 18,
-            borderRadius: 30,
-            marginBottom: 12,
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 14,
-          }}
-        >
-          <View
-            style={[
-              globalStyle.alignCenter,
-              globalStyle.jusifyCenter,
-              {
-                height: horizontalScale(35),
-                width: horizontalScale(35),
-                backgroundColor: '#375a349c',
-                borderRadius: horizontalScale(40),
-              },
-            ]}
+        <Pressable>
+          <LinearGradient
+            colors={['#5c775aff', '#60805fff']}
+            style={{
+              padding: 18,
+              borderRadius: horizontalScale(90),
+              marginBottom: verticalScale(16),
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 14,
+              elevation: 3,
+            }}
           >
-            <Ionicons name="chatbubbles-outline" size={23} color="#ffffff" />
-          </View>
+            <View
+              style={[
+                globalStyle.alignCenter,
+                globalStyle.jusifyCenter,
+                {
+                  height: horizontalScale(35),
+                  width: horizontalScale(35),
+                  backgroundColor: '#375a349c',
+                  borderRadius: horizontalScale(40),
+                },
+              ]}
+            >
+              <Ionicons name="chatbubbles-outline" size={23} color="#ffffff" />
+            </View>
 
-          <View>
-            <Typography variant="h6" weight="SemiBold" color="#ffffff">
-              Chat with us
-            </Typography>
+            <View>
+              <Typography variant="h6" weight="SemiBold" color="#ffffff">
+                Chat with us
+              </Typography>
 
-            <Typography variant="subtext" weight="MMedium" color="#ffffff">
-              Chat with our assistant now
-            </Typography>
-          </View>
-        </LinearGradient>
+              <Typography variant="subtext" weight="MMedium" color="#ffffff">
+                Chat with our assistant now
+              </Typography>
+            </View>
+          </LinearGradient>
+        </Pressable>
 
         {/* ---------- CALL CARD ---------- */}
-        <LinearGradient
-          colors={['#779d75ff', '#486d47ff']}
-          style={{
-            padding: 18,
-            borderRadius: 30,
-            marginBottom: 12,
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 14,
-          }}
-        >
-          <View
-            style={[
-              globalStyle.alignCenter,
-              globalStyle.jusifyCenter,
-              {
-                height: horizontalScale(35),
-                width: horizontalScale(35),
-                backgroundColor: '#375a349c',
-                borderRadius: horizontalScale(40),
-              },
-            ]}
+        <Pressable onPress={() => Linking.openURL('tel:+9170300 60522')}>
+          <LinearGradient
+            colors={['#779d75ff', '#486d47ff']}
+            style={{
+              padding: 18,
+              borderRadius: horizontalScale(90),
+              marginBottom: verticalScale(16),
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 14,
+              elevation: 3,
+            }}
           >
-            <Ionicons name="call-outline" size={23} color="#ffffff" />
-          </View>
+            <View
+              style={[
+                globalStyle.alignCenter,
+                globalStyle.jusifyCenter,
+                {
+                  height: horizontalScale(35),
+                  width: horizontalScale(35),
+                  backgroundColor: '#375a349c',
+                  borderRadius: horizontalScale(40),
+                },
+              ]}
+            >
+              <Ionicons name="call-outline" size={23} color="#ffffff" />
+            </View>
 
-          <View>
-            <Typography variant="h6" weight="SemiBold" color="#ffffff">
-              Call us
-            </Typography>
+            <View>
+              <Typography variant="h6" weight="SemiBold" color="#ffffff">
+                Call us
+              </Typography>
 
-            <Typography variant="subtext" weight="MMedium" color="#ffffff">
-              We're available from 6 AM – 6 PM PST
-            </Typography>
-          </View>
-        </LinearGradient>
+              <Typography variant="subtext" weight="MMedium" color="#ffffff">
+                We're available from 6 AM – 6 PM PST
+              </Typography>
+            </View>
+          </LinearGradient>
+        </Pressable>
 
         {/* ---------- EMAIL CARD ---------- */}
-        <LinearGradient
-          colors={['#779d75ff', '#486d47ff']}
-          style={{
-            padding: 18,
-            borderRadius: 30,
-            marginBottom: 18,
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 14,
-          }}
+        <Pressable
+          onPress={() =>
+            Linking.openURL('mailto:reservations@touchwoodbliss.com')
+          }
         >
-          <View
-            style={[
-              globalStyle.alignCenter,
-              globalStyle.jusifyCenter,
-              {
-                height: horizontalScale(35),
-                width: horizontalScale(35),
-                backgroundColor: '#375a349c',
-                borderRadius: horizontalScale(40),
-              },
-            ]}
+          <LinearGradient
+            colors={['#779d75ff', '#486d47ff']}
+            style={{
+              padding: 18,
+              borderRadius: horizontalScale(90),
+              marginBottom: verticalScale(16),
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 14,
+              elevation: 3,
+            }}
           >
-            <Ionicons name="mail-outline" size={23} color="#ffffff" />
-          </View>
+            <View
+              style={[
+                globalStyle.alignCenter,
+                globalStyle.jusifyCenter,
+                {
+                  height: horizontalScale(35),
+                  width: horizontalScale(35),
+                  backgroundColor: '#375a349c',
+                  borderRadius: horizontalScale(40),
+                },
+              ]}
+            >
+              <Ionicons name="mail-outline" size={23} color="#ffffff" />
+            </View>
 
-          <View>
-            <Typography variant="h6" weight="SemiBold" color="#ffffff">
-              Email us
-            </Typography>
+            <View>
+              <Typography variant="h6" weight="SemiBold" color="#ffffff">
+                Email us
+              </Typography>
 
-            <Typography variant="subtext" weight="MMedium" color="#ffffff">
-              We'll get back within 24hrs
-            </Typography>
-          </View>
-        </LinearGradient>
+              <Typography variant="subtext" weight="MMedium" color="#ffffff">
+                We'll get back within 24hrs
+              </Typography>
+            </View>
+          </LinearGradient>
+        </Pressable>
 
         <View
           style={[
@@ -157,29 +176,38 @@ const ContactScreen = ({ navigation }) => {
 
           {/* Social item reusable row */}
           {[
-            { icon: 'logo-whatsapp', label: 'whatsapp' },
+            {
+              icon: 'logo-whatsapp',
+              label: 'whatsapp',
+              slug: 'https://api.whatsapp.com/send/?phone=917030060905&text=Hello%2C+I+have+a+question+about+https%3A%2F%2Fwww.touchwoodbliss.com%2F&type=phone_number&app_absent=0',
+            },
             { icon: 'logo-instagram', label: 'Instagram' },
             { icon: 'logo-facebook', label: 'Facebook' },
             { icon: 'logo-linkedin', label: 'LinkedIn' },
           ].map((item, index) => (
-            <View
-              key={index}
-              style={{
-                marginTop: 12,
-                backgroundColor: '#ffffff',
-                borderRadius: 16,
-                padding: 14,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 10,
-              }}
-            >
-              <Ionicons name={item.icon} size={22} color="#1c1c1c" />
+            <Pressable onPress={() => Linking.openURL(item.slug)} key={index}>
+              <View
+                style={{
+                  marginTop: 12,
+                  backgroundColor: '#ffffff',
+                  borderRadius: 16,
+                  padding: 14,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 10,
+                }}
+              >
+                <Ionicons name={item.icon} size={22} color="#1c1c1c" />
 
-              <Typography variant="subtext" weight="MSemiBold" color="#1c1c1c">
-                {item.label}
-              </Typography>
-            </View>
+                <Typography
+                  variant="subtext"
+                  weight="MSemiBold"
+                  color="#1c1c1c"
+                >
+                  {item.label}
+                </Typography>
+              </View>
+            </Pressable>
           ))}
         </View>
       </ScrollView>

@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, FlatList, Image } from 'react-native';
+import { View, StyleSheet, FlatList, Image, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Typography from '../../../components/Typography';
 
-import WhatsNewTab from './WhatsNewTab';
-import RetreatsEventsTab from './RetreatsEventsTab';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import {
   horizontalScale,
@@ -14,8 +12,14 @@ import {
 } from '../../../../assets/styles/Scaling';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUpdates } from '../../../redux/actions/UpdatesAction';
+import { Button } from 'react-native-paper';
 
 const Tab = createMaterialTopTabNavigator();
+
+const formatDate = dateStr => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateStr).toLocaleDateString(undefined, options);
+};
 
 const UpdatesList = ({ items }) => (
   <FlatList
@@ -34,15 +38,41 @@ const UpdatesList = ({ items }) => (
           />
 
           <View style={styles.content}>
-            <Typography weight="SemiBold" variant="h6">
+            <Typography weight="Bold" variant="h5" color="#374034ff">
               {item.title}
             </Typography>
-            <Typography variant="caption" style={styles.date}>
-              {item.updatedOn}
-            </Typography>
-            <Typography variant="body2" style={styles.desc}>
+
+            <Typography variant="subhead" weight="MMedium" style={styles.desc}>
               {item.description}
             </Typography>
+
+            <View
+              style={[
+                globalStyle.row,
+                globalStyle.alignCenter,
+                globalStyle.justifyBetween,
+              ]}
+            >
+              <Typography
+                variant="body"
+                weight="MSemiBold"
+                color="#536053ff"
+                style={styles.date}
+              >
+                Updated on {'\n'} {formatDate(item.updatedOn)}
+              </Typography>
+
+              <Button
+                mode="outlined"
+                onPress={() =>
+                  Linking.openURL(
+                    'https://theharmonyretreat.in/love-you-zindagi.php',
+                  )
+                }
+              >
+                View details
+              </Button>
+            </View>
           </View>
         </View>
       </View>
@@ -59,14 +89,14 @@ const UpdatesScreen = () => {
   }, [dispatch]);
 
   const whatsNew = updates?.filter(u => u.category === 'whats_new') || [];
-  const events = updates?.filter(u => u.category === 'events') || [];
+  const events = updates?.filter(u => u.category === 'events_retreats') || [];
 
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgslate]}>
       {/* Header */}
       <View style={styles.header}>
         <Typography variant="h6" color="#424d3eff" weight="MSemiBold">
-          Stay informed with what’s happening at our retreat
+          Stay informed with what’s happening at our resort !
         </Typography>
       </View>
 
@@ -156,16 +186,5 @@ const styles = StyleSheet.create({
   desc: {
     color: '#5f6f5f',
     marginBottom: 12,
-  },
-  button: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#2e3f2bff',
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  btnText: {
-    color: '#ffffff',
-    fontWeight: '600',
   },
 });
