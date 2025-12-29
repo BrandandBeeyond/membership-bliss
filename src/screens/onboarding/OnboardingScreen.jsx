@@ -14,9 +14,9 @@ import Typography from '../../components/Typography';
 import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
 import { globalStyle } from '../../../assets/styles/globalStyle';
 import OnboardinghexLayout from './OnboardinghexLayout';
+import Video from 'react-native-video';
 
 const { width, height } = Dimensions.get('window');
-
 
 const SLIDES = [
   {
@@ -35,7 +35,7 @@ const SLIDES = [
   },
   {
     key: '3',
-    bg: require('../../../assets/images/sliderbg4.png'),
+    video: require('../../../assets/videos/onboarding.mp4'),
     title: 'Step into a life of calm & connection',
     subtitle: 'Everything you need for a peaceful escape.',
   },
@@ -56,14 +56,36 @@ const OnboardingScreen = ({ navigation }) => {
   };
 
   const renderItem = ({ item }) => (
-    <ImageBackground source={item.bg} style={styles.slide}>
+    <View style={styles.slide}>
+      
+      {item.video ? (
+        <Video
+          source={item.video}
+          style={StyleSheet.absoluteFill}
+          resizeMode="cover"
+          repeat
+          muted
+          paused={index !== 2}
+        />
+      ) : (
+        <ImageBackground source={item.bg} style={StyleSheet.absoluteFill} />
+      )}
+
+      <View style={styles.overlay} />
+
+      
       {item.custom ? (
         <OnboardinghexLayout />
       ) : item.image ? (
         <Image source={item.image} style={styles.logo} resizeMode="contain" />
       ) : null}
 
-      <Typography variant="h2" weight="Bold" color="#4f3e1aff" style={globalStyle.textCenter}>
+      <Typography
+        variant="h2"
+        weight="Bold"
+        color="#5d4924ff"
+        style={[globalStyle.textCenter, { marginTop: 20 }]}
+      >
         {item.title}
       </Typography>
 
@@ -75,7 +97,7 @@ const OnboardingScreen = ({ navigation }) => {
       >
         {item.subtitle}
       </Typography>
-    </ImageBackground>
+    </View>
   );
 
   return (
@@ -99,10 +121,7 @@ const OnboardingScreen = ({ navigation }) => {
           {SLIDES.map((_, i) => (
             <View
               key={i}
-              style={[
-                styles.dot,
-                index === i && styles.activeDot,
-              ]}
+              style={[styles.dot, index === i && styles.activeDot]}
             />
           ))}
         </View>
