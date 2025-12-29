@@ -139,6 +139,7 @@ const OtpScreen = ({ navigation, route }) => {
             labelStyle={{
               fontSize: scaleFontSize(15),
               fontWeight: '600',
+              color: otpValue.length === 6 ? '#ffffff' : '#9e9e9e',
             }}
           >
             Verify OTP

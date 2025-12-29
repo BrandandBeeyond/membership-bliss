@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, FlatList, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Typography from '../../../components/Typography';
@@ -12,10 +12,55 @@ import {
   scaleFontSize,
   verticalScale,
 } from '../../../../assets/styles/Scaling';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUpdates } from '../../../redux/actions/UpdatesAction';
 
 const Tab = createMaterialTopTabNavigator();
 
+const UpdatesList = ({ items }) => (
+  <FlatList
+    data={items}
+    keyExtractor={item => item._id}
+    renderItem={({ item }) => (
+      <View style={styles.container}>
+        <View style={styles.card}>
+          <Image
+            source={{
+              uri:
+                item.thumbnail.url ||
+                'https://images.unsplash.com/photo-1545389336-cf090694435e',
+            }}
+            style={styles.image}
+          />
+
+          <View style={styles.content}>
+            <Typography weight="SemiBold" variant="h6">
+              {item.title}
+            </Typography>
+            <Typography variant="caption" style={styles.date}>
+              {item.updatedOn}
+            </Typography>
+            <Typography variant="body2" style={styles.desc}>
+              {item.description}
+            </Typography>
+          </View>
+        </View>
+      </View>
+    )}
+  />
+);
+
 const UpdatesScreen = () => {
+  const dispatch = useDispatch();
+  const { updates, loading } = useSelector(state => state.updates);
+
+  useEffect(() => {
+    dispatch(getAllUpdates());
+  }, [dispatch]);
+
+  const whatsNew = updates?.filter(u => u.category === 'whats_new') || [];
+  const events = updates?.filter(u => u.category === 'events') || [];
+
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgslate]}>
       {/* Header */}
@@ -53,13 +98,14 @@ const UpdatesScreen = () => {
       >
         <Tab.Screen
           name="WhatsNew"
-          component={WhatsNewTab}
           options={{ title: 'What’s New' }}
+          children={() => <UpdatesList items={whatsNew} />}
         />
+
         <Tab.Screen
           name="Retreats"
-          component={RetreatsEventsTab}
           options={{ title: 'Retreats & Events' }}
+          children={() => <UpdatesList items={events} />}
         />
       </Tab.Navigator>
     </SafeAreaView>
@@ -86,5 +132,40 @@ const styles = StyleSheet.create({
   },
   tabItem: {
     borderRadius: horizontalScale(40),
+  },
+  container: {
+    padding: 16,
+  },
+  card: {
+    backgroundColor: '#ffffff',
+    borderRadius: 18,
+    overflow: 'hidden',
+    elevation: 3,
+  },
+  image: {
+    width: '100%',
+    height: 180,
+  },
+  content: {
+    padding: 16,
+  },
+  date: {
+    color: '#6a7a6a',
+    marginVertical: 4,
+  },
+  desc: {
+    color: '#5f6f5f',
+    marginBottom: 12,
+  },
+  button: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#2e3f2bff',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  btnText: {
+    color: '#ffffff',
+    fontWeight: '600',
   },
 });

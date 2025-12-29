@@ -18,7 +18,11 @@ import {
   Searchbar,
   TextInput,
 } from 'react-native-paper';
-import { horizontalScale, verticalScale } from '../../../assets/styles/Scaling';
+import {
+  horizontalScale,
+  scaleFontSize,
+  verticalScale,
+} from '../../../assets/styles/Scaling';
 import axios from 'axios';
 import { completeProfileAction } from '../../redux/actions/UserAction';
 import { useDispatch } from 'react-redux';
@@ -115,6 +119,9 @@ const Signupscreen = ({ route, navigation }) => {
   useEffect(() => {
     fetchStates();
   }, []);
+
+
+  
   const handleCompleteProfile = async () => {
     try {
       const newErrors = {};
@@ -158,6 +165,10 @@ const Signupscreen = ({ route, navigation }) => {
         state: selectedState,
         city: selectedCity,
       };
+
+      navigation.navigate('LoadingScreen');
+
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       await dispatch(completeProfileAction(payload, navigation));
     } catch (error) {
@@ -313,7 +324,12 @@ const Signupscreen = ({ route, navigation }) => {
       {/* Submit */}
       <View style={{ position: 'absolute', bottom: 50, left: 20, right: 20 }}>
         <View
-          style={{ padding: horizontalScale(10), backgroundColor: '#ffffff',borderRadius:horizontalScale(30),elevation:5 }}
+          style={{
+            padding: horizontalScale(10),
+            backgroundColor: '#ffffff',
+            borderRadius: horizontalScale(30),
+            elevation: 5,
+          }}
         >
           <Button
             mode="contained"
@@ -324,6 +340,11 @@ const Signupscreen = ({ route, navigation }) => {
             style={{
               borderRadius: horizontalScale(30),
               backgroundColor: '#2d532c',
+            }}
+            labelStyle={{
+              fontSize: scaleFontSize(15),
+              fontWeight: '600',
+              color: loading ? '#ffffff' : '#9e9e9e',
             }}
           >
             Complete Profile
@@ -410,12 +431,12 @@ const Signupscreen = ({ route, navigation }) => {
       </Portal>
 
       <Image
-        source={require('../../../assets/images/promisesbg.png')}
+        source={require('../../../assets/images/bgblissgreen.png')}
         style={{
           position: 'absolute',
-          bottom: verticalScale(-50),
+          bottom: verticalScale(-120),
           left: 0,
-          height: verticalScale(300),
+          height: verticalScale(440),
           width: '100%',
           zIndex: -1,
         }}

@@ -5,6 +5,7 @@ import { userReducer } from './reducers/UserReducer';
 import { categoryReducer } from './reducers/CategoryReducer';
 import { MembershipReducer } from './reducers/MembershipReducer';
 import { MembershipBookingReducer } from './reducers/MembershipbookingReducer';
+import { UpdatesReducer } from './reducers/UpdateReducer';
 
 const persistUserConfig = {
   key: 'user',
@@ -20,6 +21,7 @@ const store = configureStore({
     categories: categoryReducer,
     membershipplans: MembershipReducer,
     membershipbookings: MembershipBookingReducer,
+    updates: UpdatesReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
