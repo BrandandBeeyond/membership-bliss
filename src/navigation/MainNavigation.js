@@ -83,7 +83,7 @@ const HomeTabs = () => (
       }}
     />
     <Tab.Screen
-      name="Membership"
+      name="MembershipScreen"
       component={MembershipScreen}
       options={{
         tabBarIcon: ({ focused, color }) => (
@@ -93,6 +93,7 @@ const HomeTabs = () => (
             size={24}
           />
         ),
+        headerTitle: 'Membership',
         headerTitleAlign: 'center',
         headerStyle: { elevation: 0, shadowOpacity: 0 },
       }}
