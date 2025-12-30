@@ -1,15 +1,16 @@
-import { StyleSheet } from "react-native";
-import { horizontalScale, verticalScale } from "../../../../assets/styles/Scaling";
+import { StyleSheet } from 'react-native';
+import {
+  horizontalScale,
+  verticalScale,
+} from '../../../../assets/styles/Scaling';
 
 export const faqStyle = StyleSheet.create({
- 
   card: {
     backgroundColor: '#FAFFF7',
     marginBottom: verticalScale(14),
     borderRadius: horizontalScale(16),
-    borderWidth: 1,
-    borderColor: '#9DC699',
-    padding: horizontalScale(14),
+    padding: horizontalScale(16),
+    elevation:horizontalScale(1)
   },
 
   header: {
@@ -22,6 +23,4 @@ export const faqStyle = StyleSheet.create({
     marginTop: verticalScale(10),
     paddingLeft: horizontalScale(4),
   },
-
-
 });

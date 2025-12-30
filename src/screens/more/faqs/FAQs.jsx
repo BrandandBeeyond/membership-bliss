@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import {
   FlatList,
+  Image,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -22,18 +23,38 @@ import { faqStyle } from './Style';
 const faqData = [
   {
     id: '1',
-    question: 'What is Touchwood Bliss?',
-    answer: 'Touchwood Bliss is a nature-centric resort located in Igatpuri...',
+    question: 'What is Nature’s Club Membership?',
+    answer:
+      ' A year-round access to nature stays, celebrations, wellness and family experiences at Touchwood Bliss.',
   },
   {
     id: '2',
-    question: 'Do you offer membership plans?',
-    answer: 'Yes, we offer multiple membership plans with added benefits...',
+    question: 'How long is the membership valid?',
+    answer: 'Membership validity is as mentioned at the time of activation.',
   },
   {
     id: '3',
-    question: 'Is the resort kid-friendly?',
-    answer: 'Yes, we have kids activities, play areas, pools and more...',
+    question: 'Can I share my membership benefits?',
+    answer:
+      'Some vouchers may be gifted to friends or family. Specific conditions apply.',
+  },
+  {
+    id: '4',
+    question: 'Do I need advance booking?',
+    answer:
+      ' Yes, advance reservation is recommended to ensure availability and a smooth experience.',
+  },
+  {
+    id: '5',
+    question: 'Are benefits applicable on weekends?',
+    answer:
+      '  Most benefits are valid on weekdays. Weekend usage may attract additional charges.',
+  },
+  {
+    id: '6',
+    question: 'Where can I get help?',
+    answer:
+      'Simply tap Contact Us or speak to our team anytime.',
   },
 ];
 
@@ -55,8 +76,8 @@ const FAQs = () => {
         >
           <Typography
             color="#2D532C"
-            variant="subhead"
-            weight="MSemiBold"
+            variant="fthead"
+            weight="SemiBold"
             style={{ flex: 1 }}
           >
             {item.question}
@@ -76,7 +97,7 @@ const FAQs = () => {
 
             <Typography
               color="#5C6F5B"
-              variant="subline"
+              variant="subhead"
               weight="MMedium"
               style={{ marginTop: 8 }}
             >
@@ -90,15 +111,29 @@ const FAQs = () => {
 
   return (
     <SafeAreaView
-      style={[globalStyle.px20, globalStyle.bgslate, globalStyle.flex]}
+      style={[globalStyle.bgwhite, globalStyle.flex, globalStyle.relative]}
     >
-      <ScrollView>
+      <ScrollView contentContainerStyle={globalStyle.px20}>
         <FlatList
+         
           renderItem={renderFaqs}
           data={faqData}
-          keyExtractor={item => item._id}
+          keyExtractor={item => item.id}
         />
       </ScrollView>
+
+      <Image
+        source={require('../../../../assets/images/bgblissgreen.png')}
+        style={{
+          position: 'absolute',
+          bottom: verticalScale(-120),
+          left: 0,
+          height: verticalScale(440),
+          width: '100%',
+          zIndex: -1,
+        }}
+        resizeMode="contain"
+      />
     </SafeAreaView>
   );
 };

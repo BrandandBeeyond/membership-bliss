@@ -24,20 +24,23 @@ const SLIDES = [
     bg: require('../../../assets/images/sliderbg.png'),
     image: require('../../../assets/images/natures-club-membershiplogo.png'),
     title: 'Welcome to Touchwood Bliss',
-    subtitle: 'A peaceful retreat surrounded by nature and comfort.',
+    subtitle:
+      'Where mountains slow you down,nature holds you gently, and families reconnect with what truly matters.',
   },
   {
     key: '2',
     bg: require('../../../assets/images/sliderbg.png'),
     custom: true,
-    title: 'Experiences rooted in nature',
-    subtitle: 'Wellness, celebrations and togetherness.',
+    title: 'Nature-Inspired Wellness, Weddings & Retreats',
+    subtitle:
+      'From soulful stays and heartfelt celebrations to wellness journeys and meaningful gatherings ',
   },
   {
     key: '3',
-    video: require('../../../assets/videos/onboarding.mp4'),
-    title: 'Step into a life of calm & connection',
-    subtitle: 'Everything you need for a peaceful escape.',
+    bg: require('../../../assets/images/onboarding3.png'),
+    title: 'Explore Nature Memberships for Life, Wellness & Family',
+    subtitle:
+      'Discover memberships designed not for discounts, but for deeper living, stronger bonds and a life rooted in nature.',
   },
 ];
 
@@ -57,23 +60,10 @@ const OnboardingScreen = ({ navigation }) => {
 
   const renderItem = ({ item }) => (
     <View style={styles.slide}>
-      
-      {item.video ? (
-        <Video
-          source={item.video}
-          style={StyleSheet.absoluteFill}
-          resizeMode="cover"
-          repeat
-          muted
-          paused={index !== 2}
-        />
-      ) : (
-        <ImageBackground source={item.bg} style={StyleSheet.absoluteFill} />
-      )}
+      <ImageBackground source={item.bg} style={StyleSheet.absoluteFill} />
 
       <View style={styles.overlay} />
 
-      
       {item.custom ? (
         <OnboardinghexLayout />
       ) : item.image ? (
@@ -81,7 +71,7 @@ const OnboardingScreen = ({ navigation }) => {
       ) : null}
 
       <Typography
-        variant="h2"
+        variant="onboardinghead"
         weight="Bold"
         color="#5d4924ff"
         style={[globalStyle.textCenter, { marginTop: 20 }]}
@@ -90,10 +80,10 @@ const OnboardingScreen = ({ navigation }) => {
       </Typography>
 
       <Typography
-        variant="h5"
-        weight="MMedium"
-        color="#E4EFE4"
-        style={globalStyle.textCenter}
+        variant="fthead"
+        weight="MSemiBold"
+        color="#f2f7f2ff"
+        style={[globalStyle.textCenter, globalStyle.mt20]}
       >
         {item.subtitle}
       </Typography>

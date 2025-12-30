@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
   Pressable,
   Linking,
+  ImageBackground,
+  StyleSheet,
+  Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -18,146 +21,125 @@ import {
 
 const ContactScreen = ({ navigation }) => {
   return (
-    <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
+    <SafeAreaView style={[globalStyle.flex, globalStyle.bgslate]}>
+      {' '}
       <ScrollView
+        contentContainerStyle={globalStyle.px20}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ padding: 16 }}
       >
-        <Typography
-          variant="h6"
-          weight="MMedium"
-          color="#000"
-          style={{ marginBottom: verticalScale(20) }}
+        <View style={[globalStyle.mb20]}>
+          <Typography variant="h5" weight="SemiBold" color="#313131ff">
+            We’re here for you, always
+          </Typography>
+          <Typography
+            variant="subhead"
+            weight="MMedium"
+            color="#5e5c5cff"
+            style={[{ marginTop: verticalScale(10) }]}
+          >
+            Whether you’re planning a visit, redeeming a membership benefit, or
+            simply wish to know more, our team is happy to assist you with
+            warmth and care.
+          </Typography>
+        </View>
+
+        <View
+          style={[
+            globalStyle.mt20,
+            {
+              backgroundColor: 'rgba(134, 163, 126, 0.83)',
+              padding: 16,
+              borderRadius: 28,
+              marginBottom: 30,
+            },
+          ]}
         >
-          If you have any inquiries get in touch with us. We’ll be happy to help
-          you.
-        </Typography>
-
-        <Pressable>
-          <LinearGradient
-            colors={['#5c775aff', '#60805fff']}
-            style={{
-              padding: 18,
-              borderRadius: horizontalScale(90),
-              marginBottom: verticalScale(16),
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 14,
-              elevation: 3,
-            }}
-          >
-            <View
-              style={[
-                globalStyle.alignCenter,
-                globalStyle.jusifyCenter,
+          {[
+            {
+              id: '1',
+              icon: 'logo-whatsapp',
+              title: 'Chat with us',
+              description: 'Chat with our assistant now',
+              slug: 'https://api.whatsapp.com/send/?phone=917030060905&text=Hello',
+            },
+            {
+              id: '2',
+              icon: 'call-outline',
+              title: 'Call us',
+              description: '+91 70306 66222',
+              slug: 'tel:+917030666222',
+            },
+            {
+              id: '3',
+              icon: 'call-outline',
+              title: 'Call us',
+              description: '+91 70306 66444',
+              slug: 'tel:+917030666444',
+            },
+            {
+              id: '4',
+              icon: 'mail-outline',
+              title: 'Email us',
+              description: 'reservations@touchwoodbliss.com',
+              slug: 'mailto:reservations@touchwoodbliss.com',
+            },
+          ].map(item => (
+            <Pressable
+              key={item.id}
+              onPress={() => Linking.openURL(item.slug)}
+              style={({ pressed }) => [
                 {
-                  height: horizontalScale(35),
-                  width: horizontalScale(35),
-                  backgroundColor: '#375a349c',
-                  borderRadius: horizontalScale(40),
+                  opacity: pressed ? 0.9 : 1,
+                  marginBottom: verticalScale(12),
                 },
               ]}
             >
-              <Ionicons name="chatbubbles-outline" size={23} color="#ffffff" />
-            </View>
+              <View
+                style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: 22,
+                  paddingVertical: verticalScale(4),
+                  paddingHorizontal: horizontalScale(14),
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  borderWidth: 0.6,
+                  borderColor: '#a7a7a5',
+                }}
+              >
+                {/* ICON */}
+                <View
+                  style={{
+                    height: 44,
+                    width: 44,
+                    borderRadius: 22,
+                    backgroundColor: '#5e8958d9',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: 14,
+                  }}
+                >
+                  <Ionicons name={item.icon} size={22} color="#ffffff" />
+                </View>
 
-            <View>
-              <Typography variant="h6" weight="SemiBold" color="#ffffff">
-                Chat with us
-              </Typography>
+                {/* TEXT */}
+                <View style={{ flex: 1 }}>
+                  <Typography variant="h6" weight="SemiBold" color="#2d2d2d">
+                    {item.title}
+                  </Typography>
 
-              <Typography variant="subtext" weight="MMedium" color="#ffffff">
-                Chat with our assistant now
-              </Typography>
-            </View>
-          </LinearGradient>
-        </Pressable>
-
-        {/* ---------- CALL CARD ---------- */}
-        <Pressable onPress={() => Linking.openURL('tel:+9170300 60522')}>
-          <LinearGradient
-            colors={['#779d75ff', '#486d47ff']}
-            style={{
-              padding: 18,
-              borderRadius: horizontalScale(90),
-              marginBottom: verticalScale(16),
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 14,
-              elevation: 3,
-            }}
-          >
-            <View
-              style={[
-                globalStyle.alignCenter,
-                globalStyle.jusifyCenter,
-                {
-                  height: horizontalScale(35),
-                  width: horizontalScale(35),
-                  backgroundColor: '#375a349c',
-                  borderRadius: horizontalScale(40),
-                },
-              ]}
-            >
-              <Ionicons name="call-outline" size={23} color="#ffffff" />
-            </View>
-
-            <View>
-              <Typography variant="h6" weight="SemiBold" color="#ffffff">
-                Call us
-              </Typography>
-
-              <Typography variant="subtext" weight="MMedium" color="#ffffff">
-                We're available from 6 AM – 6 PM PST
-              </Typography>
-            </View>
-          </LinearGradient>
-        </Pressable>
-
-        {/* ---------- EMAIL CARD ---------- */}
-        <Pressable
-          onPress={() =>
-            Linking.openURL('mailto:reservations@touchwoodbliss.com')
-          }
-        >
-          <LinearGradient
-            colors={['#779d75ff', '#486d47ff']}
-            style={{
-              padding: 18,
-              borderRadius: horizontalScale(90),
-              marginBottom: verticalScale(16),
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 14,
-              elevation: 3,
-            }}
-          >
-            <View
-              style={[
-                globalStyle.alignCenter,
-                globalStyle.jusifyCenter,
-                {
-                  height: horizontalScale(35),
-                  width: horizontalScale(35),
-                  backgroundColor: '#375a349c',
-                  borderRadius: horizontalScale(40),
-                },
-              ]}
-            >
-              <Ionicons name="mail-outline" size={23} color="#ffffff" />
-            </View>
-
-            <View>
-              <Typography variant="h6" weight="SemiBold" color="#ffffff">
-                Email us
-              </Typography>
-
-              <Typography variant="subtext" weight="MMedium" color="#ffffff">
-                We'll get back within 24hrs
-              </Typography>
-            </View>
-          </LinearGradient>
-        </Pressable>
+                  <Typography
+                    variant="subtext"
+                    weight="MMedium"
+                    color="#5f5f5f"
+                    style={{ marginTop: 2 }}
+                  >
+                    {item.description}
+                  </Typography>
+                </View>
+              </View>
+            </Pressable>
+          ))}
+        </View>
 
         <View
           style={[
@@ -170,45 +152,57 @@ const ContactScreen = ({ navigation }) => {
             },
           ]}
         >
-          <Typography variant="h6" weight="SemiBold" color="#1c1c1c">
-            Our social media
+          <Typography
+            variant="h5"
+            weight="SemiBold"
+            color="#1c1c1c"
+            style={globalStyle.textCenter}
+          >
+            Connect us on
           </Typography>
 
-          {/* Social item reusable row */}
-          {[
-            {
-              icon: 'logo-whatsapp',
-              label: 'whatsapp',
-              slug: 'https://api.whatsapp.com/send/?phone=917030060905&text=Hello%2C+I+have+a+question+about+https%3A%2F%2Fwww.touchwoodbliss.com%2F&type=phone_number&app_absent=0',
-            },
-            { icon: 'logo-instagram', label: 'Instagram' },
-            { icon: 'logo-facebook', label: 'Facebook' },
-            { icon: 'logo-linkedin', label: 'LinkedIn' },
-          ].map((item, index) => (
-            <Pressable onPress={() => Linking.openURL(item.slug)} key={index}>
-              <View
-                style={{
-                  marginTop: 12,
-                  backgroundColor: '#ffffff',
-                  borderRadius: 16,
-                  padding: 14,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 10,
-                }}
+          {/* ICON ROW */}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: horizontalScale(24), // spacing between icons
+              marginTop: verticalScale(16),
+            }}
+          >
+            {[
+              {
+                icon: require('../../../../assets/images/icons/whatsapp.png'),
+                slug: 'https://api.whatsapp.com/send/?phone=917030060905&text=Hello',
+              },
+              {
+                icon: require('../../../../assets/images/icons/instagram.png'),
+                slug: 'https://www.instagram.com/touchwoodbliss',
+              },
+              {
+                icon: require('../../../../assets/images/icons/globe.png'),
+                slug: 'https://www.touchwoodbliss.com',
+              },
+            ].map((item, index) => (
+              <Pressable
+                key={index}
+                onPress={() => Linking.openURL(item.slug)}
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.7 : 1,
+                })}
               >
-                <Ionicons name={item.icon} size={22} color="#1c1c1c" />
-
-                <Typography
-                  variant="subtext"
-                  weight="MSemiBold"
-                  color="#1c1c1c"
-                >
-                  {item.label}
-                </Typography>
-              </View>
-            </Pressable>
-          ))}
+                <Image
+                  source={item.icon}
+                  resizeMode="contain"
+                  style={{
+                    height: verticalScale(30),
+                    width: horizontalScale(30),
+                  }}
+                />
+              </Pressable>
+            ))}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -20,6 +20,13 @@ const MembershipSuccess = ({ navigation, route }) => {
 
   const planId = booking.membershipPlanId;
 
+  const formatDate = date =>
+    new Date(date).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+
   useEffect(() => {
     if (planId) {
       dispatch(getMembershipPlanbyId(planId));
@@ -70,7 +77,7 @@ const MembershipSuccess = ({ navigation, route }) => {
         >
           <Card.Content>
             <Typography variant="subhead" weight="MSemiBold" color="#383737ff">
-              Wed 18 Dec
+              {formatDate(booking.paymentDate)}
             </Typography>
           </Card.Content>
           <Divider
@@ -122,17 +129,19 @@ const MembershipSuccess = ({ navigation, route }) => {
           >
             <Button
               mode="outlined"
-              onPress={()=>navigation.replace('MembershipScreen',{booking})}
+              onPress={() =>
+                navigation.navigate('MembershipScreen', { booking })
+              }
               style={{
-                borderRadius: horizontalScale(15),
+                borderRadius: horizontalScale(16),
                 borderColor: '#2d532c',
-                height: verticalScale(33),
-                lineHeight: verticalScale(16),
+                height: verticalScale(32),
               }}
               labelStyle={{
                 color: '#2d532c',
                 fontWeight: '600',
-                fontSize:scaleFontSize(10)
+                fontSize: scaleFontSize(14),
+                lineHeight: verticalScale(16),
               }}
             >
               Get Digital Membership Card

@@ -12,7 +12,7 @@ import {
 } from '../../../../assets/styles/Scaling';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUpdates } from '../../../redux/actions/UpdatesAction';
-import { Button } from 'react-native-paper';
+import { ActivityIndicator, Button } from 'react-native-paper';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -21,64 +21,95 @@ const formatDate = dateStr => {
   return new Date(dateStr).toLocaleDateString(undefined, options);
 };
 
-const UpdatesList = ({ items }) => (
-  <FlatList
-    data={items}
-    keyExtractor={item => item._id}
-    renderItem={({ item }) => (
-      <View style={styles.container}>
-        <View style={styles.card}>
-          <Image
-            source={{
-              uri:
-                item.thumbnail.url ||
-                'https://images.unsplash.com/photo-1545389336-cf090694435e',
-            }}
-            style={styles.image}
-          />
+const UpdatesList = ({ items, loading }) => {
+  if (loading) {
+    return (
+      <View style={styles.centerBox}>
+        <ActivityIndicator size="large" color="#2f5f2f" />
+        <Typography variant="body" weight="MMedium" style={{ marginTop: 8 }}>
+          Loading updates…
+        </Typography>
+      </View>
+    );
+  }
 
-          <View style={styles.content}>
-            <Typography weight="Bold" variant="h5" color="#374034ff">
-              {item.title}
-            </Typography>
+  if (!items || items.length === 0) {
+    return (
+      <View style={[globalStyle.alignCenter,globalStyle.mt20]}>
+        
+        <Typography variant="h6" weight="MSemiBold">
+          No records to display
+        </Typography>
+        <Typography variant="caption" weight="MMedium">
+          Please check back later
+        </Typography>
+      </View>
+    );
+  }
 
-            <Typography variant="subhead" weight="MMedium" style={styles.desc}>
-              {item.description}
-            </Typography>
+  return (
+    <FlatList
+      data={items}
+      keyExtractor={item => item._id}
+      renderItem={({ item }) => (
+        <View style={styles.container}>
+          <View style={styles.card}>
+            <Image
+              source={{
+                uri:
+                  item.thumbnail.url ||
+                  'https://images.unsplash.com/photo-1545389336-cf090694435e',
+              }}
+              style={styles.image}
+            />
 
-            <View
-              style={[
-                globalStyle.row,
-                globalStyle.alignCenter,
-                globalStyle.justifyBetween,
-              ]}
-            >
-              <Typography
-                variant="body"
-                weight="MSemiBold"
-                color="#536053ff"
-                style={styles.date}
-              >
-                Updated on {'\n'} {formatDate(item.updatedOn)}
+            <View style={styles.content}>
+              <Typography weight="Bold" variant="h5" color="#374034ff">
+                {item.title}
               </Typography>
 
-              <Button
-                mode="outlined"
-                onPress={() =>
-                  Linking.openURL(
-                    'https://theharmonyretreat.in/love-you-zindagi.php',
-                  )
-                }
+              <Typography
+                variant="subhead"
+                weight="MMedium"
+                style={styles.desc}
               >
-                View details
-              </Button>
+                {item.description}
+              </Typography>
+
+              <View
+                style={[
+                  globalStyle.row,
+                  globalStyle.alignCenter,
+                  globalStyle.justifyBetween,
+                ]}
+              >
+                <Typography
+                  variant="body"
+                  weight="MSemiBold"
+                  color="#536053ff"
+                  style={styles.date}
+                >
+                  Updated on {'\n'} {formatDate(item.updatedOn)}
+                </Typography>
+
+                <Button
+                  mode="outlined"
+                  onPress={() =>
+                    Linking.openURL(
+                      'https://theharmonyretreat.in/love-you-zindagi.php',
+                    )
+                  }
+                >
+                  View details
+                </Button>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    )}
-  />
-);
+      )}
+    />
+  );
+};
 
 const UpdatesScreen = () => {
   const dispatch = useDispatch();

@@ -19,4 +19,6 @@ export const Routes = {
   ContactScreen: 'ContactScreen',
   ProfileScreen: 'ProfileScreen',
   OtpScreen: 'OtpScreen',
+  Termsandconditions: 'Termsandconditions',
+  Privacypolicy: 'Privacypolicy',
 };

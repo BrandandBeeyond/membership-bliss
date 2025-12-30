@@ -99,9 +99,18 @@ const MoreScreen = ({ navigation }) => {
         </Typography>
         <View style={[globalStyle.column, { columnGap: 15 }]}>
           <MenuTabs
-            iconName="shield-checkmark-outline"
+            iconName="document-outline"
             label="Terms & Conditions"
-            onPress={() => {}}
+            onPress={() => {
+              navigation.push('Termsandconditions');
+            }}
+          />
+          <MenuTabs
+            iconName="shield-checkmark-outline"
+            label="Privacy policy"
+            onPress={() => {
+              navigation.push('Privacypolicy');
+            }}
           />
           <MenuTabs
             iconName="log-out-outline"

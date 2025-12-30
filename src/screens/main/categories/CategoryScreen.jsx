@@ -122,7 +122,7 @@ const CategoryScreen = () => {
                   <Typography
                     weight="MSemiBold"
                     color="#4b6144ff"
-                    variant="h4"
+                    variant="h5"
                     style={[
                       globalStyle.py5,
                       {
@@ -132,7 +132,7 @@ const CategoryScreen = () => {
                   >
                     {item.name}
                   </Typography>
-                  <Typography variant="body" weight="MMedium" color="#212020ff">
+                  <Typography variant="subline" weight="MMedium" color="#212020ff">
                     {item.description}
                   </Typography>
                 </Card.Content>

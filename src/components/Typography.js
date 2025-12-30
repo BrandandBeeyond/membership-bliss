@@ -45,6 +45,10 @@ const styles = StyleSheet.create({
     fontSize: scaleFontSize(17),
     lineHeight: verticalScale(24),
   },
+    onboardinghead: {
+    fontSize: scaleFontSize(24),
+    lineHeight: verticalScale(27),
+  },
   fthead: {
     fontSize: scaleFontSize(16),
     lineHeight: verticalScale(18),
@@ -65,6 +69,7 @@ const styles = StyleSheet.create({
     fontSize: scaleFontSize(13),
     lineHeight: verticalScale(17),
   },
+
   body: {
     fontSize: scaleFontSize(14),
     lineHeight: verticalScale(22),

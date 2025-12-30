@@ -25,6 +25,8 @@ import ContactScreen from '../screens/more/contact/ContactScreen';
 import ProfileScreen from '../screens/more/profile/ProfileScreen';
 import Signupscreen from '../screens/auth/Signupscreen';
 import OtpScreen from '../screens/auth/otp/OtpScreen';
+import Termsandconditions from '../screens/more/security/Termsandconditions';
+import Privacypolicy from '../screens/more/security/Privacypolicy';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -258,6 +260,26 @@ export const MainNavigation = () => {
           headerStyle: { elevation: 0, shadowOpacity: 0 },
           headerTitleAlign: 'center',
           headerTitle: 'Contact Us',
+          headerLeft: () => <CustomBackButton navigation={navigation} />,
+        })}
+      />
+      <Stack.Screen
+        name="Termsandconditions"
+        component={Termsandconditions}
+        options={({ navigation }) => ({
+          headerStyle: { elevation: 0, shadowOpacity: 0 },
+          headerTitleAlign: 'center',
+          headerTitle: 'Terms & Conditions',
+          headerLeft: () => <CustomBackButton navigation={navigation} />,
+        })}
+      />
+      <Stack.Screen
+        name="Privacypolicy"
+        component={Privacypolicy}
+        options={({ navigation }) => ({
+          headerStyle: { elevation: 0, shadowOpacity: 0 },
+          headerTitleAlign: 'center',
+          headerTitle: 'Privacy Policy',
           headerLeft: () => <CustomBackButton navigation={navigation} />,
         })}
       />
