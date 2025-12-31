@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     fontSize: scaleFontSize(17),
     lineHeight: verticalScale(24),
   },
-    onboardinghead: {
+  onboardinghead: {
     fontSize: scaleFontSize(24),
     lineHeight: verticalScale(27),
   },
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   caption: {
     fontSize: scaleFontSize(12),
-    lineHeight: verticalScale(18),
+    lineHeight: verticalScale(16),
   },
   small: {
     fontSize: scaleFontSize(10),
