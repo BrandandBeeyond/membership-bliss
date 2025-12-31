@@ -27,6 +27,7 @@ import Signupscreen from '../screens/auth/Signupscreen';
 import OtpScreen from '../screens/auth/otp/OtpScreen';
 import Termsandconditions from '../screens/more/security/Termsandconditions';
 import Privacypolicy from '../screens/more/security/Privacypolicy';
+import Bookings from '../screens/more/bookings/Bookings';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -214,6 +215,15 @@ export const MainNavigation = () => {
         options={{
           headerShown: false,
         }}
+      />
+      <Stack.Screen
+        name="Bookings"
+        component={Bookings}
+        options={({ navigation }) => ({
+          headerStyle: { elevation: 0, shadowOpacity: 0 },
+          headerTitleAlign: 'center',
+          headerLeft: () => <CustomBackButton navigation={navigation} />,
+        })}
       />
       <Stack.Screen
         name="CheckoutScreen"

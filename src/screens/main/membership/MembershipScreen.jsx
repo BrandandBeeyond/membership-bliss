@@ -201,192 +201,200 @@ const MembershipScreen = () => {
                 </Button>
               )}
 
-              <View
-                style={[
-                  globalStyle.mt20,
-                  globalStyle.p7,
-                  {
-                    borderWidth: horizontalScale(0.5),
-                    borderColor: '#d4d4d4ff',
-                    borderRadius: horizontalScale(20),
-                    width: '100%',
-                    backgroundColor: '#ffffff',
-                  },
-                ]}
-              >
-                <View
-                  style={[
-                    globalStyle.row,
-                    globalStyle.alignCenter,
-                    globalStyle.cg10,
-                  ]}
-                >
-                  <Image
-                    source={require('../../../../assets/images/giftbox.png')}
-                    style={{
-                      height: verticalScale(80),
-                      width: horizontalScale(80),
-                    }}
-                  />
-                  <View style={globalStyle.flex}>
-                    <Typography
-                      variant="fthead"
-                      color="#383838ff"
-                      weight="Bold"
-                    >
-                      Congratulations on your membership
-                    </Typography>
-                    <Typography
-                      variant="subline"
-                      color="#5c5c5cff"
-                      weight="MMedium"
-                    >
-                      Let us know your arrival date to make your visit smooth &
-                      memorable
-                    </Typography>
-                  </View>
-                </View>
-
-                <TouchableOpacity
-                  style={globalStyle.my10}
-                  activeOpacity={0.8}
-                  onPress={() => setIsDatePickerVisible(true)}
-                >
-                  <TextInput
-                    left={
-                      <TextInput.Icon icon="calendar-check" color="#3b5f34ff" />
-                    }
-                    mode="outlined"
-                    value={formatInputDate(date)}
-                    placeholder="Select Your Arrival Date"
-                    editable={false}
-                    outlineColor="#b0aeaeff"
-                    activeOutlineColor="#588650ff"
-                    outlineStyle={{
-                      borderRadius: horizontalScale(30),
-                    }}
-                    style={{
-                      marginBottom: verticalScale(6),
-                      height: verticalScale(30),
-                      lineHeight: verticalScale(20),
-                    }}
-                  />
-                </TouchableOpacity>
-
-                <DateTimePickerModal
-                  isVisible={isDatePickerVisible}
-                  mode="date"
-                  minimumDate={new Date()}
-                  onConfirm={handleDateConfirm}
-                  onCancel={() => setIsDatePickerVisible(false)}
-                />
-
-                <View style={{ alignItems: 'center' }}>
-                  <LinearGradient
-                    colors={['#649361ff', '#457542ff', '#385437ff']}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    style={{
-                      borderRadius: horizontalScale(30),
-                      paddingHorizontal: horizontalScale(26),
-                      paddingVertical: verticalScale(1),
-                    }}
+              {hasMembership && (
+                <>
+                  <View
+                    style={[
+                      globalStyle.mt20,
+                      globalStyle.p7,
+                      {
+                        borderWidth: horizontalScale(0.5),
+                        borderColor: '#adadadff',
+                        borderRadius: horizontalScale(20),
+                        width: '100%',
+                        backgroundColor: '#ffffff',
+                      },
+                    ]}
                   >
-                    <Button
-                      mode="contained"
-                      onPress={() => console.log('Date confirmed')}
-                      labelStyle={{
-                        color: '#ffffff',
-                        fontWeight: '600',
-                      }}
-                      style={{
-                        backgroundColor: 'transparent',
-                      }}
-                      contentStyle={{
-                        height: verticalScale(25),
-                        lineHeight: verticalScale(32),
-                      }}
+                    <View
+                      style={[
+                        globalStyle.row,
+                        globalStyle.alignCenter,
+                        globalStyle.cg10,
+                      ]}
                     >
-                      Confirm
-                    </Button>
-                  </LinearGradient>
-                </View>
-              </View>
+                      <Image
+                        source={require('../../../../assets/images/giftbox.png')}
+                        style={{
+                          height: verticalScale(80),
+                          width: horizontalScale(80),
+                        }}
+                      />
+                      <View style={globalStyle.flex}>
+                        <Typography
+                          variant="fthead"
+                          color="#383838ff"
+                          weight="Bold"
+                        >
+                          Congratulations on your membership
+                        </Typography>
+                        <Typography
+                          variant="subline"
+                          color="#5c5c5cff"
+                          weight="MMedium"
+                        >
+                          Let us know your arrival date to make your visit
+                          smooth & memorable
+                        </Typography>
+                      </View>
+                    </View>
 
-              <View
-                style={[
-                  globalStyle.mt20,
-
-                  {
-                    borderWidth: horizontalScale(0.5),
-                    borderColor: '#d4d4d4ff',
-                    borderRadius: horizontalScale(20),
-                    width: '100%',
-                    background: 'transparent',
-                    padding: horizontalScale(10),
-                    marginBottom: verticalScale(60),
-                  },
-                ]}
-              >
-                <View
-                  style={[
-                    globalStyle.row,
-                    globalStyle.alignCenter,
-                    globalStyle.cg10,
-                  ]}
-                >
-                  <View style={globalStyle.flex}>
-                    <Typography
-                      variant="fthead"
-                      color="#383838ff"
-                      weight="Bold"
+                    <TouchableOpacity
+                      style={globalStyle.my10}
+                      activeOpacity={0.8}
+                      onPress={() => setIsDatePickerVisible(true)}
                     >
-                      Request Your Physical Membership card
-                    </Typography>
-                    <Typography
-                      variant="subline"
-                      color="#5c5c5cff"
-                      weight="MMedium"
-                    >
-                      Want a Physical copy of your membership card ? Request now
-                      !
-                    </Typography>
-                    <LinearGradient
-                      colors={['#649361ff', '#457542ff', '#385437ff']}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }}
-                      style={{
-                        borderRadius: horizontalScale(30),
-                        paddingHorizontal: horizontalScale(15),
-                        paddingVertical: verticalScale(1),
-                      }}
-                    >
-                      <Button
-                        mode="contained"
-                        onPress={() => console.log('Date confirmed')}
-                        labelStyle={{
-                          color: '#ffffff',
-                          fontSize: scaleFontSize(15),
-                          fontWeight: '600',
+                      <TextInput
+                        left={
+                          <TextInput.Icon
+                            icon="calendar-check"
+                            color="#3b5f34ff"
+                          />
+                        }
+                        mode="outlined"
+                        value={formatInputDate(date)}
+                        placeholder="Select Your Arrival Date"
+                        editable={false}
+                        outlineColor="#b0aeaeff"
+                        activeOutlineColor="#588650ff"
+                        outlineStyle={{
+                          borderRadius: horizontalScale(30),
                         }}
                         style={{
-                          backgroundColor: 'transparent',
+                          marginBottom: verticalScale(6),
+                          height: verticalScale(30),
+                          lineHeight: verticalScale(20),
+                        }}
+                      />
+                    </TouchableOpacity>
+
+                    <DateTimePickerModal
+                      isVisible={isDatePickerVisible}
+                      mode="date"
+                      minimumDate={new Date()}
+                      onConfirm={handleDateConfirm}
+                      onCancel={() => setIsDatePickerVisible(false)}
+                    />
+
+                    <View style={{ alignItems: 'center' }}>
+                      <LinearGradient
+                        colors={['#649361ff', '#457542ff', '#385437ff']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={{
+                          borderRadius: horizontalScale(30),
+                          paddingHorizontal: horizontalScale(26),
+                          paddingVertical: verticalScale(1),
+                          height: verticalScale(28),
+                          lineHeight: verticalScale(34),
                         }}
                       >
-                        Request Card
-                      </Button>
-                    </LinearGradient>
+                        <Button
+                          mode="contained"
+                          onPress={() => console.log('Date confirmed')}
+                          labelStyle={{
+                            color: '#ffffff',
+                            fontSize: scaleFontSize(13),
+                            fontWeight: '600',
+                          }}
+                          style={{
+                            backgroundColor: 'transparent',
+                          }}
+                        >
+                          Confirm
+                        </Button>
+                      </LinearGradient>
+                    </View>
                   </View>
-                  <Image
-                    source={require('../../../../assets/images/privelage_card.png')}
-                    style={{
-                      height: verticalScale(130),
-                      width: horizontalScale(130),
-                    }}
-                    resizeMode="contain"
-                  />
-                </View>
-              </View>
+
+                  <View
+                    style={[
+                      globalStyle.mt20,
+
+                      {
+                        borderWidth: horizontalScale(0.5),
+                        borderColor: '#adadadff',
+                        borderRadius: horizontalScale(20),
+                        width: '100%',
+                        background: 'transparent',
+                        padding: horizontalScale(10),
+                        marginBottom: verticalScale(60),
+                      },
+                    ]}
+                  >
+                    <View
+                      style={[
+                        globalStyle.row,
+                        globalStyle.alignCenter,
+                        globalStyle.cg10,
+                      ]}
+                    >
+                      <View style={globalStyle.flex}>
+                        <Typography
+                          variant="fthead"
+                          color="#383838ff"
+                          weight="Bold"
+                        >
+                          Request Your Physical Membership card
+                        </Typography>
+                        <Typography
+                          variant="subline"
+                          color="#5c5c5cff"
+                          weight="MMedium"
+                          style={{ marginBottom: verticalScale(12) }}
+                        >
+                          Want a Physical copy of your membership card ? Request
+                          now !
+                        </Typography>
+                        <LinearGradient
+                          colors={['#649361ff', '#457542ff', '#385437ff']}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          style={{
+                            borderRadius: horizontalScale(30),
+                            paddingHorizontal: horizontalScale(15),
+                            paddingVertical: verticalScale(1),
+                            height: verticalScale(28),
+                            lineHeight: verticalScale(34),
+                          }}
+                        >
+                          <Button
+                            mode="contained"
+                            labelStyle={{
+                              color: '#ffffff',
+                              fontSize: scaleFontSize(13),
+                              fontWeight: '600',
+                            }}
+                            style={{
+                              backgroundColor: 'transparent',
+                            }}
+                          >
+                            Request Card
+                          </Button>
+                        </LinearGradient>
+                      </View>
+                      <Image
+                        source={require('../../../../assets/images/privelage_card.png')}
+                        style={{
+                          height: verticalScale(130),
+                          width: horizontalScale(130),
+                        }}
+                        resizeMode="contain"
+                      />
+                    </View>
+                  </View>
+                </>
+              )}
 
               <RBSheet
                 ref={refMemberships}

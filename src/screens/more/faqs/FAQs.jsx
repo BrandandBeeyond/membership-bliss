@@ -53,8 +53,7 @@ const faqData = [
   {
     id: '6',
     question: 'Where can I get help?',
-    answer:
-      'Simply tap Contact Us or speak to our team anytime.',
+    answer: 'Simply tap Contact Us or speak to our team anytime.',
   },
 ];
 
@@ -114,12 +113,13 @@ const FAQs = () => {
       style={[globalStyle.bgwhite, globalStyle.flex, globalStyle.relative]}
     >
       <ScrollView contentContainerStyle={globalStyle.px20}>
-        <FlatList
-         
-          renderItem={renderFaqs}
-          data={faqData}
-          keyExtractor={item => item.id}
-        />
+        <View>
+          <FlatList
+            renderItem={renderFaqs}
+            data={faqData}
+            keyExtractor={item => item.id}
+          />
+        </View>
       </ScrollView>
 
       <Image

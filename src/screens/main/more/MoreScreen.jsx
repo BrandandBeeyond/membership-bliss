@@ -68,7 +68,9 @@ const MoreScreen = ({ navigation }) => {
           <MenuTabs
             iconName="reader-outline"
             label="Bookings"
-            onPress={() => {}}
+            onPress={() => {
+              navigation.push('Bookings');
+            }}
           />
           <MenuTabs
             iconName="headset-outline"

@@ -21,4 +21,5 @@ export const Routes = {
   OtpScreen: 'OtpScreen',
   Termsandconditions: 'Termsandconditions',
   Privacypolicy: 'Privacypolicy',
+  Bookings: 'Bookings',
 };
