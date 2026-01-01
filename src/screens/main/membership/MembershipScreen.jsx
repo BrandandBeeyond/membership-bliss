@@ -29,6 +29,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { formatDate } from '../../../config/FormatDate';
 
 const MembershipScreen = () => {
   const dispatch = useDispatch();
@@ -68,13 +69,6 @@ const MembershipScreen = () => {
       navigation.navigate('EditionScreen', { plan });
     }, 2000);
   };
-
-  const formatDate = date =>
-    new Date(date).toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
 
   const handleDateConfirm = selectedDate => {
     setDate(selectedDate);

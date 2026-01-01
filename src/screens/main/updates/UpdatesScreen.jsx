@@ -13,13 +13,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUpdates } from '../../../redux/actions/UpdatesAction';
 import { ActivityIndicator, Button } from 'react-native-paper';
+import { formatDate } from '../../../config/FormatDate';
 
 const Tab = createMaterialTopTabNavigator();
-
-const formatDate = dateStr => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return new Date(dateStr).toLocaleDateString(undefined, options);
-};
 
 const UpdatesList = ({ items, loading }) => {
   if (loading) {
@@ -35,8 +31,7 @@ const UpdatesList = ({ items, loading }) => {
 
   if (!items || items.length === 0) {
     return (
-      <View style={[globalStyle.alignCenter,globalStyle.mt20]}>
-        
+      <View style={[globalStyle.alignCenter, globalStyle.mt20]}>
         <Typography variant="h6" weight="MSemiBold">
           No records to display
         </Typography>

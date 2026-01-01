@@ -15,6 +15,9 @@ import {
   GET_MY_MEMBERSHIP_FAILURE,
   GET_MY_MEMBERSHIP_REQUEST,
   GET_MY_MEMBERSHIP_SUCCESS,
+  GET_USER_BOOKINGS_FAILURE,
+  GET_USER_BOOKINGS_REQUEST,
+  GET_USER_BOOKINGS_SUCCESS,
   MEMBERSHIP_BOOKING_FAILURE,
   MEMBERSHIP_BOOKING_REQUEST,
   MEMBERSHIP_BOOKING_SUCCESS,
@@ -185,7 +188,6 @@ export const getMymembershipDetail = () => async dispatch => {
 
     const token = await AsyncStorage.getItem('token');
 
-
     const { data } = await axios.get(`${API_SERVER}/bookings/booking/my`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -200,6 +202,35 @@ export const getMymembershipDetail = () => async dispatch => {
     dispatch({
       type: GET_MY_MEMBERSHIP_FAILURE,
       payload: error.response?.data?.message || 'Failed to load membership',
+    });
+  }
+};
+
+export const getUserMembership = () => async dispatch => {
+  try {
+    dispatch({ type: GET_USER_BOOKINGS_REQUEST });
+
+    const token = await AsyncStorage.getItem('token');
+
+    const { data } = await axios.get(
+      `${API_SERVER}/bookings/userbookings/all`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    dispatch({
+      type: GET_USER_BOOKINGS_SUCCESS,
+      payload: data.bookings,
+    });
+
+    return data.bookings;
+  } catch (error) {
+    dispatch({
+      type: GET_USER_BOOKINGS_FAILURE,
+      payload: error.response?.data?.message || 'Failed to fetch user bookings',
     });
   }
 };

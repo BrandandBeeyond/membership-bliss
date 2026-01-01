@@ -73,6 +73,8 @@ export const verifyOtpAction = (phone, otp) => async dispatch => {
 
     await AsyncStorage.setItem('token', data.token);
 
+    console.log('this is token', data.token);
+
     dispatch({
       type: VERIFY_OTP_SUCCESS,
       payload: {
