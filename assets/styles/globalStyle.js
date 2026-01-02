@@ -213,5 +213,6 @@ export const globalStyle = StyleSheet.create({
     minHeight: verticalScale(90),
     elevation: horizontalScale(2),
     padding: horizontalScale(10),
+    marginTop: verticalScale(10), 
   },
 });

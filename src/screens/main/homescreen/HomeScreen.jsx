@@ -150,11 +150,7 @@ const HomeScreen = ({ navigation }) => {
             }
           />
 
-          <ImageBackground
-            source={require('../../../../assets/images/reviewsbg.png')}
-          >
-            <Reviews />
-          </ImageBackground>
+          <Reviews />
         </View>
       </ScrollView>
     </SafeAreaView>
