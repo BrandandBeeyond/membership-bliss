@@ -80,25 +80,26 @@ const ArrivalSection = ({ booking, setSuccessVisible }) => {
               ]}
             >
               <View style={globalStyle.flex}>
-                <Typography variant="fthead" color="#383838ff" weight="Bold">
-                  Congratulations on your membership
+                <Typography variant="fthead" color="#4e6c45ff" weight="Bold">
+                   Arrival Date Pending for Approval
                 </Typography>
                 <Typography
                   variant="subline"
                   color="#5c5c5cff"
                   weight="MMedium"
                 >
-                  Let us know your arrival date to make your visit smooth &
-                  memorable
+                  Please wait for admin response.your arrival date is waiting to be approved. 
                 </Typography>
               </View>
               <Image
-                source={require('../../../../assets/images/giftbox.png')}
+                source={require('../../../../assets/images/membershipreq.png')}
                 style={{
-                  height: verticalScale(80),
-                  width: horizontalScale(80),
+                  height: verticalScale(110),
+                  width: horizontalScale(110),
                 }}
+                resizeMode='contain'
               />
+              
             </View>
           </View>
         </>
