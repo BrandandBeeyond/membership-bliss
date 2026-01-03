@@ -33,6 +33,8 @@ const EditionScreen = ({ route, navigation }) => {
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [activeTab, setActiveTab] = useState('value');
   const refRBSheet = useRef();
+
+  const { isAuthenticated } = useSelector(state => state.user);
   const { offers, loading } = useSelector(state => state.membershipplans);
 
   useEffect(() => {
@@ -46,6 +48,11 @@ const EditionScreen = ({ route, navigation }) => {
     offers.filter(item => item.type === 'discount') || [];
 
   const handleNavigateCheckout = () => {
+    if (!isAuthenticated) {
+      navigation.navigate('AuthScreen', { redirectTo: 'CheckoutScreen', plan });
+      return;
+    }
+
     setLoadingPayment(true);
 
     setTimeout(() => {
@@ -58,13 +65,12 @@ const EditionScreen = ({ route, navigation }) => {
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
       <View style={globalStyle.flex}>
         <FlatList
-          data={[{ key: 'content' }]} 
+          data={[{ key: 'content' }]}
           renderItem={null}
           keyExtractor={item => item.key}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             <>
-             
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
                 style={{

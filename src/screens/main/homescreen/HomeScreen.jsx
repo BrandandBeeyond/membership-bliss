@@ -1,10 +1,10 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
-import { Image, ImageBackground, ScrollView, View } from 'react-native';
+import { Image, ScrollView, View } from 'react-native';
 import Highlights from '../../../components/highlights/Highlights';
 import Topbar from '../../../components/Topbar';
-import { Searchbar, TextInput } from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
 import { HomeScreenStyles } from './Style';
 import Swiper from 'react-native-swiper';
 import Trending from '../../../components/trending/Trending';
@@ -61,6 +61,45 @@ const trendingData = [
     description:
       'Embark on a journey of togetherness, wellness and unforgettable memories!',
     thumbnail: require('../../../../assets/images/natures-club.png'),
+  },
+];
+
+const reviewData = [
+  {
+    id: 1,
+    customername: 'Bliss Member Family',
+    reviewdesc:
+      'Touchwood Bliss feels like home, not a resort. Every visit feels personal, warm, and familiar. As members, we truly feel a sense of belonging here.',
+  },
+  {
+    id: 2,
+    customername: 'Long-Term Member',
+    reviewdesc:
+      'The calm, the food, the people — everything heals. From pure vegetarian meals to the peaceful mountain surroundings, Touchwood Bliss helps us reset every time.',
+  },
+  {
+    id: 3,
+    customername: 'Family Membership Holder',
+    reviewdesc:
+      'Best place for family time away from city chaos. No noise, no rush — just nature, open spaces, and meaningful moments together.',
+  },
+  {
+    id: 4,
+    customername: 'Nature Club Member',
+    reviewdesc:
+      'Nature, warmth, and genuine hospitality define Touchwood Bliss. The staff, the greenery, and the overall vibe make every stay comforting and memorable.',
+  },
+  {
+    id: 5,
+    customername: 'Returning Member',
+    reviewdesc:
+      'A place where you truly slow down and reconnect. Mornings feel peaceful, evenings feel calm, and life feels balanced here.',
+  },
+  {
+    id: 6,
+    customername: 'Bliss Community Member',
+    reviewdesc:
+      'Once you visit, you keep coming back. Touchwood Bliss becomes a part of your life, not just a destination you visit once.',
   },
 ];
 
@@ -150,7 +189,7 @@ const HomeScreen = ({ navigation }) => {
             }
           />
 
-          <Reviews />
+          <Reviews data={reviewData} />
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -15,7 +15,7 @@ import {
 } from 'react-native-paper';
 import CrownIcon from 'react-native-vector-icons/Ionicons';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { useEffect, useRef, useState } from 'react';
+import { act, useEffect, useRef, useState } from 'react';
 import {
   horizontalScale,
   scaleFontSize,
@@ -30,6 +30,8 @@ import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { formatDate } from '../../../config/FormatDate';
+import ArrivalSection from './ArrivalSection';
+import SuccessPopup from '../../../components/popup/SuccessPopup';
 
 const MembershipScreen = () => {
   const dispatch = useDispatch();
@@ -45,9 +47,7 @@ const MembershipScreen = () => {
 
   const [buttonLoading, setButtonLoading] = useState(null);
   const [detailsModal, setDetailsModal] = useState(false);
-
-  const [date, setDate] = useState(null);
-  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
+  const [successVisible, setSuccessVisible] = useState(false);
 
   useEffect(() => {
     dispatch(getAllMembershipPlans());
@@ -69,20 +69,6 @@ const MembershipScreen = () => {
       navigation.navigate('EditionScreen', { plan });
     }, 2000);
   };
-
-  const handleDateConfirm = selectedDate => {
-    setDate(selectedDate);
-    setIsDatePickerVisible(false);
-  };
-
-  const formatInputDate = date =>
-    date
-      ? new Date(date).toLocaleDateString('en-GB', {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric',
-        })
-      : '';
 
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
@@ -197,119 +183,12 @@ const MembershipScreen = () => {
 
               {hasMembership && (
                 <>
-                  <View
-                    style={[
-                      globalStyle.mt20,
-                      globalStyle.p7,
-                      {
-                        borderWidth: horizontalScale(0.5),
-                        borderColor: '#adadadff',
-                        borderRadius: horizontalScale(20),
-                        width: '100%',
-                        backgroundColor: '#ffffff',
-                      },
-                    ]}
-                  >
-                    <View
-                      style={[
-                        globalStyle.row,
-                        globalStyle.alignCenter,
-                        globalStyle.cg10,
-                      ]}
-                    >
-                      <Image
-                        source={require('../../../../assets/images/giftbox.png')}
-                        style={{
-                          height: verticalScale(80),
-                          width: horizontalScale(80),
-                        }}
-                      />
-                      <View style={globalStyle.flex}>
-                        <Typography
-                          variant="fthead"
-                          color="#383838ff"
-                          weight="Bold"
-                        >
-                          Congratulations on your membership
-                        </Typography>
-                        <Typography
-                          variant="subline"
-                          color="#5c5c5cff"
-                          weight="MMedium"
-                        >
-                          Let us know your arrival date to make your visit
-                          smooth & memorable
-                        </Typography>
-                      </View>
-                    </View>
-
-                    <TouchableOpacity
-                      style={globalStyle.my10}
-                      activeOpacity={0.8}
-                      onPress={() => setIsDatePickerVisible(true)}
-                    >
-                      <TextInput
-                        left={
-                          <TextInput.Icon
-                            icon="calendar-check"
-                            color="#3b5f34ff"
-                          />
-                        }
-                        mode="outlined"
-                        value={formatInputDate(date)}
-                        placeholder="Select Your Arrival Date"
-                        editable={false}
-                        outlineColor="#b0aeaeff"
-                        activeOutlineColor="#588650ff"
-                        outlineStyle={{
-                          borderRadius: horizontalScale(30),
-                        }}
-                        style={{
-                          marginBottom: verticalScale(6),
-                          height: verticalScale(30),
-                          lineHeight: verticalScale(20),
-                        }}
-                      />
-                    </TouchableOpacity>
-
-                    <DateTimePickerModal
-                      isVisible={isDatePickerVisible}
-                      mode="date"
-                      minimumDate={new Date()}
-                      onConfirm={handleDateConfirm}
-                      onCancel={() => setIsDatePickerVisible(false)}
+                  <>
+                    <ArrivalSection
+                      booking={activeMembership}
+                      setSuccessVisible={setSuccessVisible}
                     />
-
-                    <View style={{ alignItems: 'center' }}>
-                      <LinearGradient
-                        colors={['#649361ff', '#457542ff', '#385437ff']}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        style={{
-                          borderRadius: horizontalScale(30),
-                          paddingHorizontal: horizontalScale(26),
-                          paddingVertical: verticalScale(1),
-                          height: verticalScale(28),
-                          lineHeight: verticalScale(34),
-                        }}
-                      >
-                        <Button
-                          mode="contained"
-                          onPress={() => console.log('Date confirmed')}
-                          labelStyle={{
-                            color: '#ffffff',
-                            fontSize: scaleFontSize(13),
-                            fontWeight: '600',
-                          }}
-                          style={{
-                            backgroundColor: 'transparent',
-                          }}
-                        >
-                          Confirm
-                        </Button>
-                      </LinearGradient>
-                    </View>
-                  </View>
+                  </>
 
                   <View
                     style={[
@@ -742,6 +621,13 @@ const MembershipScreen = () => {
           height: verticalScale(190),
           zIndex: -1,
         }}
+      />
+
+      <SuccessPopup
+        visible={successVisible}
+        onClose={() => setSuccessVisible(false)}
+        title="Arrival Date Submitted"
+        message="Your arrival request has been sent for approval."
       />
     </SafeAreaView>
   );

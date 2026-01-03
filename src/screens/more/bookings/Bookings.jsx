@@ -13,10 +13,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserMembership } from '../../../redux/actions/MembershipAction';
 import { formatDate } from '../../../config/FormatDate';
 import LinearGradient from 'react-native-linear-gradient';
+import Loader from '../../../components/Loader';
 
 const Bookings = () => {
   const dispatch = useDispatch();
-  const { userbookings } = useSelector(state => state.membershipbookings);
+  const { userbookings, loading } = useSelector(
+    state => state.membershipbookings,
+  );
 
   useEffect(() => {
     dispatch(getUserMembership());
@@ -35,7 +38,7 @@ const Bookings = () => {
       <View
         style={[
           globalStyle.column,
-          globalStyle.bgwhite,
+          globalStyle.bgslate,
 
           {
             borderRadius: horizontalScale(15),
@@ -120,7 +123,7 @@ const Bookings = () => {
   };
 
   return (
-    <SafeAreaView style={[globalStyle.flex, globalStyle.bgslate]}>
+    <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
       <View style={[globalStyle.px20, globalStyle.mt10]}>
         <Typography
           variant="h5"
@@ -132,16 +135,20 @@ const Bookings = () => {
         </Typography>
       </View>
 
-      <FlatList
-        data={userbookings}
-        keyExtractor={item => item._id}
-        renderItem={renderItem}
-        contentContainerStyle={{
-          paddingHorizontal: 20,
-          paddingVertical: 20,
-        }}
-        showsVerticalScrollIndicator={false}
-      />
+      {loading ? (
+        <Loader />
+      ) : (
+        <FlatList
+          data={userbookings}
+          keyExtractor={item => item._id}
+          renderItem={renderItem}
+          contentContainerStyle={{
+            paddingHorizontal: 20,
+            paddingVertical: 20,
+          }}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </SafeAreaView>
   );
 };

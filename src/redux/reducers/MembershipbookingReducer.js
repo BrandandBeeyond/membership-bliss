@@ -11,6 +11,9 @@ import {
   MEMEBRSHIP_PAYMENT_FAILURE,
   MEMEBRSHIP_PAYMENT_REQUEST,
   MEMEBRSHIP_PAYMENT_SUCCESS,
+  USER_ARRIVAL_FAILURE,
+  USER_ARRIVAL_REQUEST,
+  USER_ARRIVAL_SUCCESS,
 } from '../constants/membershipconstant';
 
 let initialState = {
@@ -27,6 +30,7 @@ export const MembershipBookingReducer = (state = initialState, action) => {
     case MEMBERSHIP_BOOKING_REQUEST:
     case MEMEBRSHIP_PAYMENT_REQUEST:
     case GET_USER_BOOKINGS_REQUEST:
+    case USER_ARRIVAL_REQUEST:
       return {
         ...state,
         loading: true,
@@ -45,6 +49,13 @@ export const MembershipBookingReducer = (state = initialState, action) => {
         loading: false,
         booking: action.payload,
         error: null,
+      };
+
+    case USER_ARRIVAL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        booking: action.payload,
       };
 
     case GET_USER_BOOKINGS_SUCCESS:
@@ -72,6 +83,7 @@ export const MembershipBookingReducer = (state = initialState, action) => {
 
     case MEMBERSHIP_BOOKING_FAILURE:
     case MEMEBRSHIP_PAYMENT_FAILURE:
+    case USER_ARRIVAL_FAILURE:
       return {
         ...state,
         loading: false,

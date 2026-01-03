@@ -20,8 +20,14 @@ import {
 } from '../../../../assets/styles/Scaling';
 
 const ContactScreen = ({ navigation }) => {
+  const openMaps = () => {
+    Linking.openURL(
+      'https://www.google.com/maps/search/?api=1&query=Touchwood+Bliss+Nature+Retreat+Igatpuri',
+    );
+  };
+
   return (
-    <SafeAreaView style={[globalStyle.flex, globalStyle.bgslate]}>
+    <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
       {' '}
       <ScrollView
         contentContainerStyle={globalStyle.px20}
@@ -121,7 +127,6 @@ const ContactScreen = ({ navigation }) => {
                   <Ionicons name={item.icon} size={22} color="#ffffff" />
                 </View>
 
-                {/* TEXT */}
                 <View style={{ flex: 1 }}>
                   <Typography variant="h6" weight="SemiBold" color="#2d2d2d">
                     {item.title}
@@ -139,6 +144,25 @@ const ContactScreen = ({ navigation }) => {
               </View>
             </Pressable>
           ))}
+        </View>
+
+        <View style={[globalStyle.mt10]}>
+          <Typography variant="h5" weight="SemiBold" style={globalStyle.textCenter}>
+            Find Us
+          </Typography>
+
+          <TouchableOpacity onPress={openMaps} activeOpacity={0.9}>
+            <Image
+              source={require('../../../../assets/images/location.jpeg')}
+              style={{
+                height: verticalScale(180),
+                width: '100%',
+                borderRadius: horizontalScale(20),
+                marginTop: verticalScale(10),
+              }}
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
         </View>
 
         <View
@@ -181,7 +205,11 @@ const ContactScreen = ({ navigation }) => {
                 slug: 'https://www.instagram.com/touchwoodbliss',
               },
               {
-                icon: require('../../../../assets/images/icons/globe.png'),
+                icon: require('../../../../assets/images/icons/linkedin.png'),
+                slug: 'https://www.touchwoodbliss.com',
+              },
+              {
+                icon: require('../../../../assets/images/icons/web.png'),
                 slug: 'https://www.touchwoodbliss.com',
               },
             ].map((item, index) => (

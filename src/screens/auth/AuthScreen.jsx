@@ -37,7 +37,9 @@ const ExploreTitle = ({ onExplorePress }) => {
   );
 };
 
-const AuthScreen = ({ navigation }) => {
+const AuthScreen = ({ navigation, route }) => {
+  const { redirectTo, plan } = route.params || {};
+
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState('');
   const mobileInputRef = useRef();
@@ -68,16 +70,14 @@ const AuthScreen = ({ navigation }) => {
     }
   }, []);
 
-  const handleSendOtp = async() => {
+  const handleSendOtp = async () => {
     try {
       setLoadingOtp(true);
 
       const res = await dispatch(sendOtpAction(mobile));
 
-      console.log('res', res);
-
       if (res?.success) {
-        navigation.navigate('OtpScreen', { phone: mobile });
+        navigation.navigate('OtpScreen', { phone: mobile, redirectTo, plan });
       } else {
         console.log('Failed to send OTP');
       }
@@ -87,8 +87,6 @@ const AuthScreen = ({ navigation }) => {
       setLoadingOtp(false);
     }
   };
-
-  // Google sign in
 
   const handleGoogleLogin = async () => {
     try {
@@ -106,7 +104,11 @@ const AuthScreen = ({ navigation }) => {
 
       await dispatch(googleLoginAction(idToken));
 
-      navigation.replace('HomeTabs');
+      if (redirectTo) {
+        navigation.replace(redirectTo, { plan });
+      } else {
+        navigation.replace('HomeTabs');
+      }
     } catch (error) {
       console.log('Google login failed:', error);
       setGoogleLoading(false);

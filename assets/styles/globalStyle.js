@@ -209,10 +209,11 @@ export const globalStyle = StyleSheet.create({
   reviewcard: {
     backgroundColor: '#ffffff',
     borderRadius: horizontalScale(20),
-    width: horizontalScale(150),
-    minHeight: verticalScale(90),
+    width: horizontalScale(160),
+    minHeight: verticalScale(60),
     elevation: horizontalScale(2),
     padding: horizontalScale(10),
     marginTop: verticalScale(10), 
+    marginRight:horizontalScale(15)
   },
 });

@@ -17,7 +17,7 @@ import { verifyOtpAction } from '../../../redux/actions/UserAction';
 
 const OtpScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
-  const { phone } = route.params;
+  const { phone, redirectTo, plan } = route.params;
   const [otpValue, setOtpValue] = useState('');
 
   const [loadingVerifyOtp, setLoadingVerifyOtp] = useState(false);
@@ -32,7 +32,12 @@ const OtpScreen = ({ navigation, route }) => {
       console.log('res verify otp', res);
 
       if (!res?.user.profileCompleted) {
-        navigation.replace('Signupscreen', { phone: phone });
+        navigation.replace('Signupscreen', { phone: phone, redirectTo, plan });
+        return;
+      }
+
+      if (redirectTo) {
+        navigation.replace(redirectTo, { plan });
       } else {
         navigation.replace('HomeTabs');
       }

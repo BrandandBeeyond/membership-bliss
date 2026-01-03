@@ -24,6 +24,9 @@ import {
   MEMEBRSHIP_PAYMENT_FAILURE,
   MEMEBRSHIP_PAYMENT_REQUEST,
   MEMEBRSHIP_PAYMENT_SUCCESS,
+  USER_ARRIVAL_FAILURE,
+  USER_ARRIVAL_REQUEST,
+  USER_ARRIVAL_SUCCESS,
 } from '../constants/membershipconstant';
 import { API_SERVER } from '../../config/Key';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -234,3 +237,40 @@ export const getUserMembership = () => async dispatch => {
     });
   }
 };
+
+export const requestUserArrivalAction =
+  (bookingId, arrivalDate) => async dispatch => {
+    try {
+      dispatch({ type: USER_ARRIVAL_REQUEST });
+
+      const token = await AsyncStorage.getItem('token');
+
+      const { data } = await axios.post(
+        `${API_SERVER}/bookings/request-arrival`,
+        {
+          bookingId,
+          arrivalDate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      dispatch({
+        type: USER_ARRIVAL_SUCCESS,
+        payload: data.booking,
+      });
+
+      return data;
+    } catch (error) {
+      const message = error?.response?.data?.message || 'Request failed';
+      dispatch({
+        type: USER_ARRIVAL_FAILURE,
+        payload: message,
+      });
+
+      return { success: false, message };
+    }
+  };
