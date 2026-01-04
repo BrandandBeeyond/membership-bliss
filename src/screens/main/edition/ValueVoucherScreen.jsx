@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import {
@@ -11,13 +11,13 @@ import Collapsible from 'react-native-collapsible';
 import Typography from '../../../components/Typography';
 import { Chip } from 'react-native-paper';
 
-const ValueVoucherScreen = ({ valueVouchers }) => {
+const ValueVoucherScreen = ({ valueVouchers, openVoucherBottomSheet }) => {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const toggleCollapse = index => {
     setActiveIndex(activeIndex === index ? null : index);
   };
-  
+
   const renderVouchers = ({ item, index }) => {
     const isOpen = index === activeIndex;
 
@@ -29,7 +29,7 @@ const ValueVoucherScreen = ({ valueVouchers }) => {
           borderRadius: horizontalScale(12),
           borderWidth: horizontalScale(1),
           borderColor: '#9dc699ff',
-          padding: horizontalScale(10),
+          padding: horizontalScale(6),
         }}
       >
         {/* HEADER */}
@@ -39,9 +39,20 @@ const ValueVoucherScreen = ({ valueVouchers }) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            paddingVertical: isOpen ? verticalScale(5) : 0,
+            borderRadius: horizontalScale(8),
+            paddingRight: horizontalScale(16),
+            backgroundColor: isOpen ? '#80a580ff' : 'transparent',
           }}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              flex: 1,
+              paddingHorizontal: horizontalScale(5),
+            }}
+          >
             <Image
               source={{ uri: item.thumbnail?.url }}
               style={{
@@ -53,7 +64,11 @@ const ValueVoucherScreen = ({ valueVouchers }) => {
             />
 
             <View style={{ flex: 1 }}>
-              <Typography color="#2d532c" variant="subhead" weight="MSemiBold">
+              <Typography
+                color={isOpen ? '#ffffff' : '#2d532c'}
+                variant="subhead"
+                weight="MSemiBold"
+              >
                 {item.title}
               </Typography>
             </View>
@@ -62,7 +77,7 @@ const ValueVoucherScreen = ({ valueVouchers }) => {
           <Ionicons
             name={isOpen ? 'chevron-up' : 'chevron-down'}
             size={22}
-            color="#2d532c"
+            color={isOpen ? '#ffffff' : '#2d532c'}
           />
         </TouchableOpacity>
 
@@ -71,9 +86,18 @@ const ValueVoucherScreen = ({ valueVouchers }) => {
             <View style={globalStyle.dashedLine}></View>
             {item.items?.map((v, i) => (
               <View key={i}>
-                <Typography color="#2d532c" variant="subline" weight="MMedium">
-                  {v.name}
-                </Typography>
+                <TouchableOpacity
+                  onPress={() => openVoucherBottomSheet(v, item.thumbnail?.url)}
+                >
+                  <Typography
+                    color="#2d532c"
+                    variant="subhead"
+                    weight="MMedium"
+                  >
+                    {v.name}
+                  </Typography>
+                </TouchableOpacity>
+
                 {v.description && (
                   <Text
                     style={{
@@ -85,9 +109,31 @@ const ValueVoucherScreen = ({ valueVouchers }) => {
                     {v.description}
                   </Text>
                 )}
-                <View style={[globalStyle.my5,globalStyle.row,globalStyle.alignCenter,globalStyle.cg15]}>
-                  <Chip  style={{maxWidth:horizontalScale(100),backgroundColor:'#869e84ff'}}>Available : {v.inventory} </Chip>
-                  <Chip style={{maxWidth:horizontalScale(100),backgroundColor:'#869e84ff'}}>Used : {v.usedCount} </Chip>
+                <View
+                  style={[
+                    globalStyle.mt10,
+                    globalStyle.mb5,
+                    globalStyle.row,
+                    globalStyle.alignCenter,
+                    globalStyle.cg15,
+                  ]}
+                >
+                  <Chip
+                    style={{
+                      maxWidth: horizontalScale(100),
+                      backgroundColor: '#869e84ff',
+                    }}
+                  >
+                    Available : {v.inventory}{' '}
+                  </Chip>
+                  <Chip
+                    style={{
+                      maxWidth: horizontalScale(100),
+                      backgroundColor: '#869e84ff',
+                    }}
+                  >
+                    Used : {v.usedCount}{' '}
+                  </Chip>
                 </View>
               </View>
             ))}

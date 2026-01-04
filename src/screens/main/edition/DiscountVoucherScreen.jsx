@@ -11,7 +11,10 @@ import Typography from '../../../components/Typography';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Collapsible from 'react-native-collapsible';
 
-const DiscountVoucherScreen = ({ discountVouchers }) => {
+const DiscountVoucherScreen = ({
+  discountVouchers,
+  openVoucherBottomSheet,
+}) => {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const toggleCollapse = index => {
@@ -30,8 +33,8 @@ const DiscountVoucherScreen = ({ discountVouchers }) => {
           borderWidth: horizontalScale(1),
           borderColor: '#9dc699ff',
           padding: horizontalScale(10),
-          position:'relative',
-          zIndex:20
+          position: 'relative',
+          zIndex: 20,
         }}
       >
         <TouchableOpacity
@@ -40,9 +43,20 @@ const DiscountVoucherScreen = ({ discountVouchers }) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            paddingVertical: isOpen ? verticalScale(5) : 0,
+            borderRadius: horizontalScale(8),
+            paddingRight: horizontalScale(16),
+            backgroundColor: isOpen ? '#80a580ff' : 'transparent',
           }}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              flex: 1,
+              paddingHorizontal: horizontalScale(5),
+            }}
+          >
             <Image
               source={{ uri: item.thumbnail?.url }}
               style={{
@@ -54,7 +68,11 @@ const DiscountVoucherScreen = ({ discountVouchers }) => {
             />
 
             <View style={{ flex: 1 }}>
-              <Typography color="#2d532c" variant="subhead" weight="MSemiBold">
+              <Typography
+                color={isOpen ? '#ffffff' : '#2d532c'}
+                variant="subhead"
+                weight="MSemiBold"
+              >
                 {item.title}
               </Typography>
             </View>
@@ -63,7 +81,7 @@ const DiscountVoucherScreen = ({ discountVouchers }) => {
           <Ionicons
             name={isOpen ? 'chevron-up' : 'chevron-down'}
             size={22}
-            color="#2d532c"
+            color={isOpen ? '#ffffff' : '#2d532c'}
           />
         </TouchableOpacity>
 
@@ -72,9 +90,15 @@ const DiscountVoucherScreen = ({ discountVouchers }) => {
             <View style={globalStyle.dashedLine}></View>
             {item.items?.map((v, i) => (
               <View key={i}>
-                <Typography color="#2d532c" variant="subline" weight="MMedium">
-                  {v.name}
-                </Typography>
+                <TouchableOpacity onPress={() => openVoucherBottomSheet(v)}>
+                  <Typography
+                    color="#2d532c"
+                    variant="subhead"
+                    weight="MMedium"
+                  >
+                    {v.name}
+                  </Typography>
+                </TouchableOpacity>
                 {v.description && (
                   <Text
                     style={{
@@ -94,10 +118,20 @@ const DiscountVoucherScreen = ({ discountVouchers }) => {
                     globalStyle.cg15,
                   ]}
                 >
-                  <Chip style={{maxWidth:horizontalScale(100),backgroundColor:'#869e84ff'}}>
+                  <Chip
+                    style={{
+                      maxWidth: horizontalScale(100),
+                      backgroundColor: '#869e84ff',
+                    }}
+                  >
                     Available : {v.inventory}{' '}
                   </Chip>
-                  <Chip style={{maxWidth:horizontalScale(100),backgroundColor:'#869e84ff'}}>
+                  <Chip
+                    style={{
+                      maxWidth: horizontalScale(100),
+                      backgroundColor: '#869e84ff',
+                    }}
+                  >
                     Used : {v.usedCount}{' '}
                   </Chip>
                 </View>

@@ -25,6 +25,7 @@ import ValueVoucherScreen from './ValueVoucherScreen';
 import DiscountVoucherScreen from './DiscountVoucherScreen';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { Button } from 'react-native-paper';
+import VoucherBottomSheet from './VoucherBottomSheet';
 
 const EditionScreen = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -32,7 +33,9 @@ const EditionScreen = ({ route, navigation }) => {
 
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [activeTab, setActiveTab] = useState('value');
+  const [selectedVoucher, setSelectedVoucher] = useState(null);
   const refRBSheet = useRef();
+  const refVoucherRBSheet = useRef();
 
   const { isAuthenticated } = useSelector(state => state.user);
   const { offers, loading } = useSelector(state => state.membershipplans);
@@ -61,6 +64,18 @@ const EditionScreen = ({ route, navigation }) => {
     }, 1500);
   };
 
+  const openVoucherBottomSheet = (voucherItem, imageUrl) => {
+    setSelectedVoucher({
+      ...voucherItem,
+      thumbnail: { url: imageUrl },
+    });
+    refVoucherRBSheet.current.open();
+  };
+
+  const closeVoucherBottomSheet = () => {
+    refVoucherRBSheet.current.close();
+    setSelectedVoucher(null);
+  };
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgwhite]}>
       <View style={globalStyle.flex}>
@@ -253,9 +268,15 @@ const EditionScreen = ({ route, navigation }) => {
               ]}
             >
               {activeTab === 'value' ? (
-                <ValueVoucherScreen valueVouchers={valueVouchers} />
+                <ValueVoucherScreen
+                  openVoucherBottomSheet={openVoucherBottomSheet}
+                  valueVouchers={valueVouchers}
+                />
               ) : (
-                <DiscountVoucherScreen discountVouchers={discountVouchers} />
+                <DiscountVoucherScreen
+                  openVoucherBottomSheet={openVoucherBottomSheet}
+                  discountVouchers={discountVouchers}
+                />
               )}
             </View>
           }
@@ -383,6 +404,11 @@ const EditionScreen = ({ route, navigation }) => {
           </ScrollView>
         </View>
       </RBSheet>
+      <VoucherBottomSheet
+        refVoucherRBSheet={refVoucherRBSheet}
+        voucher={selectedVoucher}
+        onClose={closeVoucherBottomSheet}
+      />
     </SafeAreaView>
   );
 };
