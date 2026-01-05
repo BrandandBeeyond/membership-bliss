@@ -27,6 +27,7 @@ import {
   getMymembershipDetail,
 } from '../../../redux/actions/MembershipAction';
 import { formatDate } from '../../../config/FormatDate';
+import Loader from '../../../components/Loader';
 
 const CategoryDetail = ({ route }) => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const CategoryDetail = ({ route }) => {
   const { name, image } = route.params;
   const [expanded, setExpanded] = useState(true);
   const { membershipplans } = useSelector(state => state.membershipplans);
-  const { activeMembership } = useSelector(state => state.membershipbookings);
+  const { loading,activeMembership } = useSelector(state => state.membershipbookings);
 
   const hasMembership = Boolean(activeMembership);
   const activePlanId = activeMembership?.membershipPlanId?._id;
@@ -78,7 +79,8 @@ const CategoryDetail = ({ route }) => {
           resizeMode: 'cover',
         }}
       />
-      {hasMembership && (
+      
+      {loading ? (<Loader/>) : (<>{hasMembership && (
         <>
           <View style={[globalStyle.bgslate, globalStyle.py5]}>
             <View
@@ -434,7 +436,9 @@ const CategoryDetail = ({ route }) => {
               })}
           </View>
         </View>
-      </View>
+      </View></>)}
+
+      
     </ScrollView>
   );
 };

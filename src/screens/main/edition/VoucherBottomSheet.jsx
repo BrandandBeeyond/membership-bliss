@@ -10,6 +10,7 @@ import {
 import Typography from '../../../components/Typography';
 import { Button, Chip } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const VoucherBottomSheet = ({
   refVoucherRBSheet,
@@ -17,8 +18,8 @@ const VoucherBottomSheet = ({
   onClose,
   handleNavigateCheckout,
   loadingPayment,
-  activeMembership,
   hasMembership,
+  isCurrentEditionActive,
 }) => {
   if (!voucher) return null;
 
@@ -133,33 +134,79 @@ const VoucherBottomSheet = ({
               </Typography>
             </View>
           </View>
-          <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
-            <Typography variant="subline" weight="MMedium" color="#343333ff">
-              Total Available
-            </Typography>
-            <View
-              style={[
-                {
-                  backgroundColor: '#dbefd3ff',
-                  borderRadius: horizontalScale(18),
-                  height: verticalScale(27),
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: verticalScale(5),
-                  width: horizontalScale(90),
-                },
-              ]}
-            >
-              <Typography
-                style={{ fontSize: scaleFontSize(16) }}
-                color="#323f29ff"
-                weight="MSemiBold"
-              >
-                {voucher.inventory - voucher.usedCount}
+          {isCurrentEditionActive ? (
+            <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
+              <Typography variant="subline" weight="MMedium" color="#343333ff">
+                Redeem Quantity
               </Typography>
+              <View
+                style={[
+                  globalStyle.row,
+                  globalStyle.alignCenter,
+                  globalStyle.cg5,
+                ]}
+              >
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#dbefd3ff',
+                    width: horizontalScale(26),
+                    height: verticalScale(24),
+                    borderTopLeftRadius: horizontalScale(15),
+                    borderBottomLeftRadius: horizontalScale(15),
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: verticalScale(5),
+                  }}
+                >
+                  <Ionicons name="remove-outline" size={20} color="#000" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#dbefd3ff',
+                    width: horizontalScale(26),
+                    height: verticalScale(24),
+                    borderTopRightRadius: horizontalScale(15),
+                    borderBottomRightRadius: horizontalScale(15),
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: verticalScale(5),
+                  }}
+                >
+                  <Ionicons name="add-outline" size={20} color="#000" />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
+          ) : (
+            <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
+              <Typography variant="subline" weight="MMedium" color="#343333ff">
+                Total Available
+              </Typography>
+              <View
+                style={[
+                  {
+                    backgroundColor: '#dbefd3ff',
+                    borderRadius: horizontalScale(18),
+                    height: verticalScale(27),
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: verticalScale(5),
+                    width: horizontalScale(90),
+                  },
+                ]}
+              >
+                <Typography
+                  style={{ fontSize: scaleFontSize(16) }}
+                  color="#323f29ff"
+                  weight="MSemiBold"
+                >
+                  {voucher.inventory - voucher.usedCount}
+                </Typography>
+              </View>
+            </View>
+          )}
         </View>
         <View
           style={{
@@ -199,7 +246,7 @@ const VoucherBottomSheet = ({
               lineHeight: verticalScale(40),
             }}
           >
-            {hasMembership ? (
+            {isCurrentEditionActive ? (
               <Button
                 mode="contained"
                 disabled={loadingPayment}
