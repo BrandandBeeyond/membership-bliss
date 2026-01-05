@@ -90,7 +90,9 @@ const DiscountVoucherScreen = ({
             <View style={globalStyle.dashedLine}></View>
             {item.items?.map((v, i) => (
               <View key={i}>
-                <TouchableOpacity onPress={() => openVoucherBottomSheet(v)}>
+                <TouchableOpacity
+                  onPress={() => openVoucherBottomSheet(v, item.thumbnail?.url)}
+                >
                   <Typography
                     color="#2d532c"
                     variant="subhead"

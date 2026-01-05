@@ -182,8 +182,8 @@ export const globalStyle = StyleSheet.create({
     borderRadius: horizontalScale(15),
   },
   BoxEdition: {
-    height: verticalScale(72),
-    width: horizontalScale(90),
+    height: horizontalScale(85),
+    width: horizontalScale(85),
     borderRadius: horizontalScale(20),
     display: 'flex',
     justifyContent: 'center',

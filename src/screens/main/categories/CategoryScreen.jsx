@@ -2,7 +2,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getAllMembershipCategories } from '../../../redux/actions/MembershipAction';
+import {
+  getAllMembershipCategories,
+  getMymembershipDetail,
+} from '../../../redux/actions/MembershipAction';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import { Card, Searchbar, Text, TextInput } from 'react-native-paper';
 import {
@@ -29,6 +32,8 @@ const CategoryScreen = () => {
 
     return () => clearTimeout(timer);
   }, [dispatch]);
+
+  
 
   if (loading || showLoader) {
     return (
@@ -132,7 +137,11 @@ const CategoryScreen = () => {
                   >
                     {item.name}
                   </Typography>
-                  <Typography variant="subline" weight="MMedium" color="#212020ff">
+                  <Typography
+                    variant="subline"
+                    weight="MMedium"
+                    color="#212020ff"
+                  >
                     {item.description}
                   </Typography>
                 </Card.Content>

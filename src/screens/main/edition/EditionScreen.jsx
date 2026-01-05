@@ -20,7 +20,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import Typography from '../../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMembershipPlanOffers } from '../../../redux/actions/MembershipAction';
+import {
+  getMembershipPlanOffers,
+  getMymembershipDetail,
+} from '../../../redux/actions/MembershipAction';
 import ValueVoucherScreen from './ValueVoucherScreen';
 import DiscountVoucherScreen from './DiscountVoucherScreen';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -38,13 +41,22 @@ const EditionScreen = ({ route, navigation }) => {
   const refVoucherRBSheet = useRef();
 
   const { isAuthenticated } = useSelector(state => state.user);
+  const { activeMembership } = useSelector(state => state.membershipbookings);
   const { offers, loading } = useSelector(state => state.membershipplans);
+
+  const hasMembership = Boolean(activeMembership);
+  const isCurrentEditionActive =
+    hasMembership && activeMembership?.membershipPlanId === plan._id;
 
   useEffect(() => {
     if (plan._id) {
       dispatch(getMembershipPlanOffers(plan._id));
     }
   }, [dispatch, plan]);
+
+  useEffect(() => {
+    dispatch(getMymembershipDetail());
+  }, [dispatch]);
 
   const valueVouchers = offers.filter(item => item.type === 'value') || [];
   const discountVouchers =
@@ -69,7 +81,12 @@ const EditionScreen = ({ route, navigation }) => {
       ...voucherItem,
       thumbnail: { url: imageUrl },
     });
-    refVoucherRBSheet.current.open();
+
+    requestAnimationFrame(() => {
+      if (refVoucherRBSheet.current) {
+        refVoucherRBSheet.current.open();
+      }
+    });
   };
 
   const closeVoucherBottomSheet = () => {
@@ -305,25 +322,27 @@ const EditionScreen = ({ route, navigation }) => {
         </Typography>
       </TouchableOpacity>
 
-      <Button
-        mode="contained"
-        onPress={handleNavigateCheckout}
-        loading={loadingPayment}
-        disabled={loadingPayment}
-        contentStyle={{ height: verticalScale(36) }}
-        style={[
-          globalStyle.rounded10,
-          editionStyle.buynow,
-          { backgroundColor: '#fff', width: '36%' },
-        ]}
-        labelStyle={{ color: '#4c5d49ff' }}
-      >
-        {!loadingPayment && (
-          <Typography variant="body" color="#4c5d49ff" weight="MSemiBold">
-            Buy Now
-          </Typography>
-        )}
-      </Button>
+      {!isCurrentEditionActive && (
+        <Button
+          mode="contained"
+          onPress={handleNavigateCheckout}
+          loading={loadingPayment}
+          disabled={loadingPayment}
+          contentStyle={{ height: verticalScale(36) }}
+          style={[
+            globalStyle.rounded10,
+            editionStyle.buynow,
+            { backgroundColor: '#fff', width: '36%' },
+          ]}
+          labelStyle={{ color: '#4c5d49ff' }}
+        >
+          {!loadingPayment && (
+            <Typography variant="body" color="#4c5d49ff" weight="MSemiBold">
+              Buy Now
+            </Typography>
+          )}
+        </Button>
+      )}
 
       <LinearGradient
         pointerEvents="none"
@@ -405,8 +424,12 @@ const EditionScreen = ({ route, navigation }) => {
         </View>
       </RBSheet>
       <VoucherBottomSheet
+        loadingPayment={loadingPayment}
         refVoucherRBSheet={refVoucherRBSheet}
         voucher={selectedVoucher}
+        handleNavigateCheckout={handleNavigateCheckout}
+        activeMembership={activeMembership}
+        isCurrentEditionActive={isCurrentEditionActive}
         onClose={closeVoucherBottomSheet}
       />
     </SafeAreaView>

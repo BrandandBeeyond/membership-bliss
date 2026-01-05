@@ -11,7 +11,15 @@ import Typography from '../../../components/Typography';
 import { Button, Chip } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 
-const VoucherBottomSheet = ({ refVoucherRBSheet, voucher, onClose }) => {
+const VoucherBottomSheet = ({
+  refVoucherRBSheet,
+  voucher,
+  onClose,
+  handleNavigateCheckout,
+  loadingPayment,
+  activeMembership,
+  hasMembership,
+}) => {
   if (!voucher) return null;
 
   return (
@@ -75,107 +83,108 @@ const VoucherBottomSheet = ({ refVoucherRBSheet, voucher, onClose }) => {
             <Typography variant="subline" weight="MMedium" color="#343333ff">
               Coupon Quantity
             </Typography>
-            <Chip
-              style={{
-                backgroundColor: '#b9d4afff',
-                borderRadius: horizontalScale(18),
-                height: verticalScale(27),
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: verticalScale(5),
-              }}
-              contentstyle={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              textStyle={{
-                color: '#1f3d1f',
-                fontSize: scaleFontSize(18),
-                fontWeight: '600',
-              }}
+            <View
+              style={[
+                {
+                  backgroundColor: '#dbefd3ff',
+                  borderRadius: horizontalScale(18),
+                  height: verticalScale(27),
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: verticalScale(5),
+                  width: horizontalScale(90),
+                },
+              ]}
             >
-              {voucher.inventory}
-            </Chip>
+              <Typography
+                style={{ fontSize: scaleFontSize(16) }}
+                color="#323f29ff"
+                weight="MSemiBold"
+              >
+                {voucher.inventory}
+              </Typography>
+            </View>
           </View>
           <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
             <Typography variant="subline" weight="MMedium" color="#343333ff">
               Coupon Used
             </Typography>
-            <Chip
-              style={{
-                backgroundColor: '#b9d4afff',
-                borderRadius: horizontalScale(18),
-                height: verticalScale(27),
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: verticalScale(5),
-              }}
-              contentstyle={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              textStyle={{
-                color: '#1f3d1f',
-                fontSize: scaleFontSize(18),
-                fontWeight: '600',
-              }}
+            <View
+              style={[
+                {
+                  backgroundColor: '#dbefd3ff',
+                  borderRadius: horizontalScale(18),
+                  height: verticalScale(27),
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: verticalScale(5),
+                  width: horizontalScale(90),
+                },
+              ]}
             >
-              {voucher.usedCount}
-            </Chip>
+              <Typography
+                style={{ fontSize: scaleFontSize(16) }}
+                color="#323f29ff"
+                weight="MSemiBold"
+              >
+                {voucher.usedCount}
+              </Typography>
+            </View>
           </View>
           <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
             <Typography variant="subline" weight="MMedium" color="#343333ff">
               Total Available
             </Typography>
-            <Chip
-              style={{
-                backgroundColor: '#b9d4afff',
-                borderRadius: horizontalScale(18),
-                height: verticalScale(27),
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: verticalScale(5),
-              }}
-              contentstyle={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              textStyle={{
-                color: '#1f3d1f',
-                fontSize: scaleFontSize(18),
-                fontWeight: '600',
-                textalign: 'center',
-              }}
+            <View
+              style={[
+                {
+                  backgroundColor: '#dbefd3ff',
+                  borderRadius: horizontalScale(18),
+                  height: verticalScale(27),
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: verticalScale(5),
+                  width: horizontalScale(90),
+                },
+              ]}
             >
-              {voucher.inventory - voucher.usedCount}
-            </Chip>
+              <Typography
+                style={{ fontSize: scaleFontSize(16) }}
+                color="#323f29ff"
+                weight="MSemiBold"
+              >
+                {voucher.inventory - voucher.usedCount}
+              </Typography>
+            </View>
           </View>
         </View>
         <View
           style={{
             flexDirection: 'row',
             gap: horizontalScale(12),
-            marginTop: verticalScale(24),
+            marginVertical: verticalScale(24),
           }}
         >
-          <TouchableOpacity
+          <Button
+            mode="outlined"
             onPress={onClose}
+            textColor="#2b3527ff"
             style={{
               flex: 1,
-              borderWidth: 1,
-              borderColor: '#2b3527ff',
               borderRadius: 30,
-              height:verticalScale(35),
-              lineHeight:verticalScale(45),
-              alignItems: 'center',
+              height: verticalScale(35),
+              justifyContent: 'center',
+            }}
+            labelStyle={{
+              fontSize: scaleFontSize(16),
+              fontWeight: '600',
             }}
           >
-            <Typography style={{fontSize:scaleFontSize(18)}} color="#2b3527ff">Cancel</Typography>
-          </TouchableOpacity>
+            Cancel
+          </Button>
 
           <LinearGradient
             colors={['#649361ff', '#457542ff', '#385437ff']}
@@ -185,25 +194,48 @@ const VoucherBottomSheet = ({ refVoucherRBSheet, voucher, onClose }) => {
               borderRadius: horizontalScale(30),
               paddingHorizontal: horizontalScale(18),
               paddingVertical: verticalScale(1),
-              width:'50%',
+              width: '50%',
               height: verticalScale(35),
               lineHeight: verticalScale(40),
             }}
           >
-            <Button
-              mode="contained"
-              labelStyle={{
-                color: '#ffffff',
-                fontSize: scaleFontSize(16),
-                lineHeight:verticalScale(18),
-                fontWeight: '600',
-              }}
-              style={{
-                backgroundColor: 'transparent',
-              }}
-            >
-               Buy Now
-            </Button>
+            {hasMembership ? (
+              <Button
+                mode="contained"
+                disabled={loadingPayment}
+                loading={loadingPayment}
+                onPress={handleNavigateCheckout}
+                labelStyle={{
+                  color: '#ffffff',
+                  fontSize: scaleFontSize(16),
+                  lineHeight: verticalScale(18),
+                  fontWeight: '600',
+                }}
+                style={{
+                  backgroundColor: 'transparent',
+                }}
+              >
+                Redeem
+              </Button>
+            ) : (
+              <Button
+                mode="contained"
+                disabled={loadingPayment}
+                loading={loadingPayment}
+                onPress={handleNavigateCheckout}
+                labelStyle={{
+                  color: '#ffffff',
+                  fontSize: scaleFontSize(16),
+                  lineHeight: verticalScale(18),
+                  fontWeight: '600',
+                }}
+                style={{
+                  backgroundColor: 'transparent',
+                }}
+              >
+                Buy Now
+              </Button>
+            )}
           </LinearGradient>
         </View>
       </ScrollView>
