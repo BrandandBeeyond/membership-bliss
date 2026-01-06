@@ -1,5 +1,11 @@
-import React from 'react';
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import {
@@ -11,6 +17,8 @@ import Typography from '../../../components/Typography';
 import { Button, Chip } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useDispatch } from 'react-redux';
+import { RequestVoucherRedeem } from '../../../redux/actions/VoucherAction';
 
 const VoucherBottomSheet = ({
   refVoucherRBSheet,
@@ -18,10 +26,49 @@ const VoucherBottomSheet = ({
   onClose,
   handleNavigateCheckout,
   loadingPayment,
-  hasMembership,
+  activeMembership,
   isCurrentEditionActive,
 }) => {
-  if (!voucher) return null;
+  const dispatch = useDispatch();
+  const maxQty = useMemo(() => {
+    if (!voucher) return 0;
+    return Math.max((voucher?.inventory ?? 0) - (voucher?.usedCount ?? 0), 0);
+  }, [voucher]);
+
+  const [qty, setQty] = useState(1);
+
+  useEffect(() => {
+    setQty(1);
+  }, [voucher]);
+
+  const increment = () => {
+    setQty(prev => (prev < maxQty ? prev + 1 : prev));
+  };
+
+  const decrement = () => {
+    setQty(prev => (prev > 1 ? prev - 1 : prev));
+  };
+
+  const handleRedeem = async () => {
+    try {
+      const res = await dispatch(
+        RequestVoucherRedeem(activeMembership?._id, voucher?._id, qty),
+      );
+    } catch (error) {
+      console.log('redeem error', error);
+    }
+  };
+
+  if (!voucher) {
+    return (
+      <RBSheet ref={refVoucherRBSheet} height={200}>
+        <View style={[globalStyle.center, { padding: 20 }]}>
+          <ActivityIndicator size="small" />
+          <Typography style={{ marginTop: 8 }}>Loading voucher…</Typography>
+        </View>
+      </RBSheet>
+    );
+  }
 
   return (
     <RBSheet
@@ -143,14 +190,15 @@ const VoucherBottomSheet = ({
                 style={[
                   globalStyle.row,
                   globalStyle.alignCenter,
-                  globalStyle.cg5,
+                  { columnGap: horizontalScale(1) },
                 ]}
               >
                 <TouchableOpacity
+                  onPress={decrement}
                   style={{
                     backgroundColor: '#dbefd3ff',
-                    width: horizontalScale(26),
-                    height: verticalScale(24),
+                    width: horizontalScale(30),
+                    height: verticalScale(27),
                     borderTopLeftRadius: horizontalScale(15),
                     borderBottomLeftRadius: horizontalScale(15),
                     display: 'flex',
@@ -161,11 +209,31 @@ const VoucherBottomSheet = ({
                 >
                   <Ionicons name="remove-outline" size={20} color="#000" />
                 </TouchableOpacity>
-                <TouchableOpacity
+                <View
                   style={{
                     backgroundColor: '#dbefd3ff',
-                    width: horizontalScale(26),
-                    height: verticalScale(24),
+                    width: horizontalScale(35),
+                    height: verticalScale(27),
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: verticalScale(5),
+                  }}
+                >
+                  <Typography
+                    style={{ fontSize: scaleFontSize(16) }}
+                    color="#323f29ff"
+                    weight="MSemiBold"
+                  >
+                    {qty}
+                  </Typography>
+                </View>
+                <TouchableOpacity
+                  onPress={increment}
+                  style={{
+                    backgroundColor: '#dbefd3ff',
+                    width: horizontalScale(30),
+                    height: verticalScale(27),
                     borderTopRightRadius: horizontalScale(15),
                     borderBottomRightRadius: horizontalScale(15),
                     display: 'flex',
@@ -251,7 +319,7 @@ const VoucherBottomSheet = ({
                 mode="contained"
                 disabled={loadingPayment}
                 loading={loadingPayment}
-                onPress={handleNavigateCheckout}
+                onPress={handleRedeem}
                 labelStyle={{
                   color: '#ffffff',
                   fontSize: scaleFontSize(16),
