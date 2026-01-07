@@ -50,6 +50,7 @@ const VoucherBottomSheet = ({
     setQty(1);
     setOtpMode(false);
     setOtpData(null);
+    setPendingRedeemption(null);
   }, [voucher]);
 
   const increment = () => {
@@ -65,10 +66,11 @@ const VoucherBottomSheet = ({
 
     dispatch(checkVoucherReedemtion(activeMembership._id, voucher._id)).then(
       res => {
+        console.log('res of check voucher redeem', res);
         if (res.status === 'Pending') {
           setPendingRedeemption({
-            redemptionId: res?.data?.redemptionId,
-            otpCode: res?.data?.otpCode?.toString(),
+            redemptionId: res?.redemptionId,
+            otpCode: res?.otpCode?.toString(),
             status: 'Pending',
           });
         } else {
@@ -140,7 +142,7 @@ const VoucherBottomSheet = ({
         enabled: false,
       }}
     >
-      {otpMode && pendingRedeemption ? (
+      {otpMode || pendingRedeemption ? (
         <VoucherCodeSuccess otpCode={otpData} onClose={onClose} />
       ) : (
         <ScrollView
