@@ -14,7 +14,17 @@ const persistUserConfig = {
   whitelist: ['user', 'token', 'isAuthenticated'],
 };
 
+const persistVoucherConfig = {
+  key: 'vouchers',
+  storage: AsyncStorage,
+  whitelist: ['redemption'],
+};
+
 const persistUserReducer = persistReducer(persistUserConfig, userReducer);
+const persistVoucherReducer = persistReducer(
+  persistVoucherConfig,
+  VoucherReducer,
+);
 
 const store = configureStore({
   reducer: {
@@ -23,7 +33,7 @@ const store = configureStore({
     membershipplans: MembershipReducer,
     membershipbookings: MembershipBookingReducer,
     updates: UpdatesReducer,
-    vouchers: VoucherReducer,
+    vouchers: persistVoucherReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

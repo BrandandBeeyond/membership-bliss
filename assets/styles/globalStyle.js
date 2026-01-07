@@ -213,7 +213,23 @@ export const globalStyle = StyleSheet.create({
     minHeight: verticalScale(60),
     elevation: horizontalScale(2),
     padding: horizontalScale(10),
-    marginTop: verticalScale(10), 
-    marginRight:horizontalScale(15)
+    marginTop: verticalScale(10),
+    marginRight: horizontalScale(15),
+  },
+  otpBox: {
+    width: horizontalScale(45),
+    height: horizontalScale(45),
+    borderRadius: horizontalScale(8),
+    borderWidth: horizontalScale(2),
+    backgroundColor: '#edf6e8ff',
+    borderColor: '#36453aff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  otpDigit: {
+    fontSize: scaleFontSize(16),
+    fontWeight: '700',
+    color: '#2E5E3A',
   },
 });

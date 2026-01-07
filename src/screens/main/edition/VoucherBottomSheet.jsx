@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { act, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -18,7 +18,11 @@ import { Button, Chip } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch } from 'react-redux';
-import { RequestVoucherRedeem } from '../../../redux/actions/VoucherAction';
+import {
+  checkVoucherReedemtion,
+  RequestVoucherRedeem,
+} from '../../../redux/actions/VoucherAction';
+import VoucherCodeSuccess from './VoucherCodeSuccess';
 
 const VoucherBottomSheet = ({
   refVoucherRBSheet,
@@ -36,9 +40,16 @@ const VoucherBottomSheet = ({
   }, [voucher]);
 
   const [qty, setQty] = useState(1);
+  const [redeemLoading, setRedeemLoading] = useState(false);
+
+  const [pendingRedeemption, setPendingRedeemption] = useState(null);
+  const [otpMode, setOtpMode] = useState(false);
+  const [otpData, setOtpData] = useState(null);
 
   useEffect(() => {
     setQty(1);
+    setOtpMode(false);
+    setOtpData(null);
   }, [voucher]);
 
   const increment = () => {
@@ -49,13 +60,46 @@ const VoucherBottomSheet = ({
     setQty(prev => (prev > 1 ? prev - 1 : prev));
   };
 
+  useEffect(() => {
+    if (!voucher || !activeMembership) return;
+
+    dispatch(checkVoucherReedemtion(activeMembership._id, voucher._id)).then(
+      res => {
+        if (res.status === 'Pending') {
+          setPendingRedeemption({
+            redemptionId: res?.data?.redemptionId,
+            otpCode: res?.data?.otpCode?.toString(),
+            status: 'Pending',
+          });
+        } else {
+          setPendingRedeemption(null);
+        }
+      },
+    );
+  }, [dispatch, voucher, activeMembership]);
+
   const handleRedeem = async () => {
     try {
+      setRedeemLoading(true);
+
       const res = await dispatch(
         RequestVoucherRedeem(activeMembership?._id, voucher?._id, qty),
       );
+
+      setOtpData(res?.otpCode?.toString() ?? '');
+      setOtpMode(true);
+
+      if (res?.success) {
+        setPendingRedeemption({
+          redemptionId: res.redemptionId,
+          otpCode: res.otpCode,
+          status: 'Pending',
+        });
+      }
     } catch (error) {
       console.log('redeem error', error);
+    } finally {
+      setRedeemLoading(false);
     }
   };
 
@@ -96,160 +140,43 @@ const VoucherBottomSheet = ({
         enabled: false,
       }}
     >
-      <ScrollView
-        style={[globalStyle.flex]}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={[{ padding: horizontalScale(20) }]}>
-          <Typography
-            variant="fthead"
-            weight="MSemiBold"
-            color="#4c5d49ff"
-            style={[globalStyle.textCenter]}
-          >
-            {voucher.name}
-          </Typography>
-        </View>
-        <Image
-          source={{ uri: voucher.thumbnail?.url }}
-          style={{
-            width: '100%',
-            height: verticalScale(140),
-            borderRadius: horizontalScale(15),
-            marginVertical: verticalScale(10),
-          }}
-        />
-
-        <View
-          style={[
-            globalStyle.row,
-            globalStyle.justifyBetween,
-            globalStyle.my10,
-          ]}
+      {otpMode && pendingRedeemption ? (
+        <VoucherCodeSuccess otpCode={otpData} onClose={onClose} />
+      ) : (
+        <ScrollView
+          style={[globalStyle.flex]}
+          showsVerticalScrollIndicator={false}
         >
-          <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
-            <Typography variant="subline" weight="MMedium" color="#343333ff">
-              Coupon Quantity
-            </Typography>
-            <View
-              style={[
-                {
-                  backgroundColor: '#dbefd3ff',
-                  borderRadius: horizontalScale(18),
-                  height: verticalScale(27),
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: verticalScale(5),
-                  width: horizontalScale(90),
-                },
-              ]}
+          <View style={[{ padding: horizontalScale(20) }]}>
+            <Typography
+              variant="fthead"
+              weight="MSemiBold"
+              color="#4c5d49ff"
+              style={[globalStyle.textCenter]}
             >
-              <Typography
-                style={{ fontSize: scaleFontSize(16) }}
-                color="#323f29ff"
-                weight="MSemiBold"
-              >
-                {voucher.inventory}
-              </Typography>
-            </View>
-          </View>
-          <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
-            <Typography variant="subline" weight="MMedium" color="#343333ff">
-              Coupon Used
+              {voucher.name}
             </Typography>
-            <View
-              style={[
-                {
-                  backgroundColor: '#dbefd3ff',
-                  borderRadius: horizontalScale(18),
-                  height: verticalScale(27),
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: verticalScale(5),
-                  width: horizontalScale(90),
-                },
-              ]}
-            >
-              <Typography
-                style={{ fontSize: scaleFontSize(16) }}
-                color="#323f29ff"
-                weight="MSemiBold"
-              >
-                {voucher.usedCount}
-              </Typography>
-            </View>
           </View>
-          {isCurrentEditionActive ? (
+          <Image
+            source={{ uri: voucher.thumbnail?.url }}
+            style={{
+              width: '100%',
+              height: verticalScale(140),
+              borderRadius: horizontalScale(15),
+              marginVertical: verticalScale(10),
+            }}
+          />
+
+          <View
+            style={[
+              globalStyle.row,
+              globalStyle.justifyBetween,
+              globalStyle.my10,
+            ]}
+          >
             <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
               <Typography variant="subline" weight="MMedium" color="#343333ff">
-                Redeem Quantity
-              </Typography>
-              <View
-                style={[
-                  globalStyle.row,
-                  globalStyle.alignCenter,
-                  { columnGap: horizontalScale(1) },
-                ]}
-              >
-                <TouchableOpacity
-                  onPress={decrement}
-                  style={{
-                    backgroundColor: '#dbefd3ff',
-                    width: horizontalScale(30),
-                    height: verticalScale(27),
-                    borderTopLeftRadius: horizontalScale(15),
-                    borderBottomLeftRadius: horizontalScale(15),
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: verticalScale(5),
-                  }}
-                >
-                  <Ionicons name="remove-outline" size={20} color="#000" />
-                </TouchableOpacity>
-                <View
-                  style={{
-                    backgroundColor: '#dbefd3ff',
-                    width: horizontalScale(35),
-                    height: verticalScale(27),
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: verticalScale(5),
-                  }}
-                >
-                  <Typography
-                    style={{ fontSize: scaleFontSize(16) }}
-                    color="#323f29ff"
-                    weight="MSemiBold"
-                  >
-                    {qty}
-                  </Typography>
-                </View>
-                <TouchableOpacity
-                  onPress={increment}
-                  style={{
-                    backgroundColor: '#dbefd3ff',
-                    width: horizontalScale(30),
-                    height: verticalScale(27),
-                    borderTopRightRadius: horizontalScale(15),
-                    borderBottomRightRadius: horizontalScale(15),
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: verticalScale(5),
-                  }}
-                >
-                  <Ionicons name="add-outline" size={20} color="#000" />
-                </TouchableOpacity>
-              </View>
-            </View>
-          ) : (
-            <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
-              <Typography variant="subline" weight="MMedium" color="#343333ff">
-                Total Available
+                Coupon Quantity
               </Typography>
               <View
                 style={[
@@ -270,90 +197,219 @@ const VoucherBottomSheet = ({
                   color="#323f29ff"
                   weight="MSemiBold"
                 >
-                  {voucher.inventory - voucher.usedCount}
+                  {voucher.inventory}
                 </Typography>
               </View>
             </View>
-          )}
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            gap: horizontalScale(12),
-            marginVertical: verticalScale(24),
-          }}
-        >
-          <Button
-            mode="outlined"
-            onPress={onClose}
-            textColor="#2b3527ff"
-            style={{
-              flex: 1,
-              borderRadius: 30,
-              height: verticalScale(35),
-              justifyContent: 'center',
-            }}
-            labelStyle={{
-              fontSize: scaleFontSize(16),
-              fontWeight: '600',
-            }}
-          >
-            Cancel
-          </Button>
-
-          <LinearGradient
-            colors={['#649361ff', '#457542ff', '#385437ff']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={{
-              borderRadius: horizontalScale(30),
-              paddingHorizontal: horizontalScale(18),
-              paddingVertical: verticalScale(1),
-              width: '50%',
-              height: verticalScale(35),
-              lineHeight: verticalScale(40),
-            }}
-          >
+            <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
+              <Typography variant="subline" weight="MMedium" color="#343333ff">
+                Coupon Used
+              </Typography>
+              <View
+                style={[
+                  {
+                    backgroundColor: '#dbefd3ff',
+                    borderRadius: horizontalScale(18),
+                    height: verticalScale(27),
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: verticalScale(5),
+                    width: horizontalScale(90),
+                  },
+                ]}
+              >
+                <Typography
+                  style={{ fontSize: scaleFontSize(16) }}
+                  color="#323f29ff"
+                  weight="MSemiBold"
+                >
+                  {voucher.usedCount}
+                </Typography>
+              </View>
+            </View>
             {isCurrentEditionActive ? (
-              <Button
-                mode="contained"
-                disabled={loadingPayment}
-                loading={loadingPayment}
-                onPress={handleRedeem}
-                labelStyle={{
-                  color: '#ffffff',
-                  fontSize: scaleFontSize(16),
-                  lineHeight: verticalScale(18),
-                  fontWeight: '600',
-                }}
-                style={{
-                  backgroundColor: 'transparent',
-                }}
-              >
-                Redeem
-              </Button>
+              <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
+                <Typography
+                  variant="subline"
+                  weight="MMedium"
+                  color="#343333ff"
+                >
+                  Redeem Quantity
+                </Typography>
+                <View
+                  style={[
+                    globalStyle.row,
+                    globalStyle.alignCenter,
+                    { columnGap: horizontalScale(1) },
+                  ]}
+                >
+                  <TouchableOpacity
+                    onPress={decrement}
+                    style={{
+                      backgroundColor: '#dbefd3ff',
+                      width: horizontalScale(30),
+                      height: verticalScale(27),
+                      borderTopLeftRadius: horizontalScale(15),
+                      borderBottomLeftRadius: horizontalScale(15),
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginTop: verticalScale(5),
+                    }}
+                  >
+                    <Ionicons name="remove-outline" size={20} color="#000" />
+                  </TouchableOpacity>
+                  <View
+                    style={{
+                      backgroundColor: '#dbefd3ff',
+                      width: horizontalScale(35),
+                      height: verticalScale(27),
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginTop: verticalScale(5),
+                    }}
+                  >
+                    <Typography
+                      style={{ fontSize: scaleFontSize(16) }}
+                      color="#323f29ff"
+                      weight="MSemiBold"
+                    >
+                      {qty}
+                    </Typography>
+                  </View>
+                  <TouchableOpacity
+                    onPress={increment}
+                    style={{
+                      backgroundColor: '#dbefd3ff',
+                      width: horizontalScale(30),
+                      height: verticalScale(27),
+                      borderTopRightRadius: horizontalScale(15),
+                      borderBottomRightRadius: horizontalScale(15),
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginTop: verticalScale(5),
+                    }}
+                  >
+                    <Ionicons name="add-outline" size={20} color="#000" />
+                  </TouchableOpacity>
+                </View>
+              </View>
             ) : (
-              <Button
-                mode="contained"
-                disabled={loadingPayment}
-                loading={loadingPayment}
-                onPress={handleNavigateCheckout}
-                labelStyle={{
-                  color: '#ffffff',
-                  fontSize: scaleFontSize(16),
-                  lineHeight: verticalScale(18),
-                  fontWeight: '600',
-                }}
-                style={{
-                  backgroundColor: 'transparent',
-                }}
-              >
-                Buy Now
-              </Button>
+              <View style={[globalStyle.column, globalStyle.jusifyCenter]}>
+                <Typography
+                  variant="subline"
+                  weight="MMedium"
+                  color="#343333ff"
+                >
+                  Total Available
+                </Typography>
+                <View
+                  style={[
+                    {
+                      backgroundColor: '#dbefd3ff',
+                      borderRadius: horizontalScale(18),
+                      height: verticalScale(27),
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginTop: verticalScale(5),
+                      width: horizontalScale(90),
+                    },
+                  ]}
+                >
+                  <Typography
+                    style={{ fontSize: scaleFontSize(16) }}
+                    color="#323f29ff"
+                    weight="MSemiBold"
+                  >
+                    {voucher.inventory - voucher.usedCount}
+                  </Typography>
+                </View>
+              </View>
             )}
-          </LinearGradient>
-        </View>
-      </ScrollView>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: horizontalScale(12),
+              marginVertical: verticalScale(24),
+            }}
+          >
+            <Button
+              mode="outlined"
+              onPress={onClose}
+              textColor="#2b3527ff"
+              style={{
+                flex: 1,
+                borderRadius: 30,
+                height: verticalScale(35),
+                justifyContent: 'center',
+              }}
+              labelStyle={{
+                fontSize: scaleFontSize(16),
+                fontWeight: '600',
+              }}
+            >
+              Cancel
+            </Button>
+
+            <LinearGradient
+              colors={['#649361ff', '#457542ff', '#385437ff']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{
+                borderRadius: horizontalScale(30),
+                paddingHorizontal: horizontalScale(18),
+                paddingVertical: verticalScale(1),
+                width: '50%',
+                height: verticalScale(35),
+                lineHeight: verticalScale(40),
+              }}
+            >
+              {isCurrentEditionActive ? (
+                <Button
+                  mode="contained"
+                  disabled={redeemLoading}
+                  loading={redeemLoading}
+                  onPress={handleRedeem}
+                  labelStyle={{
+                    color: '#ffffff',
+                    fontSize: scaleFontSize(16),
+                    lineHeight: verticalScale(18),
+                    fontWeight: '600',
+                  }}
+                  style={{
+                    backgroundColor: 'transparent',
+                  }}
+                >
+                  Redeem
+                </Button>
+              ) : (
+                <Button
+                  mode="contained"
+                  disabled={loadingPayment}
+                  loading={loadingPayment}
+                  onPress={handleNavigateCheckout}
+                  labelStyle={{
+                    color: '#ffffff',
+                    fontSize: scaleFontSize(16),
+                    lineHeight: verticalScale(18),
+                    fontWeight: '600',
+                  }}
+                  style={{
+                    backgroundColor: 'transparent',
+                  }}
+                >
+                  Buy Now
+                </Button>
+              )}
+            </LinearGradient>
+          </View>
+        </ScrollView>
+      )}
     </RBSheet>
   );
 };
