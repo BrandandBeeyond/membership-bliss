@@ -121,16 +121,18 @@ const ValueVoucherScreen = ({ valueVouchers, openVoucherBottomSheet }) => {
                   <Chip
                     style={{
                       maxWidth: horizontalScale(100),
-                      backgroundColor: '#869e84ff',
+                      backgroundColor: '#6b8568ff',
                     }}
+                    textStyle={{ color: '#ffffff' }}
                   >
                     Available : {v.inventory}{' '}
                   </Chip>
                   <Chip
                     style={{
                       maxWidth: horizontalScale(100),
-                      backgroundColor: '#869e84ff',
+                      backgroundColor: '#6b8568ff',
                     }}
+                    textStyle={{ color: '#ffffff' }}
                   >
                     Used : {v.usedCount}{' '}
                   </Chip>

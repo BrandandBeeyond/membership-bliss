@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -9,12 +9,14 @@ import {
 } from '../../../../assets/styles/Scaling';
 import Typography from '../../../components/Typography';
 import { Button } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import { resendVocuherRedeemCode } from '../../../redux/actions/VoucherAction';
 
-const VoucherCodeSuccess = ({ otpCode, onClose }) => {
+const VoucherCodeSuccess = ({ otpCode, onClose, expiresAt }) => {
+  const dispatch = useDispatch();
   const [digits, setDigits] = useState([]);
-  const [secondsLeft, setSecondsLeft] = useState(600);
+  const [secondsLeft, setSecondsLeft] = useState(null);
   const timerRef = useRef(null);
- 
 
   useEffect(() => {
     if (otpCode) {
@@ -24,23 +26,43 @@ const VoucherCodeSuccess = ({ otpCode, onClose }) => {
   }, [otpCode]);
 
   useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setSecondsLeft(prev => {
-        if (prev <= 1) {
-          clearInterval(timerRef.current);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    if (!expiresAt) return;
+
+    const expiryTime = new Date(expiresAt).getTime();
+
+    if (isNaN(expiryTime) || expiryTime <= Date.now()) {
+      setSecondsLeft(0);
+      return;
+    }
+
+    const tick = () => {
+      const now = Date.now();
+      const diff = Math.max(Math.floor((expiryTime - now) / 1000), 0);
+      setSecondsLeft(diff);
+
+      if (diff === 0) {
+        clearInterval(timerRef.current);
+      }
+    };
+
+    tick();
+    timerRef.current = setInterval(tick, 1000);
 
     return () => clearInterval(timerRef.current);
-  }, []);
+  }, [expiresAt]);
 
   const formatTime = sec => {
     const m = Math.floor(sec / 60);
     const s = sec % 60;
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  };
+
+  const resendOTP = () => {
+    try {
+      dispatch(resendVocuherRedeemCode());
+    } catch (error) {
+      console.error('error resending otp', error);
+    }
   };
 
   return (
@@ -73,14 +95,42 @@ const VoucherCodeSuccess = ({ otpCode, onClose }) => {
           ))}
         </View>
 
-        <Typography
-          weight="Bold"
-          color="#3e4e31ff"
-          variant="fthead"
-          style={globalStyle.textCenter}
-        >
-          Time Left: {formatTime(secondsLeft)}
-        </Typography>
+        {secondsLeft !== null && secondsLeft > 0 && (
+          <Typography
+            weight="Bold"
+            color="#3e4e31ff"
+            variant="fthead"
+            style={globalStyle.textCenter}
+          >
+            Time Left: {formatTime(secondsLeft)}
+          </Typography>
+        )}
+
+        {secondsLeft === 0 && (
+          <View style={globalStyle.alignCenter}>
+            <TouchableOpacity
+              style={{
+                height: verticalScale(26),
+                width: horizontalScale(120),
+                backgroundColor: '#1d2d12ff',
+                borderRadius: horizontalScale(10),
+                paddingHorizontal: horizontalScale(15),
+                paddingVertical: verticalScale(2),
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={resendOTP}
+            >
+              <Typography
+                style={{ fontSize: scaleFontSize(13) }}
+                weight="SemiBold"
+                color="#fff"
+              >
+                Resend Code
+              </Typography>
+            </TouchableOpacity>
+          </View>
+        )}
 
         <View
           style={[

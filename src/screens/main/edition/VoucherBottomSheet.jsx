@@ -44,7 +44,7 @@ const VoucherBottomSheet = ({
 
   const [pendingRedeemption, setPendingRedeemption] = useState(null);
   const [otpMode, setOtpMode] = useState(false);
-  const [otpData, setOtpData] = useState(null);
+  const [otpData, setOtpData] = useState(null); 
 
   useEffect(() => {
     setQty(1);
@@ -66,13 +66,27 @@ const VoucherBottomSheet = ({
 
     dispatch(checkVoucherReedemtion(activeMembership._id, voucher._id)).then(
       res => {
-        console.log('res of check voucher redeem', res);
+        console.log('res is ', res);
+
+        if (!res) {
+          setPendingRedeemption(null);
+          setOtpMode(false);
+          setOtpData(null);
+          return;
+        }
+
         if (res.status === 'Pending') {
+          const code = res?.otpCode?.toString();
+
           setPendingRedeemption({
             redemptionId: res?.redemptionId,
-            otpCode: res?.otpCode?.toString(),
+            otpCode: code,
             status: 'Pending',
+            expiresAt: res.expiresAt,
           });
+
+          setOtpData(code);
+          setOtpMode(true);
         } else {
           setPendingRedeemption(null);
         }
@@ -143,7 +157,11 @@ const VoucherBottomSheet = ({
       }}
     >
       {otpMode || pendingRedeemption ? (
-        <VoucherCodeSuccess otpCode={otpData} onClose={onClose} />
+        <VoucherCodeSuccess
+          otpCode={otpData}
+          onClose={onClose}
+          expiresAt={pendingRedeemption?.expiresAt}
+        />
       ) : (
         <ScrollView
           style={[globalStyle.flex]}
