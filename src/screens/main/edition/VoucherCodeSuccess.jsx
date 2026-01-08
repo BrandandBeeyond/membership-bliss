@@ -12,10 +12,18 @@ import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { resendVocuherRedeemCode } from '../../../redux/actions/VoucherAction';
 
-const VoucherCodeSuccess = ({ otpCode, onClose, expiresAt }) => {
+const VoucherCodeSuccess = ({
+  otpCode,
+  onClose,
+  expiresAt,
+  pendingRedeemption,
+  setOtpData,
+  setPendingRedeemption,
+}) => {
   const dispatch = useDispatch();
   const [digits, setDigits] = useState([]);
   const [secondsLeft, setSecondsLeft] = useState(null);
+  const [resendLoading, setResendLoading] = useState(false);
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -57,11 +65,28 @@ const VoucherCodeSuccess = ({ otpCode, onClose, expiresAt }) => {
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   };
 
-  const resendOTP = () => {
+  const resendOTP = async () => {
     try {
-      dispatch(resendVocuherRedeemCode());
+      if (!pendingRedeemption?.redemptionId) return;
+
+      setResendLoading(true);
+
+      const res = await dispatch(
+        resendVocuherRedeemCode(pendingRedeemption.redemptionId),
+      );
+
+      setOtpData(res.otpCode.toString());
+
+      setPendingRedeemption({
+        redemptionId: res.redemptionId,
+        otpCode: res.otpCode,
+        status: 'Pending',
+        expiresAt: res.expiresAt,
+      });
     } catch (error) {
       console.error('error resending otp', error);
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -74,7 +99,7 @@ const VoucherCodeSuccess = ({ otpCode, onClose, expiresAt }) => {
           color="#4c5d49ff"
           style={[globalStyle.textCenter]}
         >
-          Coupon Redeemed Successfully !
+          Voucher Redeemtion in Progress !
         </Typography>
         <View
           style={[
@@ -126,7 +151,7 @@ const VoucherCodeSuccess = ({ otpCode, onClose, expiresAt }) => {
                 weight="SemiBold"
                 color="#fff"
               >
-                Resend Code
+                {resendLoading ? 'Resending' : 'Resend Code'}
               </Typography>
             </TouchableOpacity>
           </View>

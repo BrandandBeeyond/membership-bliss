@@ -159,7 +159,10 @@ const VoucherBottomSheet = ({
       {otpMode || pendingRedeemption ? (
         <VoucherCodeSuccess
           otpCode={otpData}
+          setOtpData={setOtpData}
           onClose={onClose}
+          pendingRedeemption={pendingRedeemption}
+          setPendingRedeemption={setPendingRedeemption}
           expiresAt={pendingRedeemption?.expiresAt}
         />
       ) : (
