@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import { Image, ScrollView, View } from 'react-native';
@@ -13,8 +13,9 @@ import {
   verticalScale,
 } from '../../../../assets/styles/Scaling';
 import { Routes } from '../../../navigation/Routes';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Reviews from '../../../components/reviews/Reviews';
+import { getAllMembershipPlans } from '../../../redux/actions/MembershipAction';
 
 const dummyHighLights = [
   {
@@ -67,44 +68,56 @@ const trendingData = [
 const reviewData = [
   {
     id: 1,
-    customername: 'Bliss Member Family',
+    customername: 'Harshad Ahire',
     reviewdesc:
       'Touchwood Bliss feels like home, not a resort. Every visit feels personal, warm, and familiar. As members, we truly feel a sense of belonging here.',
   },
   {
     id: 2,
-    customername: 'Long-Term Member',
+    customername: 'Pankaj jain',
     reviewdesc:
       'The calm, the food, the people — everything heals. From pure vegetarian meals to the peaceful mountain surroundings, Touchwood Bliss helps us reset every time.',
   },
   {
     id: 3,
-    customername: 'Family Membership Holder',
+    customername: 'Raaj Kolte',
     reviewdesc:
       'Best place for family time away from city chaos. No noise, no rush — just nature, open spaces, and meaningful moments together.',
   },
   {
     id: 4,
-    customername: 'Nature Club Member',
+    customername: 'Aasha dalvi',
     reviewdesc:
       'Nature, warmth, and genuine hospitality define Touchwood Bliss. The staff, the greenery, and the overall vibe make every stay comforting and memorable.',
   },
   {
     id: 5,
-    customername: 'Returning Member',
+    customername: 'Vedant sonje',
     reviewdesc:
       'A place where you truly slow down and reconnect. Mornings feel peaceful, evenings feel calm, and life feels balanced here.',
   },
   {
     id: 6,
-    customername: 'Bliss Community Member',
+    customername: 'Santosh hire',
     reviewdesc:
       'Once you visit, you keep coming back. Touchwood Bliss becomes a part of your life, not just a destination you visit once.',
   },
 ];
 
 const HomeScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const { membershipplans } = useSelector(state => state.membershipplans);
+  const { activeMembership } = useSelector(state => state.membershipbookings);
+
+  const hasMemberShip = Boolean(activeMembership);
+
+  console.log("activemembership is",activeMembership);
+  console.log("user has membership ?",hasMemberShip);
+  
+
+  useEffect(() => {
+    dispatch(getAllMembershipPlans());
+  }, [dispatch]);
 
   const farmPlan = membershipplans.find(plan => plan.name === 'Farm Edition');
   return (
@@ -182,12 +195,21 @@ const HomeScreen = ({ navigation }) => {
               ))}
             </Swiper>
           </View>
-          <Trending
-            data={trendingData}
-            onPressTrending={() =>
-              navigation.navigate(Routes.EditionScreen, { plan: farmPlan })
-            }
-          />
+
+          {hasMemberShip ? (
+            <>
+              <View style={[globalStyle.p7,globalStyle.bgwhite,{elevation:horizontalScale(2)}]}>
+                    <Image source={require('../../../../assets/images/icons/activelabel.png')} style={{height:verticalScale(20)}}/>
+              </View>
+            </>
+          ) : (
+            <Trending
+              data={trendingData}
+              onPressTrending={() =>
+                navigation.navigate(Routes.EditionScreen, { plan: farmPlan })
+              }
+            />
+          )}
 
           <Reviews data={reviewData} />
         </View>

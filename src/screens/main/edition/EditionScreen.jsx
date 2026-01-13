@@ -49,7 +49,7 @@ const EditionScreen = ({ route, navigation }) => {
     hasMembership && activeMembership?.membershipPlanId._id === plan._id;
 
   console.log('is current edition is active', isCurrentEditionActive);
-  console.log('is my plan', activeMembership.membershipPlanId);
+  console.log('is my plan', activeMembership.membershipPlanId._id);
   console.log('is my plan checking with', plan._id);
 
   useEffect(() => {

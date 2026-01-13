@@ -21,6 +21,7 @@ const Topbar = () => {
           globalStyle.alignCenter,
           globalStyle.justifyBetween,
           globalStyle.cg10,
+          {marginBottom:verticalScale(10)}
         ]}
       >
         <Pressable style={[globalStyle.dflex, globalStyle.row, globalStyle.alignCenter, globalStyle.cg10]}>
