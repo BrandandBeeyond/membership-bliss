@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { act, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import { Image, ScrollView, View } from 'react-native';
 import Highlights from '../../../components/highlights/Highlights';
 import Topbar from '../../../components/Topbar';
-import { TextInput } from 'react-native-paper';
+import { ActivityIndicator, TextInput } from 'react-native-paper';
 import { HomeScreenStyles } from './Style';
 import Swiper from 'react-native-swiper';
 import Trending from '../../../components/trending/Trending';
@@ -15,7 +15,11 @@ import {
 import { Routes } from '../../../navigation/Routes';
 import { useDispatch, useSelector } from 'react-redux';
 import Reviews from '../../../components/reviews/Reviews';
-import { getAllMembershipPlans } from '../../../redux/actions/MembershipAction';
+import {
+  getAllMembershipPlans,
+  getMymembershipDetail,
+} from '../../../redux/actions/MembershipAction';
+import Typography from '../../../components/Typography';
 
 const dummyHighLights = [
   {
@@ -107,19 +111,21 @@ const reviewData = [
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const { membershipplans } = useSelector(state => state.membershipplans);
-  const { activeMembership } = useSelector(state => state.membershipbookings);
+  const { loading, activeMembership } = useSelector(
+    state => state.membershipbookings,
+  );
 
-  const hasMemberShip = Boolean(activeMembership);
-
-  console.log("activemembership is",activeMembership);
-  console.log("user has membership ?",hasMemberShip);
-  
+  const hasMemberShip = !loading && Boolean(activeMembership);
 
   useEffect(() => {
     dispatch(getAllMembershipPlans());
+    dispatch(getMymembershipDetail());
   }, [dispatch]);
 
   const farmPlan = membershipplans.find(plan => plan.name === 'Farm Edition');
+
+  console.log('active membership', activeMembership);
+
   return (
     <SafeAreaView style={[globalStyle.flex, globalStyle.bgslate]}>
       <View style={[globalStyle.px20]}>
@@ -196,10 +202,40 @@ const HomeScreen = ({ navigation }) => {
             </Swiper>
           </View>
 
-          {hasMemberShip ? (
+          {loading ? (
+            <ActivityIndicator
+              color="#344632"
+              size={30}
+              style={{ paddingVertical: verticalScale(40) }}
+            />
+          ) : hasMemberShip ? (
             <>
-              <View style={[globalStyle.p7,globalStyle.bgwhite,{elevation:horizontalScale(2)}]}>
-                    <Image source={require('../../../../assets/images/icons/activelabel.png')} style={{height:verticalScale(20)}}/>
+              <View
+                style={[
+                  globalStyle.bgwhite,
+                  {
+                    elevation: horizontalScale(2),
+                    borderRadius: horizontalScale(15),
+                    marginTop: verticalScale(15),
+                    padding: verticalScale(12),
+                  },
+                ]}
+              >
+                <Image
+                  source={require('../../../../assets/images/icons/activelabel.png')}
+                  style={{
+                    height: verticalScale(25),
+                    width: horizontalScale(90),
+                  }}
+                  resizeMode="contain"
+                />
+
+                <View style={globalStyle.mt10}>
+                  <Typography variant="h4" weight="Bold" color="#404d3d">
+                     Nature's Club {" "}
+                    {activeMembership?.membershipPlanId.name}
+                  </Typography>
+                </View>
               </View>
             </>
           ) : (
