@@ -104,6 +104,7 @@ const VoucherCodeSuccess = ({
         <View
           style={[
             globalStyle.row,
+            globalStyle.jusifyCenter,
             {
               gap: horizontalScale(5),
               marginTop: verticalScale(15),

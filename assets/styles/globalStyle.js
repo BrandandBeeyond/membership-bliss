@@ -217,8 +217,8 @@ export const globalStyle = StyleSheet.create({
     marginRight: horizontalScale(15),
   },
   otpBox: {
-    width: horizontalScale(45),
-    height: horizontalScale(45),
+    width: horizontalScale(42),
+    height: horizontalScale(42),
     borderRadius: horizontalScale(8),
     borderWidth: horizontalScale(2),
     backgroundColor: '#edf6e8ff',

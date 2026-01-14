@@ -10,6 +10,7 @@ import Swiper from 'react-native-swiper';
 import Trending from '../../../components/trending/Trending';
 import {
   horizontalScale,
+  scaleFontSize,
   verticalScale,
 } from '../../../../assets/styles/Scaling';
 import { Routes } from '../../../navigation/Routes';
@@ -231,10 +232,141 @@ const HomeScreen = ({ navigation }) => {
                 />
 
                 <View style={globalStyle.mt10}>
-                  <Typography variant="h4" weight="Bold" color="#404d3d">
-                     Nature's Club {" "}
-                    {activeMembership?.membershipPlanId.name}
+                  <Typography variant="h4" weight="Bold" color="#343d31">
+                    Nature's Club {activeMembership?.membershipPlanId.name}
                   </Typography>
+                  <Typography variant="h5" weight="MMedium" color="#474a47">
+                    By Touchwood Bliss
+                  </Typography>
+                  <Typography variant="fthead" weight="MMedium" color="#474a47">
+                    India's 1st & only Family wellness Membership
+                  </Typography>
+
+                  <View style={globalStyle.mt20}>
+                    <Image
+                      source={require('../../../../assets/images/natures-club.png')}
+                      style={{
+                        height: verticalScale(120),
+                        width: horizontalScale('100%'),
+                        borderRadius: horizontalScale(15),
+                      }}
+                    />
+                  </View>
+                  <View style={globalStyle.mt8}>
+                    <Typography variant="h5" weight="MSemiBold" color="#151515">
+                      Your Membership Benefits
+                    </Typography>
+                    <View
+                      style={[
+                        globalStyle.row,
+                        globalStyle.alignCenter,
+                        globalStyle.justifyBetween,
+                        globalStyle.mt10
+                      ]}
+                    >
+                      <View
+                        style={[
+                          globalStyle.row,
+                          globalStyle.alignCenter,
+                          globalStyle.cg10,
+                        ]}
+                      >
+                        <Image
+                          source={require('../../../../assets/images/icons/valuevoucher.png')}
+                          style={{
+                            height: verticalScale(50),
+                            width: horizontalScale(50),
+                          }}
+                          resizeMode="contain"
+                        />
+                        <Typography
+                           style={{fontSize:scaleFontSize(13),lineHeight:verticalScale(14)}}
+                          weight="MMedium"
+                          color="#2c2b2b"
+                        >
+                          Value {'\n'} Vouchers
+                        </Typography>
+                      </View>
+                      <View
+                        style={[
+                          globalStyle.row,
+                          globalStyle.alignCenter,
+                          globalStyle.cg10,
+                        ]}
+                      >
+                        <Image
+                          source={require('../../../../assets/images/icons/discountvoucher.png')}
+                          style={{
+                            height: verticalScale(50),
+                            width: horizontalScale(50),
+                          }}
+                          resizeMode="contain"
+                        />
+                        <Typography
+                          style={{fontSize:scaleFontSize(13),lineHeight:verticalScale(14)}}
+                          weight="MMedium"
+                          color="#2c2b2b"
+                        >
+                          Discount {'\n'} Vouchers
+                        </Typography>
+                      </View>
+                    </View>
+                    <View
+                      style={[
+                        globalStyle.row,
+                        globalStyle.alignCenter,
+                        globalStyle.justifyBetween,
+                        globalStyle.mt10
+                      ]}
+                    >
+                      <View
+                        style={[
+                          globalStyle.row,
+                          globalStyle.alignCenter,
+                          globalStyle.cg10,
+                        ]}
+                      >
+                        <Image
+                          source={require('../../../../assets/images/icons/qr.png')}
+                          style={{
+                            height: verticalScale(50),
+                            width: horizontalScale(50),
+                          }}
+                          resizeMode="contain"
+                        />
+                        <Typography
+                           style={{fontSize:scaleFontSize(13),lineHeight:verticalScale(14)}}
+                          weight="MMedium"
+                          color="#2c2b2b"
+                        >
+                          QR {'\n'} Check-in
+                        </Typography>
+                      </View>
+                      <View
+                        style={[
+                          globalStyle.row,
+                          globalStyle.alignCenter,
+                          globalStyle.cg10,
+                        ]}
+                      >
+                        <Image
+                          source={require('../../../../assets/images/icons/physicalcard.png')}
+                          style={{
+                            height: verticalScale(50),
+                            width: horizontalScale(50),
+                          }}
+                          resizeMode="contain"
+                        />
+                        <Typography
+                          style={{fontSize:scaleFontSize(13),lineHeight:verticalScale(14)}}
+                          weight="MMedium"
+                          color="#2c2b2b"
+                        >
+                          Physical {'\n'} Card
+                        </Typography>
+                      </View>
+                    </View>
+                  </View>
                 </View>
               </View>
             </>

@@ -78,6 +78,10 @@ const styles = StyleSheet.create({
     fontSize: scaleFontSize(12),
     lineHeight: verticalScale(16),
   },
+  scaption: {
+    fontSize: scaleFontSize(11),
+    lineHeight: verticalScale(13),
+  },
   small: {
     fontSize: scaleFontSize(10),
     lineHeight: verticalScale(14),

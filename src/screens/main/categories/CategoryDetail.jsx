@@ -114,8 +114,8 @@ const CategoryDetail = ({ route }) => {
                   <Image
                     source={require('../../../../assets/images/crown.png')}
                     style={{
-                      height: verticalScale(50),
-                      width: horizontalScale(50),
+                      height: verticalScale(45),
+                      width: horizontalScale(45),
                     }}
                     resizeMode="contain"
                   />
@@ -124,7 +124,7 @@ const CategoryDetail = ({ route }) => {
                       {activeMembership?.membershipPlanId.name} Member
                     </Typography>
                     <Typography
-                      variant="caption"
+                      variant="scaption"
                       weight="SemiBold"
                       color="#fff"
                     >
@@ -273,14 +273,14 @@ const CategoryDetail = ({ route }) => {
                     />
                     <View style={globalStyle.column}>
                       <Typography
-                        variant="fthead"
+                        variant="subhead"
                         weight="SemiBold"
                         color="#324f2dff"
                       >
                         Request physical membership card
                       </Typography>
                       <Typography
-                        variant="caption"
+                        variant="scaption"
                         weight="SemiBold"
                         color="#4c5c49ff"
                       >
