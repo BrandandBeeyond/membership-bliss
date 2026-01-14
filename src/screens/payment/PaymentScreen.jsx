@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert, Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../assets/styles/globalStyle';
@@ -13,6 +13,7 @@ import {
 } from '../../redux/actions/MembershipAction';
 import RazorpayCheckout from 'react-native-razorpay';
 import { useNavigation } from '@react-navigation/native';
+import Config from 'react-native-config';
 
 const PaymentScreen = ({ route }) => {
   const dispatch = useDispatch();
@@ -24,6 +25,8 @@ const PaymentScreen = ({ route }) => {
   const { token } = useSelector(state => state.user);
 
   const [loadingPayment, setLoadingPayment] = useState(false);
+
+  console.log('my pay api is', Config.RAZORPAY_KEY_ID);
 
   const handleMembershipPayment = async () => {
     try {
@@ -39,7 +42,7 @@ const PaymentScreen = ({ route }) => {
       }
 
       const options = {
-        key: 'rzp_test_Rr7e7HG3vamx0g',
+        key: Config.RAZORPAY_KEY_ID,
         description: 'Payment for Membership booking',
         currency: 'INR',
         amount: orderData.amount,
@@ -76,8 +79,6 @@ const PaymentScreen = ({ route }) => {
           const booking = await dispatch(
             createMembershipBooking(bookingPayload),
           );
-
-         
 
           navigation.replace('MembershipSuccess', { booking });
         })
