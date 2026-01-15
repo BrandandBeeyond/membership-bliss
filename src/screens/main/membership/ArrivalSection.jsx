@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, TextInput } from 'react-native-paper';
 import {
   horizontalScale,
@@ -20,6 +20,11 @@ const ArrivalSection = ({ booking, setSuccessVisible }) => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   const [loadingRequest, setLoadingRequest] = useState(false);
+  const [arrivalStatus, setArrivalStatus] = useState(booking.arrivalStatus);
+
+  useEffect(() => {
+    setArrivalStatus(booking.arrivalStatus);
+  }, [booking.arrivalStatus]);
 
   const handleDateConfirm = selectedDate => {
     setDate(selectedDate);
@@ -48,7 +53,7 @@ const ArrivalSection = ({ booking, setSuccessVisible }) => {
       if (res?.success) {
         setSuccessVisible(true);
 
-        booking.arrivalStatus = 'Pending';
+        setArrivalStatus('Pending');
       }
     } catch (error) {
       console.error('error setting arrival date', error);
@@ -59,7 +64,7 @@ const ArrivalSection = ({ booking, setSuccessVisible }) => {
 
   return (
     <>
-      {booking.arrivalStatus === 'Approved' ? (
+      {arrivalStatus === 'Approved' ? (
         <>
           {' '}
           <View
@@ -148,7 +153,7 @@ const ArrivalSection = ({ booking, setSuccessVisible }) => {
             </View>
           </View>
         </>
-      ) : booking.arrivalStatus === 'Pending' ? (
+      ) : arrivalStatus === 'Pending' ? (
         <>
           <View
             style={[

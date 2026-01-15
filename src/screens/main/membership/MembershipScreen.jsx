@@ -4,10 +4,12 @@ import Typography from '../../../components/Typography';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import LinearGradient from 'react-native-linear-gradient';
 import { membershipScreenStyle } from './Style';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import UserIcon from 'react-native-vector-icons/FontAwesome';
 import {
   ActivityIndicator,
   Button,
+  Divider,
   MD2Colors,
   Modal,
   Portal,
@@ -15,7 +17,7 @@ import {
 } from 'react-native-paper';
 import CrownIcon from 'react-native-vector-icons/Ionicons';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { act, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   horizontalScale,
   scaleFontSize,
@@ -28,7 +30,6 @@ import {
 } from '../../../redux/actions/MembershipAction';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { formatDate } from '../../../config/FormatDate';
 import ArrivalSection from './ArrivalSection';
 import SuccessPopup from '../../../components/popup/SuccessPopup';
@@ -37,6 +38,7 @@ const MembershipScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const refMemberships = useRef();
+  const refRequestCard = useRef();
   const { membershipplans, loading } = useSelector(
     state => state.membershipplans,
   );
@@ -48,6 +50,19 @@ const MembershipScreen = () => {
   const [buttonLoading, setButtonLoading] = useState(null);
   const [detailsModal, setDetailsModal] = useState(false);
   const [successVisible, setSuccessVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    fullname: '',
+    phone: '',
+    email: '',
+    city: '',
+  });
+
+  const handleChange = (field, value) => {
+    setFormData(prevState => ({
+      ...prevState,
+      [field]: value,
+    }));
+  };
 
   useEffect(() => {
     dispatch(getAllMembershipPlans());
@@ -190,8 +205,6 @@ const MembershipScreen = () => {
                     />
                   </>
 
-                 
-
                   <View
                     style={[
                       globalStyle.mt20,
@@ -245,6 +258,7 @@ const MembershipScreen = () => {
                         >
                           <Button
                             mode="contained"
+                            onPress={() => refRequestCard.current.open()}
                             labelStyle={{
                               color: '#ffffff',
                               fontSize: scaleFontSize(13),
@@ -624,13 +638,174 @@ const MembershipScreen = () => {
           zIndex: -1,
         }}
       />
-      s
+
       <SuccessPopup
         visible={successVisible}
         onClose={() => setSuccessVisible(false)}
         title="Arrival Date Submitted"
         message="Your arrival request has been sent for approval."
       />
+
+      <RBSheet
+        ref={refRequestCard}
+        height={800}
+        useNativeDriver={false}
+        customStyles={{
+          wrapper: {
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          },
+          container: {
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            paddingHorizontal: 20,
+          },
+          draggableIcon: {
+            backgroundColor: '#000',
+          },
+        }}
+        customModalProps={{
+          animationType: 'slide',
+          statusBarTranslucent: true,
+        }}
+        customAvoidingViewProps={{
+          enabled: false,
+        }}
+      >
+        <View style={[globalStyle.py20, globalStyle.px10]}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingVertical: 20 }}
+          >
+            {/* HEADER */}
+            <View
+              style={{
+                height: verticalScale(40),
+                justifyContent: 'center',
+                marginBottom: verticalScale(10),
+              }}
+            >
+              {/* Back Arrow */}
+              <TouchableOpacity
+                onPress={() => refRequestCard.current?.close()}
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  zIndex: 1,
+                }}
+              >
+              <FontAwesome6 name="arrow-left-long" color={'#000000'} size={20} />
+              </TouchableOpacity>
+
+              {/* Center Title */}
+              <Typography
+                variant="h4"
+                color="#000"
+                weight="normal"
+                style={{ textAlign: 'center' }}
+              >
+                Request Physical Card
+              </Typography>
+            </View>
+
+            {/* IMAGE */}
+            <View style={[globalStyle.alignCenter, globalStyle.mt10]}>
+              <Image
+                source={require('../../../../assets/images/privelage_card.png')}
+                style={{
+                  width: horizontalScale(160),
+                  height: verticalScale(100),
+                }}
+                resizeMode="contain"
+              />
+            </View>
+
+            {/* FORM */}
+            <View style={globalStyle.mt15}>
+              <TextInput
+                label="Full Name"
+                mode="outlined"
+                value={formData.fullname}
+                outlineColor="#b0aeaeff"
+                activeOutlineColor="#588650ff"
+                outlineStyle={{ borderRadius: horizontalScale(12) }}
+                onChangeText={text => handleChange('fullname', text)}
+                style={{ marginBottom: verticalScale(6) }}
+              />
+
+              <TextInput
+                label="Email"
+                mode="outlined"
+                value={formData.email}
+                outlineColor="#b0aeaeff"
+                activeOutlineColor="#588650ff"
+                outlineStyle={{ borderRadius: horizontalScale(12) }}
+                keyboardType="email-address"
+                onChangeText={text => handleChange('email', text)}
+                style={{ marginBottom: verticalScale(6) }}
+              />
+
+              <TextInput
+                label="Phone Number"
+                mode="outlined"
+                value={formData.phone}
+                outlineColor="#b0aeaeff"
+                activeOutlineColor="#588650ff"
+                outlineStyle={{ borderRadius: horizontalScale(12) }}
+                keyboardType="phone-pad"
+                onChangeText={text => handleChange('phone', text)}
+                style={{ marginBottom: verticalScale(6) }}
+              />
+
+              <TextInput
+                label="Address"
+                mode="outlined"
+                value={formData.address}
+                outlineColor="#b0aeaeff"
+                activeOutlineColor="#588650ff"
+                outlineStyle={{ borderRadius: horizontalScale(12) }}
+                multiline
+                numberOfLines={3}
+                onChangeText={text => handleChange('address', text)}
+                style={{ marginBottom: verticalScale(6) }}
+              />
+
+              <TextInput
+                label="City"
+                mode="outlined"
+                value={formData.city}
+                outlineColor="#b0aeaeff"
+                activeOutlineColor="#588650ff"
+                outlineStyle={{ borderRadius: horizontalScale(12) }}
+                onChangeText={text => handleChange('city', text)}
+                style={{ marginBottom: verticalScale(6) }}
+              />
+
+              <TextInput
+                label="State"
+                mode="outlined"
+                value={formData.state}
+                outlineColor="#b0aeaeff"
+                activeOutlineColor="#588650ff"
+                outlineStyle={{ borderRadius: horizontalScale(12) }}
+                onChangeText={text => handleChange('state', text)}
+                style={{ marginBottom: verticalScale(14) }}
+              />
+
+              <Button
+                mode="contained"
+                style={{
+                  borderRadius: horizontalScale(12),
+                  backgroundColor: '#588650ff',
+                  paddingVertical: verticalScale(2),
+                }}
+                onPress={() => console.log('Form submitted:', formData)}
+              >
+                Submit Request
+              </Button>
+            </View>
+          </ScrollView>
+        </View>
+      </RBSheet>
     </SafeAreaView>
   );
 };
