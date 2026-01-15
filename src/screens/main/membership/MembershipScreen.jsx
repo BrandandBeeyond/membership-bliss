@@ -190,6 +190,8 @@ const MembershipScreen = () => {
                     />
                   </>
 
+                 
+
                   <View
                     style={[
                       globalStyle.mt20,
@@ -622,7 +624,7 @@ const MembershipScreen = () => {
           zIndex: -1,
         }}
       />
-
+      s
       <SuccessPopup
         visible={successVisible}
         onClose={() => setSuccessVisible(false)}

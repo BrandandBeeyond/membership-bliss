@@ -10,7 +10,7 @@ import { Image, TouchableOpacity, View } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
 import Typography from '../../../components/Typography';
-import SuccessPopup from '../../../components/popup/SuccessPopup';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { requestUserArrivalAction } from '../../../redux/actions/MembershipAction';
 
@@ -47,6 +47,8 @@ const ArrivalSection = ({ booking, setSuccessVisible }) => {
 
       if (res?.success) {
         setSuccessVisible(true);
+
+        booking.arrivalStatus = 'Pending';
       }
     } catch (error) {
       console.error('error setting arrival date', error);
@@ -57,7 +59,96 @@ const ArrivalSection = ({ booking, setSuccessVisible }) => {
 
   return (
     <>
-      {booking.arrivalStatus === 'Pending' ? (
+      {booking.arrivalStatus === 'Approved' ? (
+        <>
+          {' '}
+          <View
+            style={{
+              borderWidth: horizontalScale(0.5),
+              borderColor: '#adadadff',
+              backgroundColor: '#f8f8f8',
+              borderRadius: horizontalScale(20),
+              width: '100%',
+              background: 'transparent',
+              padding: horizontalScale(10),
+              marginTop: verticalScale(30),
+            }}
+          >
+            <View
+              style={[
+                {
+                  borderWidth: horizontalScale(0.5),
+                  borderColor: '#adadadff',
+                  backgroundColor: '#f1f0f0',
+                  borderRadius: horizontalScale(20),
+                  width: '100%',
+                  background: 'transparent',
+                  overflow: 'hidden',
+                },
+              ]}
+            >
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[
+                  'rgb(101, 122, 94)',
+                  'rgb(91, 116, 85)',
+                  '#3a5135ff',
+                  '#2c3c28ff',
+                ]}
+                style={[
+                  globalStyle.row,
+                  globalStyle.alignCenter,
+                  globalStyle.cg10,
+                  {
+                    height: verticalScale(60),
+                    padding: verticalScale(10),
+                  },
+                ]}
+              >
+                <Image
+                  source={require('../../../../assets/images/icons/membership-approve.png')}
+                  style={{ width: horizontalScale(90) }}
+                  resizeMode="contain"
+                />
+
+                <View style={globalStyle.column}>
+                  <Typography variant="h6" weight="MSemiBold" color="#d8d8cc">
+                    Arrival Status
+                  </Typography>
+                  <View
+                    style={{
+                      backgroundColor: 'rgb(211, 214, 194)',
+                      width: horizontalScale('100%'),
+                      height: verticalScale(20),
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: horizontalScale(20),
+                    }}
+                  >
+                    <Typography
+                      style={{ fontSize: scaleFontSize(13) }}
+                      color="#323f29ff"
+                      weight="MSemiBold"
+                    >
+                      Approved
+                    </Typography>
+                  </View>
+                </View>
+              </LinearGradient>
+              <Typography
+                style={globalStyle.textCenter}
+                variant="h5"
+                weight="SemiBold"
+                color="#5c4f2f"
+              >
+                Your Arrival is Approved !
+              </Typography>
+            </View>
+          </View>
+        </>
+      ) : booking.arrivalStatus === 'Pending' ? (
         <>
           <View
             style={[
@@ -81,14 +172,15 @@ const ArrivalSection = ({ booking, setSuccessVisible }) => {
             >
               <View style={globalStyle.flex}>
                 <Typography variant="fthead" color="#4e6c45ff" weight="Bold">
-                   Arrival Date Pending for Approval
+                  Arrival Date Pending for Approval
                 </Typography>
                 <Typography
                   variant="subline"
                   color="#5c5c5cff"
                   weight="MMedium"
                 >
-                  Please wait for admin response.your arrival date is waiting to be approved. 
+                  Please wait for admin response.your arrival date is waiting to
+                  be approved.
                 </Typography>
               </View>
               <Image
@@ -97,9 +189,8 @@ const ArrivalSection = ({ booking, setSuccessVisible }) => {
                   height: verticalScale(110),
                   width: horizontalScale(110),
                 }}
-                resizeMode='contain'
+                resizeMode="contain"
               />
-              
             </View>
           </View>
         </>
