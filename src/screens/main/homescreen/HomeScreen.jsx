@@ -1,7 +1,7 @@
 import React, { act, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyle } from '../../../../assets/styles/globalStyle';
-import { Image, ScrollView, View } from 'react-native';
+import { Image, ImageBackground, ScrollView, View } from 'react-native';
 import Highlights from '../../../components/highlights/Highlights';
 import Topbar from '../../../components/Topbar';
 import { ActivityIndicator, TextInput } from 'react-native-paper';
@@ -21,6 +21,7 @@ import {
   getMymembershipDetail,
 } from '../../../redux/actions/MembershipAction';
 import Typography from '../../../components/Typography';
+import LinearGradient from 'react-native-linear-gradient';
 
 const dummyHighLights = [
   {
@@ -261,7 +262,7 @@ const HomeScreen = ({ navigation }) => {
                         globalStyle.row,
                         globalStyle.alignCenter,
                         globalStyle.justifyBetween,
-                        globalStyle.mt10
+                        globalStyle.mt10,
                       ]}
                     >
                       <View
@@ -280,7 +281,10 @@ const HomeScreen = ({ navigation }) => {
                           resizeMode="contain"
                         />
                         <Typography
-                           style={{fontSize:scaleFontSize(13),lineHeight:verticalScale(14)}}
+                          style={{
+                            fontSize: scaleFontSize(13),
+                            lineHeight: verticalScale(14),
+                          }}
                           weight="MMedium"
                           color="#2c2b2b"
                         >
@@ -303,7 +307,10 @@ const HomeScreen = ({ navigation }) => {
                           resizeMode="contain"
                         />
                         <Typography
-                          style={{fontSize:scaleFontSize(13),lineHeight:verticalScale(14)}}
+                          style={{
+                            fontSize: scaleFontSize(13),
+                            lineHeight: verticalScale(14),
+                          }}
                           weight="MMedium"
                           color="#2c2b2b"
                         >
@@ -316,7 +323,7 @@ const HomeScreen = ({ navigation }) => {
                         globalStyle.row,
                         globalStyle.alignCenter,
                         globalStyle.justifyBetween,
-                        globalStyle.mt10
+                        globalStyle.mt10,
                       ]}
                     >
                       <View
@@ -335,7 +342,10 @@ const HomeScreen = ({ navigation }) => {
                           resizeMode="contain"
                         />
                         <Typography
-                           style={{fontSize:scaleFontSize(13),lineHeight:verticalScale(14)}}
+                          style={{
+                            fontSize: scaleFontSize(13),
+                            lineHeight: verticalScale(14),
+                          }}
                           weight="MMedium"
                           color="#2c2b2b"
                         >
@@ -358,7 +368,10 @@ const HomeScreen = ({ navigation }) => {
                           resizeMode="contain"
                         />
                         <Typography
-                          style={{fontSize:scaleFontSize(13),lineHeight:verticalScale(14)}}
+                          style={{
+                            fontSize: scaleFontSize(13),
+                            lineHeight: verticalScale(14),
+                          }}
                           weight="MMedium"
                           color="#2c2b2b"
                         >
@@ -378,6 +391,305 @@ const HomeScreen = ({ navigation }) => {
               }
             />
           )}
+
+          <View
+            style={[
+              globalStyle.mt20,
+              {
+                height: verticalScale(400),
+                overflow: 'hidden',
+                borderRadius: horizontalScale(30),
+                elevation: horizontalScale(1),
+                borderWidth: horizontalScale(1),
+                borderColor: '#f5f7d4',
+              },
+            ]}
+          >
+            <ImageBackground
+              source={require('../../../../assets/images/resortofferbg.png')}
+              style={{
+                borderRadius: horizontalScale(30),
+                height: verticalScale(400),
+                width: horizontalScale('100%'),
+                padding: horizontalScale(10),
+              }}
+            >
+              <View style={{ marginTop: verticalScale(10) }}>
+                <Typography
+                  style={[
+                    {
+                      fontSize: scaleFontSize(15),
+                      lineHeight: verticalScale(16),
+                    },
+                    globalStyle.textCenter,
+                  ]}
+                  weight="MSemiBold"
+                  color="#1b3a2f"
+                >
+                  Explore
+                </Typography>
+                <Typography
+                  variant="h5"
+                  weight="MSemiBold"
+                  color="#1b3a2f"
+                  style={globalStyle.textCenter}
+                >
+                  Our Resort Offerings
+                </Typography>
+              </View>
+
+              <View
+                style={[globalStyle.row, globalStyle.cg10, globalStyle.mt10]}
+              >
+                <View
+                  style={{
+                    overflow: 'hidden',
+                    height: verticalScale(80),
+                    width: '39%',
+                    borderRadius: horizontalScale(20),
+                  }}
+                >
+                  <Image
+                    source={require('../../../../assets/images/retreatsevents.png')}
+                    style={{ height: '100%', width: '100%' }}
+                    resizeMode="cover"
+                  />
+                  <LinearGradient
+                    colors={[
+                      'rgba(0,0,0,0)', 
+                      'rgba(0,0,0,0.15)', 
+                      'rgba(0,0,0,0.55)', 
+                    ]}
+                    locations={[0, 0.5, 1]}
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: '45%',
+                      justifyContent: 'flex-end',
+                      padding: 10,
+                    }}
+                  >
+                    <Typography
+                      variant="caption"
+                      weight="MSemiBold"
+                      color="#ffffff"
+                    >
+                      Retreats & Events
+                    </Typography>
+                  </LinearGradient>
+                </View>
+                <View
+                  style={{
+                    overflow: 'hidden',
+                    height: verticalScale(100),
+                    width: '59%',
+                    borderRadius: horizontalScale(20),
+                  }}
+                >
+                  <Image
+                    source={require('../../../../assets/images/twvalley.png')}
+                    style={{ height: '100%', width: '100%' }}
+                    resizeMode="cover"
+                  />
+                  <LinearGradient
+                    colors={[
+                      'rgba(0,0,0,0)', 
+                      'rgba(0,0,0,0.15)', 
+                      'rgba(0,0,0,0.55)', 
+                    ]}
+                    locations={[0, 0.5, 1]}
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: '45%',
+                      justifyContent: 'flex-end',
+                      padding: 10,
+                    }}
+                  >
+                    <Typography
+                      variant="caption"
+                      weight="MSemiBold"
+                      color="#ffffff"
+                    >
+                      Touchwood Valley
+                    </Typography>
+                  </LinearGradient>
+                </View>
+              </View>
+              <View
+                style={[globalStyle.row, globalStyle.cg10, globalStyle.mt8]}
+              >
+                <View
+                  style={{
+                    overflow: 'hidden',
+                    height: verticalScale(90),
+                    width: '39%',
+                    borderRadius: horizontalScale(20),
+                    position: 'relative',
+                    top: verticalScale(-20),
+                  }}
+                >
+                  <Image
+                    source={require('../../../../assets/images/pool.jpg')}
+                    style={{ height: '100%', width: '100%' }}
+                    resizeMode="cover"
+                  />
+                    <LinearGradient
+                    colors={[
+                      'rgba(0,0,0,0)', 
+                      'rgba(0,0,0,0.15)', 
+                      'rgba(0,0,0,0.55)', 
+                    ]}
+                    locations={[0, 0.5, 1]}
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: '45%',
+                      justifyContent: 'flex-end',
+                      padding: 10,
+                    }}
+                  >
+                    <Typography
+                      variant="caption"
+                      weight="MSemiBold"
+                      color="#ffffff"
+                    >
+                      Pools
+                    </Typography>
+                  </LinearGradient>
+                </View>
+                <View
+                  style={{
+                    overflow: 'hidden',
+                    height: verticalScale(100),
+                    width: '59%',
+                    borderRadius: horizontalScale(20),
+                  }}
+                >
+                  <Image
+                    source={require('../../../../assets/images/classic_weddings.jpg')}
+                    style={{ height: '100%', width: '100%' }}
+                    resizeMode="cover"
+                  />
+                    <LinearGradient
+                    colors={[
+                      'rgba(30, 30, 30, 0)', 
+                      'rgba(8, 8, 8, 0.15)', 
+                      'rgba(19, 19, 19, 0.55)', 
+                    ]}
+                    locations={[0, 0.5, 1]}
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: '45%',
+                      justifyContent: 'flex-end',
+                      padding: 10,
+                    }}
+                  >
+                    <Typography
+                      variant="caption"
+                      weight="MSemiBold"
+                      color="#ffffff"
+                    >
+                       Weddings
+                    </Typography>
+                  </LinearGradient>
+                </View>
+              </View>
+              <View
+                style={[globalStyle.row, globalStyle.cg10, globalStyle.mt8]}
+              >
+                <View
+                  style={{
+                    overflow: 'hidden',
+                    height: verticalScale(110),
+                    width: '39%',
+                    borderRadius: horizontalScale(20),
+                    position: 'relative',
+                    top: verticalScale(-30),
+                  }}
+                >
+                  <Image
+                    source={require('../../../../assets/images/familyfriendly.png')}
+                    style={{ height: '100%', width: '100%' }}
+                    resizeMode="cover"
+                  />
+                    <LinearGradient
+                    colors={[
+                      'rgba(0,0,0,0)', 
+                      'rgba(0,0,0,0.15)', 
+                      'rgba(0,0,0,0.55)', 
+                    ]}
+                    locations={[0, 0.5, 1]}
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: '45%',
+                      justifyContent: 'flex-end',
+                      padding: 10,
+                    }}
+                  >
+                    <Typography
+                      variant="caption"
+                      weight="MSemiBold"
+                      color="#ffffff"
+                    >
+                      Family Friendly
+                    </Typography>
+                  </LinearGradient>
+                </View>
+                <View
+                  style={{
+                    overflow: 'hidden',
+                    height: verticalScale(80),
+                    width: '59%',
+                    borderRadius: horizontalScale(20),
+                  }}
+                >
+                  <Image
+                    source={require('../../../../assets/images/kidsfriendly.png')}
+                    style={{ height: '100%', width: '100%' }}
+                    resizeMode="cover"
+                  />
+                    <LinearGradient
+                    colors={[
+                      'rgba(0,0,0,0)', 
+                      'rgba(0,0,0,0.15)', 
+                      'rgba(0,0,0,0.55)', 
+                    ]}
+                    locations={[0, 0.5, 1]}
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: '45%',
+                      justifyContent: 'flex-end',
+                      padding: 10,
+                    }}
+                  >
+                    <Typography
+                      variant="caption"
+                      weight="MSemiBold"
+                      color="#ffffff"
+                    >
+                        Kids Friendly
+                    </Typography>
+                  </LinearGradient>
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
 
           <Reviews data={reviewData} />
         </View>
